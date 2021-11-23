@@ -40,8 +40,8 @@
             <!--                <field name="obj_type"/>-->
             <!--            </xpath>-->
             <xpath expr="//notebook" position="inside">
-                <page name="custom_notes" string="Custom Notes">
-                    <field name="obj_type"/>
+                <page name="custom_notes" string="Custom Notes 2">
+                    <field name="obj_type" string="Loại hồ sơ"/>
                 </page>
             </xpath>
         </field>
