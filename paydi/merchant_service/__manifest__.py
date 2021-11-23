@@ -3,13 +3,13 @@
 
 
 {
-    'name': 'M Partners',
+    'name': 'Merchant service',
     'category': 'Sales',
-    'summary': 'Centralize your address book s',
-    'depends': ['base', 'mail'],
+    'summary': 'List service for merchant',
+    'depends': [],
     'data': [
-        'views/res_partner_views.xml'
+        'views/merchant_service.xml',
+        'security/ir.model.access.csv'
     ],
     'application': True
 }
-
