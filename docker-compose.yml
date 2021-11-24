@@ -9,10 +9,10 @@ services:
     container_name: odoo-service
     build: ./
     restart: on-failure
-
-    volumes:
-      - ./:/webapps/service
-      - /var/log/apps/:/var/log/apps/
+#
+#    volumes:
+#      - ./:/webapps/service
+#      - /var/log/apps/:/var/log/apps/
 
     ports:
       - "5069:8069"
@@ -21,8 +21,7 @@ services:
       - same-network
 
     command: supervisord -n -c /etc/supervisor.d/supervisord.conf
-    extra_hosts:
-      - "127.0.0.1:postgres.paydi"
+
 
 networks:
   same-network:
