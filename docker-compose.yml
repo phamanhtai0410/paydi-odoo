@@ -15,7 +15,7 @@ services:
 #      - /var/log/apps/:/var/log/apps/
 
     ports:
-      - "5069:8069"
+      - "5089:8069"
 
     networks:
       - same-network
