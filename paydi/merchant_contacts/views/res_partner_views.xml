@@ -16,7 +16,12 @@
             </p>
         </field>
     </record>
-
+    <!--    <data noupdate="1">-->
+    <!--        <function-->
+    <!--                id="load_pos_machine"-->
+    <!--                model="res.partner"-->
+    <!--                name="load_pos_machine"/>-->
+    <!--    </data>-->
     <record id="merchant_partner_search_view" model="ir.ui.view">
         <field name="name">merchant_partner_search_view</field>
         <field name="model">res.partner</field>
@@ -88,12 +93,12 @@
     </record>
 
 
-<!--    <menuitem name="Cấp máy pos"-->
-<!--              id="menu_merchant_contacts"-->
-<!--              sequence="4"-->
-<!--              action="action_merchant_contacts"-->
-<!--              web_icon="merchant_contacts,static/description/icon.png"-->
-<!--              groups="base.group_user,base.group_partner_manager"/>-->
+    <!--    <menuitem name="Cấp máy pos"-->
+    <!--              id="menu_merchant_contacts"-->
+    <!--              sequence="4"-->
+    <!--              action="action_merchant_contacts"-->
+    <!--              web_icon="merchant_contacts,static/description/icon.png"-->
+    <!--              groups="base.group_user,base.group_partner_manager"/>-->
 
     <!--    <menuitem id="res_partner_menu_merchant_contacts"-->
     <!--              name="Cấp máy pos"-->

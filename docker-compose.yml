@@ -1,0 +1,29 @@
+# File: docker-compose.yml
+# Created at 03/11/2021
+
+version: '3'
+
+services:
+  odoo:
+    image: odoo-service
+    container_name: odoo-service
+    build: ./
+    restart: on-failure
+
+    volumes:
+      - ./:/webapps/service
+      - /var/log/apps/:/var/log/apps/
+
+    ports:
+      - "5069:8069"
+
+    networks:
+      - same-network
+
+    command: supervisord -n -c /etc/supervisor.d/supervisord.conf
+    extra_hosts:
+      - "127.0.0.1:postgres.paydi"
+
+networks:
+  same-network:
+    external: true
