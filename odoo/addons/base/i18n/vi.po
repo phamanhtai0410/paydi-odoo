@@ -13269,7 +13269,7 @@ msgstr "Tài sản công ty"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_company__company_registry
 msgid "Company Registry"
-msgstr "Số đăng ký kinh doanh"
+msgstr "Số đăng ký kinh doanh 2"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_company__report_header

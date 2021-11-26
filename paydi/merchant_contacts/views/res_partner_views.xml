@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!--    <data>-->
 
-    <!--    </data>-->
     <record id="action_merchant_contacts" model="ir.actions.act_window">
         <field name="name">merchant_contacts</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
         <field name="view_mode">tree,kanban,form,activity</field>
-        <!--        <field name="search_view_id" ref="merchant_partner_search_view"/>-->
         <field name="context">{'default_is_company': True}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -19,7 +16,12 @@
             </p>
         </field>
     </record>
-
+    <!--    <data noupdate="1">-->
+    <!--        <function-->
+    <!--                id="load_pos_machine"-->
+    <!--                model="res.partner"-->
+    <!--                name="load_pos_machine"/>-->
+    <!--    </data>-->
     <record id="merchant_partner_search_view" model="ir.ui.view">
         <field name="name">merchant_partner_search_view</field>
         <field name="model">res.partner</field>
@@ -30,6 +32,7 @@
             </xpath>
         </field>
     </record>
+
 
     <record id="view_merchant_partner_form" model="ir.ui.view">
         <field name="name">res.partner.carrier.merchant.form.inherit</field>
@@ -57,10 +60,14 @@
             </xpath>
 
             <xpath expr="//notebook" position="inside">
-                <page name="custom_notes" string="Custom Notes 2">
-                    <field name="obj_type" string="Loại hồ sơ"/>
+                <page string="Dịch vụ khác"
+                      name="other_service">
+                    <group attrs="{'invisible': [('obj_type','!=', 'merchant')]}">
+                        <field name="service_ids"/>
+                    </group>
                 </page>
             </xpath>
+
         </field>
     </record>
 
@@ -70,12 +77,14 @@
         <field name="view_id" ref="base.res_partner_kanban_view"/>
         <field name="act_window_id" ref="action_merchant_contacts"/>
     </record>
+
     <record id="action_merchant_contacts_view_tree" model="ir.actions.act_window.view">
         <field name="sequence" eval="1"/>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="base.view_partner_tree"/>
         <field name="act_window_id" ref="action_merchant_contacts"/>
     </record>
+
     <record id="action_merchant_contacts_view_form" model="ir.actions.act_window.view">
         <field name="sequence" eval="2"/>
         <field name="view_mode">form</field>
@@ -84,11 +93,7 @@
     </record>
 
 
-    <menuitem id="res_partner_menu_merchant_contacts"
-              name="merchant_contacts"
-              action="action_merchant_contacts"
-              parent="menu_merchant_contacts"
-              sequence="2"/>
+
 
     <!--    <menuitem id="res_partner_menu_config"-->
     <!--              name="Configuration"-->
