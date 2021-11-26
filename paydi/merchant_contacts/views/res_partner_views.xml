@@ -58,7 +58,7 @@
                        attrs="{'invisible': [('is_company','=', False)], 'required': [('obj_type','=', 'merchant')]}"/>
             </xpath>
 
-            <xpath expr="//notebook" position="inside">
+                <xpath expr="//notebook" position="inside">
                 <page string="Dịch vụ khác"
                       name="other_service">
                     <group attrs="{'invisible': [('obj_type','!=', 'merchant')]}">
