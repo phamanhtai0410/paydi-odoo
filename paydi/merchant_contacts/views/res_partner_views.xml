@@ -68,6 +68,11 @@
                 </page>
             </xpath>
 
+            <xpath expr="//notebook" position="inside">
+                <page name="page_mid" string="Quản lý mid">
+                    <field name="mid"/>
+                </page>
+            </xpath>
         </field>
     </record>
 
