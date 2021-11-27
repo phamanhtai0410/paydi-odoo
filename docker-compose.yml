@@ -9,8 +9,9 @@ services:
     container_name: odoo-service
     build: ./
     restart: on-failure
-#
+    #
     volumes:
+      - ./share/:/webapps/service/share
       - /var/log/share/:/root/.local/share
 
     ports:
