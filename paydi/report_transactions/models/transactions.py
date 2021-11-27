@@ -1,26 +1,17 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from typing_extensions import Required
 from odoo import models, fields
 
 
 class Transactions(models.Model):
-    _name = 'transactions'
+    _name = 'report.transactions'
     _description = 'Detail of Transactions'
 
-    company_vn_name = fields.Char(string='Tên đăng ký(VN)')
-    company_en_name = fields.Char(string='Tên đăng ký(EN)')
-
-    obj_type = fields.Selection([
-        ('merchant', 'Đối tác máy Pos'),
-    ], string="Loại liên hệ")
-
-    business_type = fields.Selection([
-        ('C_TNHH', 'Công ty TNHH'),
-        ('C_CP', 'Công ty Cổ phần'),
-    ], string='Loại hình công ty')
-
-    registration_number = fields.Char(string="Số đăng ký kinh doanh")
-
-    service_ids = fields.One2many('m.service', 'partner_id', string="Dịch vụ khác")
-
+    tid = fields.Char(string="Mã TID", tracking=True)
+    mid = fields.Char(string="Mã MID", tracking=True)
+    pos_id = fields.Char(string="ID máy POS", tracking=True)
+    amount = fields.Integer(string="Giá trị giao dịch", tracking=True)
+    transaction_err = fields.Char("Mã lỗi giao dịch (nếu có)", tracking=True)
+    
