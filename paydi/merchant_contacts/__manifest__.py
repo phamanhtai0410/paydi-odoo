@@ -3,13 +3,14 @@
 
 
 {
-    'name': 'M Partners',
+    'name': 'Quản lý merchant',
     'category': 'Sales',
-    'summary': 'Centralize your address book s',
+    'summary': '',
     'depends': ['base', 'mail'],
     'data': [
-        'views/res_partner_views.xml'
+        'views/res_partner_views.xml',
+        'views/merchant_service.xml',
+        'security/ir.model.access.csv'
     ],
     'application': True
 }
-

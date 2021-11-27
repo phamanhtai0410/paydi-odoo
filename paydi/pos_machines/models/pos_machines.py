@@ -3,7 +3,9 @@ from odoo import fields, models, api
 
 class PosMachines(models.Model):
     _name = 'pos.machines'
+
     _inherit = ['mail.thread.cc', 'mail.activity.mixin']
+
     _description = 'Pos machines'
 
     serial_number = fields.Char(string='Mã máy')
