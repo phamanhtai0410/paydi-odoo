@@ -10,9 +10,8 @@ services:
     build: ./
     restart: on-failure
 #
-#    volumes:
-#      - ./:/webapps/service
-#      - /var/log/apps/:/var/log/apps/
+    volumes:
+      - /var/log/share/:/root/.local/share
 
     ports:
       - "5089:8069"
