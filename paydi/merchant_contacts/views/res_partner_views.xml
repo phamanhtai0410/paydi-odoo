@@ -70,9 +70,14 @@
 
             <xpath expr="//notebook" position="inside">
                 <page name="page_mid" string="Quản lý mid">
+                    <group attrs="{'invisible': [('obj_type','!=', 'merchant')]}">
                     <field name="mid"/>
+                    </group>
                 </page>
             </xpath>
+
+          
+           
         </field>
     </record>
 

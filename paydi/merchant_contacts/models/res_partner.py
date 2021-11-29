@@ -24,4 +24,4 @@ class ResPartner(models.Model):
 
     service_ids = fields.One2many('m.service', 'partner_id', string="Dịch vụ khác")
 
-    mid = fields.One2many('mms.mid', 'partner_id',  string='Mid')
+    mid = fields.One2many('mms.mid', 'partner_id',  string='Mã mid')

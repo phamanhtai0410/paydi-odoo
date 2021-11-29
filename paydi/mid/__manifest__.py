@@ -2,11 +2,11 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Mid management',
-    'category': 'Sales/CRM',
+    'category': 'Sales',
     'sequence': -10,
     'summary': 'Mid management center',
     'description': """Mid management center""",
-    'depends': ['base'],
+    'depends': [],
     'data': [
         'security/ir.model.access.csv',
         'view/mid.xml',
