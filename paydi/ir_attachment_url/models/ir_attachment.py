@@ -5,6 +5,7 @@
 
 import base64
 import logging
+import os
 
 import requests
 
@@ -32,12 +33,28 @@ class IrAttachment(models.Model):
                       and not r.name.startswith("/web/static/")
         )
 
+    def _get_s3_settings(self, param_name, os_var_name):
+        config_obj = self.env["ir.config_parameter"]
+        res = config_obj.sudo().get_param(param_name)
+        if not res:
+            res = os.environ.get(os_var_name)
+        return res
+
     @api.model_create_multi
     def create(self, vals_list):
-        url_fields = self.env.context.get("ir_attachment_url_fields")
+        # url_fields = self.env.context.get("ir_attachment_url_fields")
+        url_fields = self._get_s3_settings(
+            "s3.condition", "S3_CONDITION"
+        )
+        models = []
         if url_fields:
-            url_fields = url_fields.split(",")
+            url_fields = eval(url_fields)
+            for ij in url_fields:
+                models = [*models, *ij[2]]
+
         self._set_where_to_store(vals_list)
+
+        # print('[condition]', condition)
         for values in vals_list:
             if (
                     url_fields
@@ -47,7 +64,7 @@ class IrAttachment(models.Model):
                     and values.get("res_field")
                     and values.get("datas")
             ):
-                full_field_name = values["res_model"] + "." + values["res_field"]
+                full_field_name = values["res_model"]  # + "." + values["res_field"]
                 if full_field_name in url_fields:
                     values["url"] = values["datas"]
                     values["type"] = "url"
@@ -57,6 +74,7 @@ class IrAttachment(models.Model):
                     bucket
                     and values.get("datas")
                     and values.get("res_model") not in ["ir.ui.view", "ir.ui.menu"]
+                    and (not models or values.get('res_model') in models)
             ):
                 values = self._check_contents(values)
                 data = values.pop("datas")

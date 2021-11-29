@@ -97,6 +97,7 @@ class IrAttachment(models.Model):
                 raise
 
         s3_condition = self.env["ir.config_parameter"].sudo().get_param("s3.condition")
+        print('[s3_condition]', s3_condition)
         condition = s3_condition and safe_eval(s3_condition, mode="eval") or []
 
         return self._force_storage_with_bucket(
