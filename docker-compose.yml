@@ -11,7 +11,7 @@ services:
     restart: on-failure
     #
     volumes:
-      - ./share:/webapps/service/share
+      - ./:/webapps/service
       - ./share/.local:/root/.local/share
 
     ports:
