@@ -12,7 +12,6 @@ services:
     #
     volumes:
       - ./:/webapps/service
-      - ./share/.local:/root/.local/share
 
     ports:
       - "5089:8069"
