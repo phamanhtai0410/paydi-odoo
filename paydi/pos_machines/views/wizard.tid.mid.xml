@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="pos_machine_tid_mid_wizard_form_view" model="ir.ui.view">
+            <field name="name">Mã TID - MID</field>
+            <field name="model">pos.machine.tid.mid.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Mã được cấp">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="acq_code"/>
+                            <h1>
+                                <field name="acq_code"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="mid"/>
+                            <field name="tid"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="pos_machine_tid_mid_wizard_tree_view" model="ir.ui.view">
+            <field name="name">pos_machine_tid_mid_wizard</field>
+            <field name="model">pos.machine.tid.mid.wizard</field>
+            <field name="arch" type="xml">
+                <tree string="MÃ">
+                    <field name="acq_code"/>
+                    <field name="mid"/>
+                    <field name="tid"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

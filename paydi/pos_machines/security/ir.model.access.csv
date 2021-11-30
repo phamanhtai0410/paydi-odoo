@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_pos_machines,access_pos_machines,model_pos_machines,base.group_user,1,1,1,1
+access_account_pos_machines,access_account_pos_machines,model_account_pos_machines,base.group_user,1,1,1,1
+access_pos_machine_setting,access_pos_machine_setting,model_pos_machine_setting,base.group_user,1,1,1,1
