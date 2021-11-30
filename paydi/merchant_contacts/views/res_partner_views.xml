@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="action_merchant_contacts" model="ir.actions.act_window">
+    <record id="action_res_merchants_contacts" model="ir.actions.act_window">
         <field name="name">merchant_contacts</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
         <field name="view_mode">tree,kanban,form,activity</field>
-        <field name="context">{'default_is_company': True}</field>
+        <field name="context">{'search_default_obj_type_filter': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a merchant_contact in your address book
@@ -34,12 +34,11 @@
     </record>
 
 
-    <record id="view_merchant_partner_form" model="ir.ui.view">
-        <field name="name">res.partner.carrier.merchant.form.inherit</field>
+    <record id="view_merchants_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-
             <xpath expr="//group/field[@name='type']" position="before">
                 <field name="obj_type"/>
 
@@ -59,7 +58,7 @@
                        attrs="{'invisible': [('is_company','=', False)], 'required': [('obj_type','=', 'merchant')]}"/>
             </xpath>
 
-            <xpath expr="//notebook" position="inside">
+                <xpath expr="//notebook" position="inside">
                 <page string="Dịch vụ khác"
                       name="other_service">
                     <group attrs="{'invisible': [('obj_type','!=', 'merchant')]}">
@@ -71,46 +70,34 @@
         </field>
     </record>
 
-    <record id="action_merchant_contacts_view_kanban" model="ir.actions.act_window.view">
+    <record id="action_res_merchants_contacts_view_kanban" model="ir.actions.act_window.view">
         <field name="sequence" eval="0"/>
         <field name="view_mode">kanban</field>
         <field name="view_id" ref="base.res_partner_kanban_view"/>
-        <field name="act_window_id" ref="action_merchant_contacts"/>
+        <field name="act_window_id" ref="action_res_merchants_contacts"/>
     </record>
 
-    <record id="action_merchant_contacts_view_tree" model="ir.actions.act_window.view">
+    <record id="action_res_merchants_contacts_view_tree" model="ir.actions.act_window.view">
         <field name="sequence" eval="1"/>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="base.view_partner_tree"/>
-        <field name="act_window_id" ref="action_merchant_contacts"/>
+        <field name="act_window_id" ref="action_res_merchants_contacts"/>
     </record>
 
-    <record id="action_merchant_contacts_view_form" model="ir.actions.act_window.view">
+    <record id="action_res_merchants_contacts_view_form" model="ir.actions.act_window.view">
         <field name="sequence" eval="2"/>
         <field name="view_mode">form</field>
         <field name="view_id" ref="base.view_partner_form"/>
-        <field name="act_window_id" ref="action_merchant_contacts"/>
+        <field name="act_window_id" ref="action_res_merchants_contacts"/>
     </record>
 
 
-    <!--    <menuitem name="Cấp máy pos"-->
-    <!--              id="menu_merchant_contacts"-->
-    <!--              sequence="4"-->
-    <!--              action="action_merchant_contacts"-->
-    <!--              web_icon="merchant_contacts,static/description/icon.png"-->
-    <!--              groups="base.group_user,base.group_partner_manager"/>-->
+    <menuitem id="res_merchants_menu_merchant_contacts"
+              name="Quản lý merchant"
+              action="action_res_merchants_contacts"
+              groups="base.group_system"
+              sequence="2"/>
 
-    <!--    <menuitem id="res_partner_menu_merchant_contacts"-->
-    <!--              name="Cấp máy pos"-->
-    <!--              action="action_merchant_contacts"-->
-    <!--              parent="menu_merchant_contacts"-->
-    <!--              sequence="2"/>-->
-
-    <!--    <menuitem id="res_partner_menu_config"-->
-    <!--              name="Configuration"-->
-    <!--              parent="menu_merchant_contacts"-->
-    <!--              groups="base.group_system"-->
-    <!--              sequence="2"/>-->
 
     <!--    <menuitem id="menu_partner_category_form"-->
     <!--              action="base.action_partner_category_form"-->

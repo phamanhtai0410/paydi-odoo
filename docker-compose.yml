@@ -9,10 +9,9 @@ services:
     container_name: odoo-service
     build: ./
     restart: on-failure
-#
-#    volumes:
-#      - ./:/webapps/service
-#      - /var/log/apps/:/var/log/apps/
+    #
+    volumes:
+      - ./:/webapps/service
 
     ports:
       - "5089:8069"
