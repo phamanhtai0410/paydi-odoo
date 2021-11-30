@@ -8,9 +8,9 @@ class ReportTransactions(models.Model):
     _name = 'report.transactions'
     _description = 'Detail of Transactions'
 
-    tid = fields.Char(string="Mã TID", required=True)
-    mid = fields.Char(string="Mã MID", required=True)
-    pos_id = fields.Char(string="ID máy POS", required=True)
-    amount = fields.Integer(string="Giá trị giao dịch", required=True)
-    transaction_err = fields.Char("Mã lỗi giao dịch (nếu có)", required=True)
+    tid = fields.Char(string="Mã TID", required=True, tracking=True)
+    mid = fields.Char(string="Mã MID", required=True, tracking=True)
+    pos_id = fields.Char(string="ID máy POS", required=True, tracking=True)
+    amount = fields.Integer(string="Giá trị giao dịch", required=True, tracking=True)
+    transaction_err = fields.Char("Mã lỗi giao dịch (nếu có)", required=True, tracking=True)
     

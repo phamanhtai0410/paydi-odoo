@@ -12,7 +12,8 @@
     'depends': ['base', 'mail'],
     'license': 'LGPL-3',
     'data': [
-        'views/report_transactions_view.xml'
+        'views/report_transactions_view.xml',
+        'security/ir.model.access.csv'
     ],
     'demo': [],
     'qweb': [],
