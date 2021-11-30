@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report" model="ir.actions.act_window">
+        <field name="name">Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">report.transactions</field>
+        <field name="view_mode">tree,kanban,form,activity</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Report
+            </p>
+           
+        </field>
+    </record>
+    
+    <record id="action_transactions" model="ir.actions.act_window">
+        <field name="name">Transactions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">report.transactions</field>
+        <field name="view_mode">tree,kanban,form,activity</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Transactions
+            </p>
+           
+        </field>
+    </record>
+
+    <record id="action_transactions_view_kanban" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="base.res_partner_kanban_view"/>
+        <field name="act_window_id" ref="action_transactions"/>
+    </record>
+
+    <record id="action_transactions_view_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="base.view_partner_tree"/>
+        <field name="act_window_id" ref="action_transactions"/>
+    </record>
+
+    <record id="action_transactions_view_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="base.view_partner_form"/>
+        <field name="act_window_id" ref="action_transactions"/>
+    </record>
+
+    <menuitem name="Report" 
+                id="menu_report" 
+                action="action_report"
+                sequence="10"/>
+    <menuitem name="Transactions" 
+                id="menu_report_transactions" 
+                parent="menu_report"
+                sequence="10"/>
+    <menuitem name="Transactions"
+                id="res_transaction_menu_report"   
+                parent="menu_report_transactions"
+                action="action_transactions"
+                sequence="2"/>
+</odoo>

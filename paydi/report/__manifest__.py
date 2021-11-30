@@ -3,17 +3,16 @@
 
 
 {
-    'name': 'Transactions Report',
+    'name': 'Report',
     'version': '0.1',
     'category': 'Productivity',
     'sequence': -100,
-    'description': """Transactions Report: Listing""",
-    'summary': 'Transactions Report: Listing',
+    'description': """Report: Listing""",
+    'summary': 'Report: Listing',
     'depends': ['base', 'mail'],
     'license': 'LGPL-3',
     'data': [
-        'views/report_transactions_view.xml',
-        'security/ir.model.access.csv'
+        'views/report_transactions_view.xml'
     ],
     'demo': [],
     'qweb': [],
