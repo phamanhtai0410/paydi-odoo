@@ -32,25 +32,15 @@ class PosMachineSetting(models.Model):
                               string="Tài khoản PAYDI",
                               readonly=True)
 
-    @api.model
-    def create(self, vals):
-        # if isinstance(vals, int):
-        #     return super().write(vals)
-        default = self.default_get(['lot_id', 'partner', 'stock_move_line'])
-        print('[debug] create', vals, default)
-        lot = self.env['stock.production.lot'].search_read([('id', '=', default.get('lot_id'))])
-        if lot:
-            lot = lot[0]
-        partner = self.env['res.partner'].search_read([('id', '=', default.get('partner'))])
-        if partner:
-            partner = partner[0]
+    def send_backend(self):
+        self.ensure_one()
         secret_key = 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
         value = {
-            "serial_number": lot.get('name'),
-            "tid": vals.get('tid'),
-            "mid": vals.get('mid'),
-            "odoo_contact_id": str(default.get('partner')),
-            "username": f"{default.get('partner')}-{vals.get('tid')}",
+            "serial_number": self.lot_id.name,
+            "tid": self.tid,
+            "mid": self.mid,
+            "odoo_contact_id": str(self.partner.id),
+            "username": self.account.username,
             "pos_address": {
                 "city": "TP.Hồ Chí Minh",
                 "district": "TP.Thủ Đức",
@@ -58,7 +48,7 @@ class PosMachineSetting(models.Model):
                 "detail": "11 Đường 32"
             },
             "merchant": {
-                "name": partner.get('name'),
+                "name": self.partner.name,
                 "address": {
                     "city": "TP.Hồ Chí Minh",
                     "district": "TP.Thủ Đức",
@@ -86,8 +76,15 @@ class PosMachineSetting(models.Model):
         if not response.status_code == 200:
             raise Exception
 
+    @api.model
+    def create(self, vals):
+        # if isinstance(vals, int):
+        #     return super().write(vals)
+        default = self.default_get(['lot_id', 'partner', 'stock_move_line'])
+        print('[debug] create', vals, default)
+
         ac = self.env['account.pos.machines'].create({
-            'username': value.get('username'),
+            'username': f"{default.get('partner')}-{vals.get('tid')}",
             'partner_id': default.get('partner'),
             'lot_id': default.get('lot_id'),
             'stock_move_line': default.get('stock_move_line')

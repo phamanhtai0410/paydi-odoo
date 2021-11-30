@@ -29,6 +29,10 @@ class AccountPosMachines(models.Model):
                                       )
 
     states = fields.Selection(selection='get_states_options', string='Trạng thái máy', tracking=True)
+    setting = fields.One2many('pos.machine.setting',
+                              'account',
+                              string="Tài khoản PAYDI",
+                              readonly=True)
 
     @api.model
     def get_states_options(self):

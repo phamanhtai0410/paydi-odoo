@@ -16,7 +16,7 @@ class StockMoveLine(models.Model):
     _inherit = 'stock.move.line'
 
     account = fields.Many2one('account.pos.machines',
-                              string='Tài khoản máy')
+                              string='Tài khoản máy', readonly=True)
     is_setup = fields.Boolean(string="Cài máy")
 
     @api.model
@@ -26,9 +26,23 @@ class StockMoveLine(models.Model):
             vals['is_setup'] = True
         else:
             vals['is_setup'] = False
-        rows = super(StockMoveLine, self).create(vals)
+        row = super(StockMoveLine, self).create(vals)
+        return row
+
+    @api.model
+    def write(self, vals, *args, **kwargs):
+        print('[debug] write', vals, args, kwargs)
+
+        if vals.get('lot_id'):
+            vals['account'] = None
+        rows = super(StockMoveLine, self).write(vals)
 
         return rows
+
+    @api.onchange('lot_id')
+    def onchange_lot_id(self):
+        if self.account and self.account.lot_id.id != self.lot_id.id:
+            self.account = None
 
     def gen_account(self, *args, **kwargs):
         self.ensure_one()
