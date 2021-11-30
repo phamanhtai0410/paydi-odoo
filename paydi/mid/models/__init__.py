@@ -4,5 +4,7 @@
 from . import mms_mid
 from . import mms_tid
 from . import res_partner
+from . import mms_tid_rate
+
 
 

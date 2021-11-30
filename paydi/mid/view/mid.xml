@@ -9,11 +9,41 @@
         <field name="arch" type="xml">
             <form string="Thông tin">
                 <group>
-                    <field name="code"/>
+                    <field name="id"/>
+                    <field name="mid"/>
                     <field name="mid_master_code"/>
                     <field name="status"/>
                   
                 </group>
+                <notebook>
+                    <page name="tid" >
+                        <field name="tid">
+                            <form string="Thông tin">
+                                <group>
+                                    <field name="id"/>
+                                    <field name="tid"  />
+                                    <field name="name"/>
+                                    <field name="min_rev_default" />
+                                    <field name="status" />
+                                </group>
+                                    <!-- <notebook>
+                                        <page name="tid_rate" >
+                                            <field name="tid_rate">
+                                                <form string="Dịch vụ">
+                                                    <group string="Cài đặt phí ">
+                                                        <field name="cost_rate"/>
+                                                        <field name="cogs_rate" />
+                                                        <field name="card_type" />
+                                                        <field name="status" />
+                                                    </group>
+                                                </form>
+                                            </field>
+                                        </page>
+                                    </notebook> -->
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
             </form>
            
         </field>
@@ -24,11 +54,13 @@
         <field name="model">mms.mid</field>
         <field name="arch" type="xml">
             <tree string="Dịch vụ">
-                <field name="code"/>
+                <field name="id"/>
+                <field name="mid"/>
                 <field name="mid_master_code"/>
                 <field name="status"/>
-               
+                
             </tree>
+            
         </field>
     </record>
 

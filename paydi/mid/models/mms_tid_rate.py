@@ -2,27 +2,24 @@
 from odoo import api, fields, models
 
 
-class Mid(models.Model):
+class TidRate(models.Model):
 
-    _name = "mms.mid"
+    _name = "mms.tid_rate"
     #_inherit = ['mail.thread.cc', 'mail.activity.mixin']
-    _description = "mid management"
+    _description = "tid rate management"
 
+    cost_rate = fields.Float('cost rate', required=True, tracking=True)
+    
+    cogs_rate = fields.Float('cogs rate', required=True, tracking=True)
 
-
-    mid = fields.Char('mid code', required=True)
-    
-    mid_master_code = fields.Char('mid master code')
-    
-    partner_id = fields.Many2one('res.partner', string='Hồ sơ')
-    
-    tid = fields.One2many('mms.tid', 'tid',  string='Mã mid')
-    
+    card_type = fields.Selection(selection='get_card_type_options', string='Loại thẻ', tracking=True)
+        
     status = fields.Selection(selection='get_status_options', string='Trạng thái máy', tracking=True)
 
     @api.model
     def get_status_options(self):
         options = self.env['master.data'].search_read([('field', '=', 'status'), ('model', '=', 'pos_machines')])
         return [(x.get('value'), x.get('name')) for x in options]
-
+        
+    tid_id = fields.Many2one('mms.tid', string='mã tid', required=True)
     
