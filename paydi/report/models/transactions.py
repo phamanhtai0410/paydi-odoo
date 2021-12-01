@@ -19,11 +19,6 @@ class ReportTransactions(models.Model):
     
     card_type = fields.Char(string="Loại thẻ")
 
-    transactions_count = fields.Integer(compute="_compute_count")
-
-    def _compute_count(self):
-        for tran in self:
-            tran.transactions_count = self.env['report.transactions'].search_count() 
 
     # app_ver = fields.Char(string="Phiên bản của app")
     # approve_code = fields.Char(string="Mã code để duyệt")

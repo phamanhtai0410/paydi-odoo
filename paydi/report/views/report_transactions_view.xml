@@ -13,9 +13,7 @@
         </field>
     </record>
     
-    <record id="action_report_">
     
-    </record>
 
     <record id="action_transactions" model="ir.actions.act_window">
         <field name="name">Transactions</field>
