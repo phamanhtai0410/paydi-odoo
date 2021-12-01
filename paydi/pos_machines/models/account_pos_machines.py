@@ -36,7 +36,7 @@ class AccountPosMachines(models.Model):
 
     @api.model
     def get_states_options(self):
-        options = self.env['master.data'].search_read([('field', '=', 'states'), ('model', '=', 'pos.machines')])
+        options = self.env['master.data'].search_read([('field', '=', 'states'), ('model', '=', 'account.pos.machines')])
         return [(x.get('value'), x.get('name')) for x in options]
 
     counter = fields.Char(string='Quầy', tracking=True)
