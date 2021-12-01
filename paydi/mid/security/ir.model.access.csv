@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mms_mid,res.mms.mid,model_mms_mid,base.group_user,1,1,1,1
+access_mms_tid,res.mms.tid,model_mms_tid,base.group_user,1,1,1,1
+
