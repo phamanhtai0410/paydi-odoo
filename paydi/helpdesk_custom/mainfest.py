@@ -3,20 +3,16 @@
 
 
 {
-    'name': 'Report',
+    'name': 'Helpdesk Custom','
     'version': '0.1',
     'category': 'Productivity',
     'sequence': -100,
-    'description': """Report: Listing""",
-    'summary': 'Report: Listing',
+    'description': """Helpdesk Task Management""",
+    'summary': 'Helpdesk',
     'depends': ['base', 'mail'],
     'license': 'LGPL-3',
     'data': [
-        'views/report_view.xml',
-        'security/ir.model.access.csv',
-        'views/list_transactions.xml',
-        'views/report_template.xml',
-        'views/list_customer_reports.xml'
+        
     ],
     'demo': [],
     'qweb': [],

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>  
+    <template id="list_customer_reports_page" name="Customer Reports">
+           <t t-call="website.layout">
+                <div class="mx-3">
+                    <h2 class="text-left mt-5">
+                        Customer Reports
+                    </h2>
+                    <h4 class="d-flex flex-row"><p>Showing &#x20;</p><p t-esc="len(reports)"></p> <p>&#x20;of&#x20; </p><p t-esc="total"></p></h4>
+                    <table class="table text-center table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">Report ID</th>
+                                <th scope="col">Account ID</th>
+                                <th scope="col">POS ID</th>
+                                <th scope="col">Terminal ID</th>
+                                <th scope="col">Serial Number</th>
+                                <th scope="col">Message</th>  
+                                <th scope="col">Images</th>
+                                <th scope="col">Report Type</th>
+                                <th scope="col">Report Object ID</th>
+                                <th scope="col">Created Time</th>
+                                <th scope="col">#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach='reports' t-as='report'>
+                                <td t-esc="report.get('_id')"></td>
+                                <td t-esc="report.get('account_id')"></td>
+                                <td t-esc="report.get('pos_id')"></td>
+                                <td t-esc="report.get('terminal_id')"></td>
+                                <td t-esc="report.get('serial_number')"></td>
+                                <td t-esc="report.get('message')"></td>
+                                <td t-esc="report.get('images')"></td>
+                                <td t-esc="report.get('type')"></td>
+                                <td t-esc="report.get('oid') "></td>
+                                <td t-esc="report.get('created_time')"></td>
+                                <td>
+                                    <button class="btn btn-info"> 
+                                    <i class="fa fa-edit"></i>    
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>      
+           </t>
+    </template>
+</odoo>

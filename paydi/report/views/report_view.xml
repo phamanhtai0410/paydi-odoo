@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report" model="ir.actions.act_window">
+        <field name="name">Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">report.transactions</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Không có dữ liệu
+            </p>
+        </field>
+    </record>           
+   
+    <record id="action_statictis_report" model="ir.actions.act_url">
+        <field name="name">Report</field>
+        <field name="url">/report/</field>
+        <field name="target">self</field>
+    </record>
+    
+    
+
+    <record id="action_transactions" model="ir.actions.act_url">
+        <field name="name">Transactions</field>
+        <field name="url">/report/transactions/</field> 
+        <field name="target">self</field>
+    </record>
+
+    <record id="action_list_customer_report" model="ir.actions.act_url">
+        <field name="name">Customer Report</field>
+        <field name="url">/report/customer_report/</field>
+        <field name="target">self</field>
+    </record>
+   
+
+    <menuitem name="Report" 
+                id="menu_report" 
+                action="action_report"
+                sequence="10"/>
+
+        <menuitem name="Webpage Report" 
+                    id="menu_report_transactions" 
+                    parent="menu_report"
+                    sequence="10"/>
+            <menuitem name="Transactions"
+                        id="res_transaction_menu_report"   
+                        parent="menu_report_transactions"
+                        action="action_transactions"
+                        sequence="2"/>
+            <menuitem name="Statictis report"
+                        id="res_statictis_menu_report"   
+                        parent="menu_report_transactions"
+                        action="action_statictis_report"
+                        sequence="3"/>
+
+        <menuitem name="Customer Report" 
+                    id="menu_customer_report" 
+                    parent="menu_report"
+                    sequence="10"/>
+
+            <menuitem name="List Report From Customer"
+                        id="res_list_customer_report"
+                        parent="menu_customer_report"
+                        action="action_list_customer_report"
+                        sequence="2"/>
+</odoo>
