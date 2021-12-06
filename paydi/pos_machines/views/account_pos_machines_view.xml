@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account_pos_machines_form_view" model="ir.ui.view">
+            <field name="name">account.pos.machines.form</field>
+            <field name="model">account.pos.machines</field>
+            <field name="arch" type="xml">
+                <form string="Thông tin máy">
+                    <sheet>
+
+<!--                        <div class="oe_title">-->
+<!--                            <label string="Mã máy" for="product_lot"/>-->
+<!--                            <h1>-->
+<!--                                <field name="product_lot"/>-->
+<!--                            </h1>-->
+<!--                        </div>-->
+
+                        <group>
+
+                            <group string="Thông tin cơ bản">
+                                <field name="username"/>
+                                <field name="states" />
+                            </group>
+
+                            <group string="Thông tin kho">
+                                <field name="create_date">
+                                    <attribute name="string">Ngày tạo</attribute>
+                                </field>
+                                <field name="create_uid">
+                                    <attribute name="string">Người tạo</attribute>
+                                </field>
+                            </group>
+
+                            <group string="Thông tin lắp đặt">
+                                <field name="counter"/>
+                                <field name="floor"/>
+                                <field name="house_number"/>
+                                <field name="street"/>
+                                <field name="zip"/>
+                                <field name="city"/>
+                            </group>
+
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="account_pos_machines_tree_view" model="ir.ui.view">
+            <field name="name">account.pos.machines.tree</field>
+            <field name="model">account.pos.machines</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách máy">
+                    <field name="username"/>
+                    <field name="states"/>
+                </tree>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

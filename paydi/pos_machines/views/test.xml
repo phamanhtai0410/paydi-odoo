@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Error>
-    <Code>AuthorizationHeaderMalformed</Code>
-    <Message>The authorization header is malformed; the region \'us-east-1\' is wrong; expecting \'ap-southeast-1\'
-    </Message>
-    <Region>ap-southeast-1</Region>
-    <RequestId>G6D2DDWH5R6BH48M</RequestId>
-    <HostId>mT9iyBaXtUCuUNoshfBb7+ezvxfDWC0+Z3O80mkVJbDhJ+A+p8uyFmDV0zdCRb3hTNwM9yn30Ho=</HostId>
-</Error>
