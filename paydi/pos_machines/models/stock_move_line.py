@@ -18,14 +18,19 @@ class StockMoveLine(models.Model):
     account = fields.Many2one('account.pos.machines',
                               string='Tài khoản máy', readonly=True)
     is_setup = fields.Boolean(string="Cài máy")
+    holder = fields.Many2one('res.partner', string='Giữ máy')
 
     @api.model
     def create(self, vals):
         pink = self.env['stock.picking'].search_read([('id', '=', vals.get('picking_id'))])
-        if pink and pink[0].get('name').split('/')[1] == 'OUT':
-            vals['is_setup'] = True
-        else:
-            vals['is_setup'] = False
+
+        vals['is_setup'] = False
+
+        if pink and pink[0].get('name'):
+            _name = pink[0].get('name').split('/')
+            if len(_name) > 2 and _name[1] == 'OUT':
+                vals['is_setup'] = True
+
         row = super(StockMoveLine, self).create(vals)
         return row
 
@@ -49,7 +54,6 @@ class StockMoveLine(models.Model):
         partner_id = self.picking_id.partner_id
         name = self.lot_id.name  # self.env['stock.production.lot'].search_read([('id', '=', default_lot_id)])
 
-        print('[debug] self.picking_id', self, name)
         # product_lot = value[0]
         # params = {
         #     'default_serial_number': name,
@@ -77,7 +81,10 @@ class StockMoveLine(models.Model):
     def account_get(self):
         print('account_get', self)
         if self.reference.split('/')[1] == 'OUT':
-            print('heeeeeeeee')
             return self.account
-        print('-111111111111')
         return -1
+
+    @api.model
+    def _read_group_many2one_lot_id(self, records, domain, order):
+        print('_read_group_many2one_lot_id', records, domain, order)
+        return records

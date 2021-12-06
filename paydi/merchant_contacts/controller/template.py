@@ -18,6 +18,9 @@ class TemplateController(http.Controller):
         print('[debug] call template')
         value = {}
         value['user'] = "Như cứt >........."
+        self.env['project'].create({
+
+        })
         return http.request.render('merchant_contacts.template_test', {
             'teacher': value
         })

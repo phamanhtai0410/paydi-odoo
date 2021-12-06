@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="view_merchants_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Máy POS"
+                      name="pos_stock_move_line">
+                    <field name="stock_move_line"
+                           context="{
+
+                                'tree_view_ref': 'pos_machines.view_stock_move_line_book_tree',
+                                'default_company_id': company_id
+
+                           }"/>
+
+                    <!--                    <field name="stock_move_line"/>-->
+
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

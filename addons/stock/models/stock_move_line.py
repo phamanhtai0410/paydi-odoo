@@ -375,8 +375,9 @@ class StockMoveLine(models.Model):
                 qty_done_orig = ml.product_uom_id._compute_quantity(ml.qty_done, ml.move_id.product_id.uom_id,
                                                                     rounding_method='HALF-UP')
                 in_date = \
-                Quant._update_available_quantity(ml.product_id, ml.location_dest_id, -qty_done_orig, lot_id=ml.lot_id,
-                                                 package_id=ml.result_package_id, owner_id=ml.owner_id)[1]
+                    Quant._update_available_quantity(ml.product_id, ml.location_dest_id, -qty_done_orig,
+                                                     lot_id=ml.lot_id,
+                                                     package_id=ml.result_package_id, owner_id=ml.owner_id)[1]
                 Quant._update_available_quantity(ml.product_id, ml.location_id, qty_done_orig, lot_id=ml.lot_id,
                                                  package_id=ml.package_id, owner_id=ml.owner_id, in_date=in_date)
 
@@ -437,7 +438,8 @@ class StockMoveLine(models.Model):
         if updates or 'qty_done' in vals:
             moves = self.filtered(lambda ml: ml.move_id.state == 'done').mapped('move_id')
             moves |= self.filtered(lambda ml: ml.move_id.state not in (
-            'done', 'cancel') and ml.move_id.picking_id.immediate_transfer and not ml.product_uom_qty).mapped('move_id')
+                'done', 'cancel') and ml.move_id.picking_id.immediate_transfer and not ml.product_uom_qty).mapped(
+                'move_id')
             for move in moves:
                 move.product_uom_qty = move.quantity_done
             next_moves._do_unreserve()
@@ -497,7 +499,7 @@ class StockMoveLine(models.Model):
                 raise UserError(_('The quantity done for the product "%s" doesn\'t respect the rounding precision \
                                   defined on the unit of measure "%s". Please change the quantity done or the \
                                   rounding precision of your unit of measure.') % (
-                ml.product_id.display_name, ml.product_uom_id.name))
+                    ml.product_id.display_name, ml.product_uom_id.name))
 
             qty_done_float_compared = float_compare(ml.qty_done, 0, precision_rounding=ml.product_uom_id.rounding)
             if qty_done_float_compared > 0:
