@@ -2,14 +2,28 @@
 <odoo>  
     <template id="list_customer_reports_page" name="Customer Reports">
            <t t-call="website.layout">
-                <div class="mx-3">
+                <div class="mx-3"  style="font-size: 10pt;">
                     <h2 class="text-left mt-5">
                         Customer Reports
                     </h2>
-                    <h4 class="d-flex flex-row"><p>Showing &#x20;</p><p t-esc="len(reports)"></p> <p>&#x20;of&#x20; </p><p t-esc="total"></p></h4>
+                    <div class="d-flex flex -row">
+                        <h5 class="d-flex flex-row ml-4">
+                            <p class="mr-1">*Showing:</p>
+                            <p id="from_index" t-esc="from_index" class="mr-1"></p>-
+                            <p id="to_index" t-esc="to_index" class="mr-1"></p>of
+                            <p t-esc="total" class="ml-1"></p>
+                        </h5>
+                        <div class="products_pager form-inline justify-content-right mb-3">
+                            <t t-call="website.pager">
+                                <t t-set="_classes"> ml-5</t>
+                            </t>
+                        </div>
+                    </div>
+                    
                     <table class="table text-center table-responsive-sm">
                         <thead>
                             <tr>
+                                <th scopr="col">ID</th>
                                 <th scope="col">Report ID</th>
                                 <th scope="col">Account ID</th>
                                 <th scope="col">POS ID</th>
@@ -20,11 +34,14 @@
                                 <th scope="col">Report Type</th>
                                 <th scope="col">Report Object ID</th>
                                 <th scope="col">Created Time</th>
-                                <th scope="col">#</th>
+                                <!-- <th scope="col">#</th> -->
                             </tr>
                         </thead>
                         <tbody>
+                            <t t-set="i" t-value="1"/>
                             <tr t-foreach='reports' t-as='report'>
+                                <td> <span t-esc="i"/> </td>
+                                <t t-set="i" t-value="i+1"/>
                                 <td t-esc="report.get('_id')"></td>
                                 <td t-esc="report.get('account_id')"></td>
                                 <td t-esc="report.get('pos_id')"></td>
@@ -35,15 +52,15 @@
                                 <td t-esc="report.get('type')"></td>
                                 <td t-esc="report.get('oid') "></td>
                                 <td t-esc="report.get('created_time')"></td>
-                                <td>
+                                <!-- <td>
                                     <button class="btn btn-info"> 
                                     <i class="fa fa-edit"></i>    
                                     </button>
-                                </td>
+                                </td> -->
                             </tr>
                         </tbody>
                     </table>
-                </div>      
+                </div>     
            </t>
     </template>
 </odoo>

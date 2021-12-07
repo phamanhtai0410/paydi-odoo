@@ -4,7 +4,7 @@ from odoo.http import request
 import requests
 import json
 from datetime import datetime
-from ..enums.customer_reports import CARD_TYPES, CUSTOMER_REPORT_TYPES, CUSTOMER_REPORT_OID 
+from ..enums.customer_reports import CARD_TYPES, CUSTOMER_REPORT_TYPES, CUSTOMER_REPORT_OID, TRANSACTION_TYPE
 from config import DefaultConfig
 # common header
 
@@ -73,7 +73,7 @@ class TransactionController(http.Controller):
                 'terminal_id': transaction.get('terminal_id'),
                 'total_amount': transaction.get('total_amount'),
                 'created_time': datetime.fromtimestamp(transaction.get('created_time')),
-                'obj_type': transaction.get('obj_type'),
+                'obj_type': TRANSACTION_TYPE.get(transaction.get('obj_type')),
                 'card_type': CARD_TYPES[int(transaction.get('card_type'))],
                 'currency': transaction.get('currency')
             }
@@ -85,18 +85,41 @@ class TransactionController(http.Controller):
             'transactions': transactions,
         })
     
-    @http.route('/report/customer_report/', auth="public", website=True)
-    def get_list_customer_report(self, **kw):
-        responseGetListReport = requests.get(
-            DefaultConfig.url_prefix + '/v1/support/report/get_list_for_admin', 
+    @http.route(['/report/customer_report', '/report/customer_report/page/<int:page>'], auth="user", website=True, type="http")
+    def get_list_customer_report(self, page=0, **post):
+
+        responseGetTotalReports = requests.get(
+            DefaultConfig.url_prefix + '/v1/support/report/get_list_for_admin?limit={}&offset={}'.format(10, 0), 
             headers={}
         )
         
-        reports = responseGetListReport.json().get('data')
-        reports = {
-            'total': reports.get('total'),
-            'reports': [
-                {
+        total = responseGetTotalReports.json().get('data').get('total')
+        print('total = ', total)
+        limit = 10
+
+        pager = request.website.pager(
+            url='/report/customer_report',
+            total=total,
+            page=page,
+            step=limit,
+        )
+
+        offset = pager['offset']
+
+        responseGetListReport = requests.get(
+            DefaultConfig.url_prefix + '/v1/support/report/get_list_for_admin?limit={}&offset={}'.format(limit, offset), 
+            headers={}
+        )
+
+        print('limit =', limit)
+        print('offset =', offset)
+        print('response get List report =', responseGetListReport.json())
+        
+
+        reports = responseGetListReport.json().get('data').get('reports')
+
+        reports = [
+                {   
                     '_id': report.get('_id'),
                     'account_id': report.get('account_id'),
                     'pos_id': report.get('pos_id'),
@@ -108,11 +131,16 @@ class TransactionController(http.Controller):
                     'oid': report.get('oid') if report.get('oid') != 'app_oid' else CUSTOMER_REPORT_OID.get('app_oid'),
                     'created_time': report.get('created_time'),
                 }
-                for report in reports.get('reports')
+                for report in reports
             ]
-        }
         print('-+-  responseGetListReport', reports)
+
         return request.render("report.list_customer_reports_page", {
-            'reports': reports.get('reports'),
-            'total': reports.get('total')
+            'reports': reports,
+            'pager': pager,
+            'total': total,
+            'from_index': offset + 1,
+            'to_index': offset + limit,
+            'limit': limit,
+            'offset': offset,
         })
