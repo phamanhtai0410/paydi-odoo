@@ -8,39 +8,22 @@
             <field name="arch" type="xml">
                 <form string="Thông tin máy">
                     <sheet>
-
-<!--                        <div class="oe_title">-->
-<!--                            <label string="Mã máy" for="product_lot"/>-->
-<!--                            <h1>-->
-<!--                                <field name="product_lot"/>-->
-<!--                            </h1>-->
-<!--                        </div>-->
-
                         <group>
-
                             <group string="Thông tin cơ bản">
                                 <field name="username"/>
-                                <field name="states" />
+                                <field name="ref_code" required="1"/>
+                                <field name="states"/>
                             </group>
-
-                            <group string="Thông tin kho">
-                                <field name="create_date">
-                                    <attribute name="string">Ngày tạo</attribute>
-                                </field>
-                                <field name="create_uid">
-                                    <attribute name="string">Người tạo</attribute>
-                                </field>
+                            <group string="Chức năng bị khóa">
+                                <field
+                                        name="disable_functions"
+                                        context="{
+                                                'default_pos_account_id': id,
+                                                'default_disable': True
+                                        }"
+                                        nolabel="1"/>
                             </group>
-
-                            <group string="Thông tin lắp đặt">
-                                <field name="counter"/>
-                                <field name="floor"/>
-                                <field name="house_number"/>
-                                <field name="street"/>
-                                <field name="zip"/>
-                                <field name="city"/>
-                            </group>
-
+                            <field name="note"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">

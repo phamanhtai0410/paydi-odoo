@@ -16,9 +16,9 @@ class StockMoveLine(models.Model):
     _inherit = 'stock.move.line'
 
     account = fields.Many2one('account.pos.machines',
-                              string='Tài khoản máy', readonly=True)
+                              string='Tài khoản máy')
+
     is_setup = fields.Boolean(string="Cài máy")
-    holder = fields.Many2one('res.partner', string='Giữ máy')
 
     @api.model
     def create(self, vals):
@@ -36,8 +36,6 @@ class StockMoveLine(models.Model):
 
     @api.model
     def write(self, vals, *args, **kwargs):
-        print('[debug] write', vals, args, kwargs)
-
         if vals.get('lot_id'):
             vals['account'] = None
         rows = super(StockMoveLine, self).write(vals)
@@ -49,33 +47,32 @@ class StockMoveLine(models.Model):
         if self.account and self.account.lot_id.id != self.lot_id.id:
             self.account = None
 
-    def gen_account(self, *args, **kwargs):
-        self.ensure_one()
+    def setting_account(self):
+        account = self.account
         partner_id = self.picking_id.partner_id
-        name = self.lot_id.name  # self.env['stock.production.lot'].search_read([('id', '=', default_lot_id)])
+        if not account:
+            partner_id = self.picking_id.partner_id
+            account = self.env['account.pos.machines'].create({
+                'lot_id': self.lot_id.id,
+                'partner_id': partner_id.id,
+                'move_line_id': self.id,
+                'username': f"{partner_id.id}-{self.lot_id.id}"
+            })
+            self.write({
+                'account': account.id
+            })
+        view_id = self.env.ref('pos_machines.account_pos_machines_form_view').id
 
-        # product_lot = value[0]
-        # params = {
-        #     'default_serial_number': name,
-        #     'default_partner': partner_id.id,
-        # }
-        # view_id = self.env['pos.machine.setting.wizard']
-        # new = view_id.create(params)
-        # print('[debug] new', new)
         return {
             'type': 'ir.actions.act_window',
             'name': 'Cài đặt máy',
-            'res_model': 'pos.machine.setting',
+            'res_model': 'account.pos.machines',
             'view_type': 'form',
             'view_mode': 'form',
-            # 'res_id': new.id,
-            # 'view_id': view_id,
+            'res_id': account.id,
+            'view_id': view_id,
             'target': 'new',
-            'context': {
-                'default_lot_id': self.lot_id.id,
-                'default_partner': partner_id.id,
-                'default_stock_move_line': self.id
-            }
+            'context': {}
         }
 
     def account_get(self):
@@ -88,3 +85,11 @@ class StockMoveLine(models.Model):
     def _read_group_many2one_lot_id(self, records, domain, order):
         print('_read_group_many2one_lot_id', records, domain, order)
         return records
+
+    def button_booking(self):
+
+        self.lot_id.write({
+            'has_booked': True
+        })
+
+        return True

@@ -1,2 +1,1 @@
-from . import pos_machine_setting
-from . import tid_mid
+from . import stock_picking_booking_done_view
