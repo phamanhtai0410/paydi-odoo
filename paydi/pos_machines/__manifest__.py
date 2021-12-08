@@ -8,12 +8,12 @@
     'data': [
         'views/account_pos_machines_view.xml',
         'views/stock_booking_picking_view.xml',
-        'views/stock_move_line.xml',
         'security/ir.model.access.csv',
         'views/stock.picking.from.booking.xml',
         'views/pos.functions.view.xml',
         'views/res_partner_fee_view.xml',
         'views/res_partner_views.xml',
+        'views/stock_move_line.xml',
     ],
     'demo': [],
     'installable': True,
