@@ -39,6 +39,7 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+
             <xpath expr="//group/field[@name='type']" position="before">
                 <field name="obj_type"/>
 
@@ -67,6 +68,16 @@
                 </page>
             </xpath>
 
+            <xpath expr="//notebook" position="inside">
+                <page name="page_mid" string="Quản lý mid">
+                    <group attrs="{'invisible': [('obj_type','!=', 'merchant')]}">
+                    <field name="mid"/>
+                    </group>
+                </page>
+            </xpath>
+
+          
+           
         </field>
     </record>
 
@@ -97,7 +108,6 @@
               action="action_res_merchants_contacts"
               groups="base.group_system"
               sequence="2"/>
-
 
     <!--    <menuitem id="menu_partner_category_form"-->
     <!--              action="base.action_partner_category_form"-->

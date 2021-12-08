@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="add-mid">
+            <div class="container " style="margin: auto" >
+                <form>
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                         </div>
+                        <input name="" class="form-control" placeholder="Full name" type="text" />
+                    </div> <!-- form-group// -->
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                         </div>
+                        <input name="" class="form-control" placeholder="Email address" type="email" />
+                    </div> <!-- form-group// -->
+                    
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+                        </div>
+                        <select class="form-control">
+                            <t t-foreach='merchantCode' t-as='code'>
+                                <option t-att-value="code.get('id')">
+        
+                                    <t t-esc="code.get('desc')" />
+                                </option>
+                            </t>
+                        </select>
+                    </div> <!-- form-group end.// -->
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                        </div>
+                        <input class="form-control" placeholder="Create password" type="password" />
+                    </div> <!-- form-group// -->
+                                                      
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
+                    </div> <!-- form-group// -->      
+                    <p class="text-center">Have an account? <a href="">Log In</a> </p>                                                                 
+                </form>
+
+                
+
+            </div>
+
+        </template>
+    </data>
+
+</odoo>

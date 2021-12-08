@@ -28,4 +28,5 @@ class ResPartner(models.Model):
 
     registration_number = fields.Char(string="Số đăng ký kinh doanh")
 
+    # mid = fields.One2many('mms.mid', 'partner_id',  string='Mã mid')
     service_ids = fields.One2many('merchant.service', 'partner_id', string="Dịch vụ khác")
