@@ -93,3 +93,6 @@ class StockMoveLine(models.Model):
         })
 
         return True
+
+    def gen_account(self):
+        return True
