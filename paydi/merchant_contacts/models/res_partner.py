@@ -18,15 +18,7 @@ class ResPartner(models.Model):
         options = self.env['master.data'].search_read([('field', '=', 'obj_type'), ('model', '=', 'res.partner')])
         return [(x.get('value'), x.get('name')) for x in options]
 
-    business_type = fields.Selection(selection='get_business_type_options', string='Loại hình công ty')
-
-    @api.model
-    def get_business_type_options(self):
-        options = self.env['master.data'].search_read(
-            [('field', '=', 'business_type'), ('model', '=', 'res.partner')])
-        return [(x.get('value'), x.get('name')) for x in options]
-
     registration_number = fields.Char(string="Số đăng ký kinh doanh")
 
-    # mid = fields.One2many('mms.mid', 'partner_id',  string='Mã mid')
+    # mid = fields.One2many('mms.mid', 'partner_id',  string='Mã mid'2)
     service_ids = fields.One2many('merchant.service', 'partner_id', string="Dịch vụ khác")
