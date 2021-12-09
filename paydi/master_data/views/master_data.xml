@@ -57,5 +57,26 @@
                 groups="base.group_user"
                 action="master_data_act_window"/>
 
+        <record model="ir.actions.act_url" id="action_google_url">
+
+            <field name="name">Open google.com</field>
+
+            <field name="url">https://google.com</field>
+
+        </record>
+        <menuitem
+                parent="master_data_menu"
+                sequence="2"
+                name="Sub master"
+                id="menu_master_data"
+        />
+        <menuitem
+                parent="menu_master_data"
+                sequence="2"
+                groups="base.group_user"
+                name="Master data 2"
+                id="menu_google_url"
+                action="action_google_url"/>
+
     </data>
 </odoo>

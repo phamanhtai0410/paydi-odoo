@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="view_merchants_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="after">
+                <br/>
+                <field name="ref_view"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Phí máy">
+                    <field name="partner_fee_ids" context="{
+                                    'force_detailed_view': True
+                               }"/>
+                </page>
+                <page string="Máy POS"
+                      name="pos_stock_move_line">
+                    <field name="picking_id" invisible="1"/>
+                    <field name="picking_type_code" invisible="1"/>
+
+                    <field name="show_operations" invisible="1"/>
+                    <field name="show_reserved" invisible="1"/>
+                    <field name="show_lots_text" invisible="1"/>
+                    <field name="has_tracking" invisible="1"/>
+                    <field name="immediate_transfer" invisible="1"/>
+                    <field name="sequence_code" invisible="1"/>
+                    <field name="picking_state" invisible="1"/>
+
+                    <field
+                            attrs="{'invisible': [('picking_id', '=', False)]}"
+                            name="move_line_ids" nolabel="1"
+                            context="{
+                                    'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree',
+                                    'default_picking_id': picking_id,
+                                    'force_detailed_view': True,
+                                    'default_show_account_actions': True
+                               }"/>
+                    <button
+                            attrs="{'invisible': [('picking_id', '=', False)]}"
+                            type="object"
+                            class="oe_highlight"
+                            name="edit_booking" string="Chỉnh sửa"
+                    />
+
+                    <button
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('picking_id', '!=', False)]}"
+                            name="booking_pos" string="Đặt máy"
+                    />
+
+                    <button
+                            type="action"
+                            class="oe_highlight bg-success-light ml-2"
+                            attrs="{'invisible': ['|' ,('picking_state', '!=', 'done'), ('stock_out_picking_id', '!=', False)]}"
+                            name="%(act_stock_booking_picking)d"
+                            confirm="Bạn chắc chắn muốn tạo phiếu xuất kho"
+                            string="Xuất máy"
+                            groups="base.group_user"
+                    />
+
+
+                    <field
+                            attrs="{'invisible': [('stock_out_picking_id', '=', False)]}"
+                            name="stock_out_picking_id"/>
+
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

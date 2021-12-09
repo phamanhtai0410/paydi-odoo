@@ -50,8 +50,6 @@
                 <field name="company_en_name"
                        placeholder="Tên đăng ký kinh doanh-Tiếng anh"
                        attrs="{'invisible': [('is_company','=', False)]}"/>
-
-                <field name="business_type" attrs="{'invisible': [('is_company','=', False)]}"/>
             </xpath>
 
             <xpath expr="//field[@name='vat']" position="before">
@@ -67,17 +65,6 @@
                     </group>
                 </page>
             </xpath>
-
-            <xpath expr="//notebook" position="inside">
-                <page name="page_mid" string="Quản lý mid">
-                    <group attrs="{'invisible': [('obj_type','!=', 'merchant')]}">
-                    <field name="mid"/>
-                    </group>
-                </page>
-            </xpath>
-
-          
-           
         </field>
     </record>
 

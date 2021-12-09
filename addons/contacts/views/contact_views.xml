@@ -36,7 +36,7 @@
     </record>
 
 
-    <menuitem name="Contacts"
+        <menuitem name="Contacts"
               id="menu_contacts"
               sequence="4"
               web_icon="contacts,static/description/icon.png"

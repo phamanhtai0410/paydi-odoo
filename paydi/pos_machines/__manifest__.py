@@ -7,10 +7,13 @@
     'depends': ['mail', 'master_data', 'stock'],
     'data': [
         'views/account_pos_machines_view.xml',
-        'views/stock_move_line.xml',
+        'views/stock_booking_picking_view.xml',
         'security/ir.model.access.csv',
-        # 'views/wizard.pos.setting.xml',
-        'views/pos.machine.setting.view.xml'
+        'views/stock.picking.from.booking.xml',
+        'views/pos.functions.view.xml',
+        'views/res_partner_fee_view.xml',
+        'views/res_partner_views.xml',
+        'views/stock_move_line.xml',
     ],
     'demo': [],
     'installable': True,
