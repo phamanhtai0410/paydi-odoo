@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>  
+    <template id="list_bank_pos_logs_page" name="Bank Logs">
+           <t t-call="website.layout">
+                <div class="mx-3"  style="font-size: 10pt;">
+                    <h2 class="text-left mt-5">
+                        Bank Logs
+                    </h2>
+                    <div class="d-flex flex -row">
+                        <!-- <h5 class="d-flex flex-row ml-4">
+                            <p class="mr-1">*Showing:</p>
+                            <p id="from_index" t-esc="from_index" class="mr-1"></p>-
+                            <p id="to_index" t-esc="to_index" class="mr-1"></p>of
+                            <p t-esc="total" class="ml-1"></p>
+                        </h5> -->
+                        <!-- <div class="products_pager form-inline justify-content-right mb-3">
+                            <t t-call="website.pager">
+                                <t t-set="_classes"> ml-5</t>
+                            </t>
+                        </div> -->
+                    </div>
+                    
+                    <table class="table text-center table-responsive-sm" id="bank_logs_table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">ETag</th>
+                                <th scope="col">Bank Logs URL</th>
+                                <th scope="col">Size (Bytes)</th>
+                                <th scope="col">Storage Class</th>
+                                <th scope="col">Last Modified</th>
+                                <!-- <th scope="col">#</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="i" t-value="1"/>
+                            <tr t-foreach='bank_logs' t-as='log'>
+                                <td> <span t-esc="i"/> </td>
+                                <t t-set="i" t-value="i+1"/>
+                                <td t-esc="log.get('etag')"></td>
+                                <td>
+                                    <a t-attf-href="#{log.get('url')}" t-esc="log.get('url')"></a>
+                                </td>
+                                <td t-esc="log.get('size')"></td>
+                                <td t-esc="log.get('storage_class')"></td>
+                                <td t-esc="log.get('last_modified')"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <script>
+                        $('#bank_logs_table').DataTable();
+                    </script>
+                </div>     
+           </t>
+    </template>
+</odoo>

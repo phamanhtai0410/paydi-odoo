@@ -1,4 +1,5 @@
 Babel==2.6.0
+boto3==1.15.18
 chardet==3.0.4
 decorator==4.3.0
 docutils==0.14

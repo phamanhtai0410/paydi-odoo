@@ -1,4 +1,5 @@
 
+from sys import path_hooks
 from odoo import http
 from odoo.http import request
 import requests
@@ -6,6 +7,9 @@ import json
 from datetime import datetime
 from ..enums.customer_reports import CARD_TYPES, CUSTOMER_REPORT_TYPES, CUSTOMER_REPORT_OID, TRANSACTION_TYPE
 from config import DefaultConfig
+import boto3
+import uuid
+from botocore.exceptions import ClientError
 # common header
 
 
@@ -72,7 +76,7 @@ class TransactionController(http.Controller):
                 'pos_id': transaction.get('pos_id'),
                 'terminal_id': transaction.get('terminal_id'),
                 'total_amount': transaction.get('total_amount'),
-                'created_time': datetime.fromtimestamp(transaction.get('created_time')),
+                'created_time': datetime.fromtimestamp(transaction.get('created_time')).strftime("%d/%m/%Y, %H:%M:%S"),
                 'obj_type': TRANSACTION_TYPE.get(transaction.get('obj_type')),
                 'card_type': CARD_TYPES[int(transaction.get('card_type'))],
                 'currency': transaction.get('currency')
@@ -129,7 +133,7 @@ class TransactionController(http.Controller):
                     'images': report.get('images'),
                     'type': CUSTOMER_REPORT_TYPES.get(report.get('type')),
                     'oid': report.get('oid') if report.get('oid') != 'app_oid' else CUSTOMER_REPORT_OID.get('app_oid'),
-                    'created_time': report.get('created_time'),
+                    'created_time': datetime.fromtimestamp(report.get('created_time')).strftime("%d/%m/%Y, %H:%M:%S"),
                 }
                 for report in reports
             ]
@@ -148,6 +152,46 @@ class TransactionController(http.Controller):
 
     @http.route('/report/bank_pos_logs', auth="user", website=True, type="http")
     def get_list_bank_pos_logs(self, **kw):
-        return request.render("report.list_bank_pos_logs", {
+
+        ## Config s3
+        s3 = boto3.client(
+            "s3",
+            aws_access_key_id=DefaultConfig.S3_KEY,
+            aws_secret_access_key=DefaultConfig.S3_SECRET,
+            endpoint_url=DefaultConfig.S3_ENDPOINT,
+            use_ssl=False,
+        )
+
+        ## 
+        def get_list_objects_by_path(path):
+            try:
+                return s3.list_objects_v2(Bucket=DefaultConfig.S3_BUCKET, Prefix=f'{path}')
+            except ClientError as ex:
+                if ex.response['Error']['Code'] == 'NoSuchKey':
+                    return None
+
+        path = 'log/bank'
+
+        bank_logs = get_list_objects_by_path(path)
+       
+        bank_logs = [
+                {
+                    'url': DefaultConfig.S3_URL + log.get('Key'),
+                    'size': log.get('Size'),
+                    'last_modified': log.get('LastModified').strftime("%d/%m/%Y, %H:%M:%S"),
+                    'etag': log.get('ETag'),
+                    'storage_class': log.get('StorageClass')
+                }
+                for log in bank_logs['Contents']
+            ]
             
+        bank_logs.reverse()
+
+
+        ###
+
+
+
+        return request.render("report.list_bank_pos_logs_page", {
+            'bank_logs': bank_logs
         })
