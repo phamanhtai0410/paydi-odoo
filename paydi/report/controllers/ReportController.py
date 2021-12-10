@@ -144,3 +144,10 @@ class TransactionController(http.Controller):
             'limit': limit,
             'offset': offset,
         })
+
+
+    @http.route('/report/bank_pos_logs', auth="user", website=True, type="http")
+    def get_list_bank_pos_logs(self, **kw):
+        return request.render("report.list_bank_pos_logs", {
+            
+        })
