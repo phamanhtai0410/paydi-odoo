@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>  
     <template id="list_bank_pos_logs_page" name="Bank Logs">
-           <t t-call="website.layout">
+            <template id="assets_backend_tabla_tickets" name="my_module assets" inherit_id="web.assets_backend">
+                <xpath expr="." position="inside">
+                    <link href="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/group-by-v2/bootstrap-table-group-by.css" rel="stylesheet"/>
+                    <link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet"/>
+
+                    <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+                    <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/group-by-v2/bootstrap-table-group-by.min.js"></script>
+
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                </xpath>
+            </template>
+            <t t-call="website.layout">
                 <div class="mx-3"  style="font-size: 10pt;">
                     <h2 class="text-left mt-5">
                         Bank Logs
@@ -20,15 +31,17 @@
                         </div> -->
                     </div>
                     
-                    <table class="table text-center table-responsive-sm" id="bank_logs_table">
+                    <table class="table text-center table-responsive-sm" id="bank_logs_table"
+                            data-group-by="true"
+                            data-group-by-field="id">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">ETag</th>
-                                <th scope="col">Bank Logs URL</th>
-                                <th scope="col">Size (Bytes)</th>
-                                <th scope="col">Storage Class</th>
-                                <th scope="col">Last Modified</th>
+                                <th scope="col" data-field="id">#</th>
+                                <th scope="col" data-field="etag">ETag</th>
+                                <th scope="col" data-field="url">Bank Logs URL</th>
+                                <th scope="col" data-field="size">Size (Bytes)</th>
+                                <th scope="col" data-field="storage_class">Storage Class</th>
+                                <th scope="col" data-field="lat_modified">Last Modified</th>
                                 <!-- <th scope="col">#</th> -->
                             </tr>
                         </thead>
@@ -47,10 +60,17 @@
                             </tr>
                         </tbody>
                     </table>
-                    <script>
-                        $('#bank_logs_table').DataTable();
-                    </script>
                 </div>     
-           </t>
+            </t>
+            <template id="assets_backend_tabla_tickets" name="my_module assets" inherit_id="web.assets_backend">
+                <xpath expr="." position="inside">
+                    <script>
+                        $(function() {
+                            $('#bank_logs_table').bootstrapTable()
+                        })
+                    </script>
+                </xpath>
+            </template>
+            
     </template>
 </odoo>
