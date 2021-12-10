@@ -32,6 +32,14 @@
         <field name="target">self</field>
     </record>
 
+
+    <menuitem name="Quản lý báo cáo từ máy POS"
+              id="menu_report"
+              action="action_report"
+              active="False"
+              web_icon="report,static/images/icon.png"
+              sequence="10"/>
+
     <menuitem name="Webpage Report"
               id="menu_report_transactions"
               parent="menu_report"
