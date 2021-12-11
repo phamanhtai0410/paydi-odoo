@@ -16,7 +16,8 @@
         'security/ir.model.access.csv',
         'views/list_transactions.xml',
         'views/report_template.xml',
-        'views/list_customer_reports.xml'
+        'views/list_customer_reports.xml',
+        'views/list_bank_logs.xml'
     ],
     'demo': [],
     'qweb': [],
