@@ -3,7 +3,7 @@ import traceback
 
 import requests
 
-api_domain = 'http://localhost:8069'
+api_domain = 'https://odoo-staging.rinznetwork.com'
 
 
 def odoo_request(*args, **kwargs):
@@ -54,7 +54,6 @@ class OdooApi(object):
             method='GET',
             params=params,
             cookies=self.cookies
-            # data=json.dumps({})
         )
 
 
@@ -62,9 +61,9 @@ class OdooApi(object):
 USERS_URL = f'{api_domain}/api/v1/object/res.partner.bank'
 
 # Use query param to fetch only id and name
-params = {'query': '{acc_number, bank_name, acc_holder_name}', 'filter': '[["partner_id", "=", 18]]'}
+params = {'query': '{acc_number, bank_name, acc_holder_name}', 'filter': '[["partner_id", "=", 35]]'}
 
-odoo_api = OdooApi(user='khoahoc200598@gmail.com', password='odoo')
+odoo_api = OdooApi(user='mms@paydi.vn', password='admin')
 
 result = odoo_api.get(USERS_URL, params)
 
