@@ -57,6 +57,10 @@
                        attrs="{'invisible': [('is_company','=', False)], 'required': [('obj_type','=', 'merchant')]}"/>
             </xpath>
 
+            <xpath expr="//field[@name='acc_holder_name']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+
             <xpath expr="//notebook" position="inside">
                 <page string="Dịch vụ khác"
                       name="other_service">
