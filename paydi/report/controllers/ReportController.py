@@ -6,6 +6,7 @@ import requests
 import json
 from datetime import datetime
 from ..enums.customer_reports import CARD_TYPES, CUSTOMER_REPORT_TYPES, CUSTOMER_REPORT_OID, TRANSACTION_TYPE
+from ..enums.transactions import TRANSACTION_TYPE, TRANSACTION_STATUS
 from config import DefaultConfig
 import boto3
 import uuid
@@ -45,49 +46,45 @@ class TransactionController(http.Controller):
             'count': len(transactions)
         })
 
+    # ----------------------------------------------------------------------------------------------------
+    ######################################################################################################
 
     @http.route('/report/transactions/', website=True, auth='public')
     def report_transactions(self, **kw):
+        return request.render("report.list_transactions_page")
 
-        responseLogin = requests.post(
-            DefaultConfig.url_prefix + '/v1/auth/pos/login',
-            headers={},
-            json={
-                "name": "pos_dev",
-                "password": "123456",
-                "serial_number": "test123"
-            }
-        )
-        print("responseLogin", responseLogin.json())
-        token = responseLogin.json().get('data').get('token')
 
+    @http.route('/report/transactions/data/transactions/', website=False, auth='public', methods=['GET'], csrf=False, type="http")
+    def get_transactions(self, **kw):
+        print(' -+= DataTable GET data = ', kw)
         responseGetListTransactions = requests.get(
-            DefaultConfig.url_prefix + '/v1/transaction/pos', 
-            headers={
-                'Authorization': 'Bearer ' + token
-            }
-        )
-        
+            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/transactions', 
+            headers={}
+        ) 
         transactions = responseGetListTransactions.json().get('data').get('transactions')
         transactions = [
             {
-                'account_id': transaction.get('account_id'),
-                'merchant_id': transaction.get('merchant_id'),
-                'pos_id': transaction.get('pos_id'),
-                'terminal_id': transaction.get('terminal_id'),
-                'total_amount': transaction.get('total_amount'),
-                'created_time': datetime.fromtimestamp(transaction.get('created_time')).strftime("%d/%m/%Y, %H:%M:%S"),
                 'obj_type': TRANSACTION_TYPE.get(transaction.get('obj_type')),
-                'card_type': CARD_TYPES[int(transaction.get('card_type'))],
-                'currency': transaction.get('currency')
+                'status': TRANSACTION_STATUS.get(transaction.get('status')) if transaction.get('status') == 'success' else 'Failed',
+                'total_amount': '{:,.2f}'.format(transaction.get('total_amount')) + ' VNĐ',
+                'error_msg': transaction.get('error_msg'),
+                'created_time': datetime.fromtimestamp(transaction.get('created_time')).strftime("%d/%m/%Y, %H:%M:%S"),
+                'extract': transaction.get('extract')
             }
             for transaction in transactions
         ]
+        
+        total = responseGetListTransactions.json().get('data').get('total')
 
-        print("responseGetListTransactions", transactions)
-        return request.render("report.list_transactions_page", {
-            'transactions': transactions,
+        print("-+= responseGetListTransactions", transactions)
+        return  json.dumps({
+            'data': transactions,
+            'total': total
         })
+
+
+    #----------------------------------------------------------------------------------------------------
+    #####################################################################################################
     
     @http.route(['/report/customer_report', '/report/customer_report/page/<int:page>'], auth="user", website=True, type="http")
     def get_list_customer_report(self, page=0, **post):
