@@ -16,15 +16,14 @@ class ResPartner(models.Model):
     partner_fee_ids = fields.One2many('res.partner.fee', 'partner_id', string='Phí máy')
 
     def _get_ref_view(self):
-        print('_get_ref_id', self)
         for record in self:
-            record.ref_view = 'Nhập mã'
+            record.ref_view = ''
             if record.ref_id and 'default-' not in record.ref_id:
                 record.ref_view = record.ref_id
 
     def _set_ref_view(self):
         for record in self:
-            if record.ref_view and record.ref_view != 'Nhập mã':
+            if record.ref_view:
                 record.ref_id = record.ref_view
 
     ref_view = fields.Char(compute='_get_ref_view', inverse='_set_ref_view')
