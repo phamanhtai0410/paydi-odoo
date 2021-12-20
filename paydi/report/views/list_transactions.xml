@@ -13,11 +13,13 @@
             <script type="text/javascript">
                 
             </script>
+            <!-- <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/> -->
 
         </t>
         <t t-call="website.layout">
             <div class="mx-3">
                 <!-- Tab links -->
+                
                 <div class="tab">
                     <button class="tablinks" onclick="openTab(event, 'transactions')" id="defaultOpen">Successfull Transactions</button>
                     <button class="tablinks" onclick="openTab(event, 'error_transactions')">Error Transactions</button>
@@ -26,29 +28,31 @@
                 </div>
                 <!-- Tab content -->
                 <div id="transactions" class="tabcontent">
+                    <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/>
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
                     <button onclick="scrollToPager()">Scroll Down</button>
-                    <table class="table text-center table-responsive-sm" id="transactions_table"></table>
-                   <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/>
-
+                    <table class="table text-center table-responsive-lg" id="transactions_table"></table>
                     <div id="loadingLabel1">Loading...</div>
                 </div>
 
                 <div id="error_transactions" class="tabcontent">
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
-                    <table class="table text-center table-responsive-sm" id="error_transactions_table"></table> 
+                    <button onclick="scrollToErrorPager()">Scroll Down</button>
+                    <table class="table text-center table-responsive-sm" id="error_transactions_table" style="width: 100%"></table> 
                     <div id="loadingLabel2">Loading...</div> 
                 </div>
 
                 <div id="card_transactions" class="tabcontent">
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
-                    <table class="table text-center table-responsive-sm" id="card_transactions_table"></table> 
+                    <button onclick="scrollToCardPager()">Scroll Down</button>
+                    <table class="table text-center table-responsive-sm" id="card_transactions_table" style="width: 100%"></table> 
                     <div id="loadingLabel3">Loading...</div>  
                 </div>
 
                 <div id="pre_auth_transactions" class="tabcontent">
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
-                    <table class="table text-center table-responsive-sm" id="pre_auth_transactions_table"></table>
+                    <button onclick="scrollToPreAuthPager()">Scroll Down</button>
+                    <table class="table text-center table-responsive-sm" id="pre_auth_transactions_table" style="width: 100%"></table>
                     <div id="loadingLabel4">Loading...</div>  
                 </div>
             </div>

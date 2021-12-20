@@ -1,4 +1,5 @@
 
+from logging import error
 from sys import path_hooks
 from odoo import http
 from odoo.http import request
@@ -53,19 +54,26 @@ class TransactionController(http.Controller):
     def report_transactions(self, **kw):
         return request.render("report.list_transactions_page")
 
-
+    # ----------------------------------------------------------------------------------------------------
+    ######################################################################################################
+    
     @http.route('/report/transactions/data/transactions/', website=False, auth='public', methods=['GET'], csrf=False, type="http")
     def get_transactions(self, **kw):
-        print(' -+= DataTable GET data = ', kw)
+        
+        ###############################################################
+        #                           Transactions
+        ###############################################################
+        
         responseGetListTransactions = requests.get(
-            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/transactions', 
+            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/transactions?offset=0&limit=20', 
             headers={}
         ) 
         transactions = responseGetListTransactions.json().get('data').get('transactions')
         transactions = [
             {
+                'pos_id': transaction.get('pos_id'),
                 'obj_type': TRANSACTION_TYPE.get(transaction.get('obj_type')),
-                'status': TRANSACTION_STATUS.get(transaction.get('status')) if transaction.get('status') == 'success' else 'Failed',
+                'status': TRANSACTION_STATUS.get(transaction.get('status')) if transaction.get('status') == 'success' or transaction.get('status') == 'pending' else 'Failed',
                 'total_amount': '{:,.2f}'.format(transaction.get('total_amount')) + ' VNĐ',
                 'error_msg': transaction.get('error_msg'),
                 'created_time': datetime.fromtimestamp(transaction.get('created_time')).strftime("%d/%m/%Y, %H:%M:%S"),
@@ -75,16 +83,195 @@ class TransactionController(http.Controller):
         ]
         
         total = responseGetListTransactions.json().get('data').get('total')
-
-        print("-+= responseGetListTransactions", transactions)
+        
+              
+        # --------------------------------------------------------
+        
         return  json.dumps({
             'data': transactions,
-            'total': total
+            'total': total,
         })
 
 
     #----------------------------------------------------------------------------------------------------
     #####################################################################################################
+    
+    
+    @http.route('/report/transactions/data/error_transactions/', website=False, auth='public', methods=['GET'], csrf=False, type="http")
+    def get_error_transactions(self, **kw):
+        
+        ###############################################################
+        #                    Error Transactions
+        ###############################################################
+        
+        responseGetListErrorTransactions = requests.get(
+            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/error_transactions?offset=0&limit=20',
+            headers={}
+        )
+        error_transactions = responseGetListErrorTransactions.json().get('data').get('transactions')
+        error_transactions = [ 
+            {
+                "account_id": transaction.get("account_id"),
+                "app_ver": transaction.get("app_ver", ""),
+                "card_holder": transaction.get("card_holder"),
+                "card_number": transaction.get("card_number"),
+                "code": transaction.get("code", ""),
+                "created_time": datetime.fromtimestamp(transaction.get('created_time')).strftime("%d/%m/%Y, %H:%M:%S"),
+                "desc": transaction.get("desc", ""),                
+                "exp_date": transaction.get("exp_date"),
+                "pos_id": transaction.get("pos_id"),
+                "req_acqr_id": transaction.get("req_acqr_id"),
+                "req_card_type": transaction.get("req_card_type"),
+                "req_currency_name": transaction.get("req_currency_name"),
+                "req_merchant_trans_id": transaction.get("req_merchant_trans_id"),
+                "req_tip_amount": '{:,.2f}'.format(transaction.get('req_tip_amount')),
+                "req_transaction_amount": '{:,.2f}'.format(transaction.get('req_transaction_amount')),
+                "req_tranx_type": transaction.get("req_tranx_type"),
+                "swipe_type": transaction.get("swipe_type"),
+                "tranx_type": transaction.get("tranx_type", "")
+            }
+            for transaction in error_transactions
+        ]
+        error_total = responseGetListErrorTransactions.json().get('data').get('total')
+       
+        # --------------------------------------------------------
+        
+        return  json.dumps({
+            'data': error_transactions,
+            'total': error_total
+        })
+
+
+    #----------------------------------------------------------------------------------------------------
+    #####################################################################################################
+    
+    @http.route('/report/transactions/data/card_transactions/', website=False, auth='public', methods=['GET'], csrf=False, type="http")
+    def get_card_transactions(self, **kw):
+        
+        ###############################################################
+        #                   Card Transactions
+        ###############################################################
+        
+        responseGetListCardTransactions = requests.get(
+            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/card_transactions?offset=0&limit=20',
+            headers={}
+        )
+        card_transactions = responseGetListCardTransactions.json().get('data').get('transactions')
+        card_transactions = [ 
+            {
+                "account_id": transaction.get("account_id"),
+                "app_ver": transaction.get("app_ver", ""),
+                "approve_code": transaction.get("approve_code"),
+                "bank_merchant_id": transaction.get("bank_merchant_id"),
+                "batch_no": transaction.get("batch_no"),
+                "card_holder": transaction.get("card_holder"),
+                "card_number": transaction.get("card_number"),
+                "card_type": transaction.get("card_type"),
+                "code": transaction.get("code", ""),
+                "created_time": datetime.fromtimestamp(transaction.get('created_time')).strftime("%d/%m/%Y, %H:%M:%S"),
+                "currency": transaction.get("currency"),
+                "desc": transaction.get("desc", ""),
+                "exp_date": transaction.get("exp_date"),
+                "invoice_no": transaction.get("invoice_no"),
+                "iso_response_code": transaction.get("iso_response_code"),
+                "merchant_trans_id": transaction.get("merchant_trans_id"),
+                "pos_id": transaction.get("pos_id"),
+                "ref_no": transaction.get("ref_no"),
+                "req_acqr_id": transaction.get("req_acqr_id"),
+                "req_card_type": transaction.get("req_card_type"),
+                "req_currency_name": transaction.get("req_currency_name"),
+                "req_merchant_trans_id": transaction.get("req_merchant_trans_id"),
+                "req_tip_amount": '{:,.2f}'.format(transaction.get("req_tip_amount")),
+                "req_transaction_amount": '{:,.2f}'.format(transaction.get("req_transaction_amount")),
+                "req_tranx_type": transaction.get("req_tranx_type"),
+                "swipe_type": transaction.get("swipe_type"),
+                "terminal_id": transaction.get("terminal_id"),
+                "total_amount": '{:,.2f}'.format(transaction.get('total_amount')),
+                "trace_no": transaction.get("trace_no"),
+                "trans_date_time": datetime.fromtimestamp(transaction.get('trans_date_time')).strftime("%d/%m/%Y, %H:%M:%S"),
+                "tranx_type": transaction.get("tranx_type")
+            }
+            for transaction in card_transactions
+        ]
+        card_total = responseGetListCardTransactions.json().get('data').get('total')
+      
+        # --------------------------------------------------------
+        
+        return  json.dumps({
+            'data': card_transactions,
+            'total': card_total
+        })
+
+
+    #----------------------------------------------------------------------------------------------------
+    #####################################################################################################
+    
+     
+    @http.route('/report/transactions/data/pre_auth_transactions/', website=False, auth='public', methods=['GET'], csrf=False, type="http")
+    def get_pre_auth_transactions(self, **kw):
+        
+        ###############################################################
+        #                    Pre-Auth Transactions
+        ###############################################################
+        
+        responseGetListPreAuthTransactions = requests.get(
+            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/pre_auth_transactions',
+            headers={}
+        )
+        pre_auth_transactions = responseGetListPreAuthTransactions.json().get('data').get('transactions')
+        pre_auth_transactions = [ 
+            {
+                "account_id": transaction.get("account_id"),
+                "app_ver": transaction.get("app_ver", ""),
+                "approve_code": transaction.get("approve_code", ""),
+                "bank_merchant_id": transaction.get("bank_merchant_id", ""),
+                "batch_no": transaction.get("batch_no", ""),
+                "card_holder": transaction.get("card_holder"),
+                "card_number": transaction.get("card_number"),
+                "card_type": transaction.get("card_type"),
+                "code": transaction.get("code"),
+                "created_time": datetime.fromtimestamp(transaction.get('created_time')).strftime("%d/%m/%Y, %H:%M:%S") if isinstance(transaction.get('created_time'), int) else '',
+                "currency": transaction.get("currency"),
+                "desc": transaction.get("desc"),
+                "exp_date": transaction.get("exp_date"),
+                "has_voided": transaction.get("has_voided"),
+                "invoice_no": transaction.get("invoice_no"),
+                "iso_response_code": transaction.get("iso_response_code"),
+                "merchant_trans_id": transaction.get("merchant_trans_id"),
+                "odoo_contact_id": transaction.get("odoo_contact_id"),
+                "pos_id": transaction.get("pos_id"),
+                "ref_no": transaction.get("ref_no"),
+                "req_acqr_id": transaction.get("req_acqr_id"),
+                "req_card_type": transaction.get("req_card_type"),
+                "req_currency_name": transaction.get("req_currency_name"),
+                "req_merchant_trans_id": transaction.get("req_merchant_trans_id"),
+                "req_tip_amount": '{:,.2f}'.format(transaction.get("req_tip_amount")),
+                "req_transaction_amount": '{:,.2f}'.format(transaction.get("req_transaction_amount")),
+                "req_tranx_type": transaction.get("accoureq_tranx_typent_id"),
+                "section_no": transaction.get("section_no"),
+                "swipe_type": transaction.get("swipe_type"),
+                "terminal_id": transaction.get("terminal_id"),
+                "total_amount": '{:,.2f}'.format(transaction.get("total_amount")),
+                "trace_no": transaction.get("trace_no"),
+                "trans_date_time": datetime.fromtimestamp(transaction.get('trans_date_time')).strftime("%d/%m/%Y, %H:%M:%S") if isinstance(transaction.get('trans_date_time'), int) else transaction.get('trans_date_time'),
+                "tranx_type": transaction.get("tranx_type"),
+                "void_data": transaction.get("void_data"),
+            }
+            for transaction in pre_auth_transactions
+        ]
+        pre_auth_total = responseGetListPreAuthTransactions.json().get('data').get('total')
+        
+        # --------------------------------------------------------
+        
+        return  json.dumps({
+            'data': pre_auth_transactions,
+            'total': pre_auth_total
+        })
+
+
+    #----------------------------------------------------------------------------------------------------
+    #####################################################################################################
+    
     
     @http.route(['/report/customer_report', '/report/customer_report/page/<int:page>'], auth="user", website=True, type="http")
     def get_list_customer_report(self, page=0, **post):
@@ -146,7 +333,9 @@ class TransactionController(http.Controller):
             'offset': offset,
         })
 
-
+    #----------------------------------------------------------------------------------------------------
+    #####################################################################################################
+    
     @http.route('/report/bank_pos_logs', auth="user", website=True, type="http")
     def get_list_bank_pos_logs(self, **kw):
 

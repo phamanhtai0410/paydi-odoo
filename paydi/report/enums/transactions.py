@@ -6,5 +6,6 @@ TRANSACTION_TYPE = {
 
 TRANSACTION_STATUS = {
     'success': 'Success',
+    'pending': 'Pending',
     'failed': 'Failed'
 }
