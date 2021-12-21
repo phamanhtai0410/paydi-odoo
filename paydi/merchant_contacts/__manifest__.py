@@ -6,7 +6,7 @@
     'name': 'Quản lý merchant',
     'category': 'Sales',
     'summary': '',
-    'depends': ['base', 'mail', 'account'],
+    'depends': ['base', 'mail', 'account', 'vn.location'],
     'data': [
         'views/res_partner_views.xml',
         'views/merchant_service.xml',
