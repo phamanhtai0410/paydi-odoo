@@ -20,7 +20,7 @@ status
 odoo/filestore
 # maintenance migration scripts
 odoo/addons/base/maintenance
-
+share/*
 # generated for windows installer?
 install/win32/*.bat
 install/win32/meta.py
@@ -39,3 +39,5 @@ setup/win32/static/postgresql*.exe
 /man/
 /share/
 /src/
+/conf/*.conf
+

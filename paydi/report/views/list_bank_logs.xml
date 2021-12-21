@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>  
+    <template id="list_bank_pos_logs_page" name="Bank Logs">
+            <template id="assets_backend_tabla_tickets" name="my_module assets" inherit_id="web.assets_backend">
+                <xpath expr="." position="inside">
+                    <link href="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/group-by-v2/bootstrap-table-group-by.css" rel="stylesheet"/>
+                    <link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet"/>
+
+                    <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+                    <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/group-by-v2/bootstrap-table-group-by.min.js"></script>
+
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                </xpath>
+            </template>
+            <t t-call="website.layout">
+                <div class="mx-3"  style="font-size: 10pt;">
+                    <h2 class="text-left mt-5">
+                        Bank Logs
+                    </h2>
+                    <div class="d-flex flex -row">
+                        <!-- <h5 class="d-flex flex-row ml-4">
+                            <p class="mr-1">*Showing:</p>
+                            <p id="from_index" t-esc="from_index" class="mr-1"></p>-
+                            <p id="to_index" t-esc="to_index" class="mr-1"></p>of
+                            <p t-esc="total" class="ml-1"></p>
+                        </h5> -->
+                        <!-- <div class="products_pager form-inline justify-content-right mb-3">
+                            <t t-call="website.pager">
+                                <t t-set="_classes"> ml-5</t>
+                            </t>
+                        </div> -->
+                    </div>
+                    
+                    <table class="table text-center table-responsive-sm" id="bank_logs_table"
+                            data-group-by="true"
+                            data-group-by-field="id">
+                        <thead>
+                            <tr>
+                                <th scope="col" data-field="id">#</th>
+                                <th scope="col" data-field="etag">ETag</th>
+                                <th scope="col" data-field="url">Bank Logs URL</th>
+                                <th scope="col" data-field="size">Size (Bytes)</th>
+                                <th scope="col" data-field="storage_class">Storage Class</th>
+                                <th scope="col" data-field="lat_modified">Last Modified</th>
+                                <!-- <th scope="col">#</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="i" t-value="1"/>
+                            <tr t-foreach='bank_logs' t-as='log'>
+                                <td> <span t-esc="i"/> </td>
+                                <t t-set="i" t-value="i+1"/>
+                                <td t-esc="log.get('etag')"></td>
+                                <td>
+                                    <a t-attf-href="#{log.get('url')}" t-esc="log.get('url')"></a>
+                                </td>
+                                <td t-esc="log.get('size')"></td>
+                                <td t-esc="log.get('storage_class')"></td>
+                                <td t-esc="log.get('last_modified')"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>     
+            </t>
+            <template id="assets_backend_tabla_tickets" name="my_module assets" inherit_id="web.assets_backend">
+                <xpath expr="." position="inside">
+                    <script>
+                        $(function() {
+                            $('#bank_logs_table').bootstrapTable()
+                        })
+                    </script>
+                </xpath>
+            </template>
+            
+    </template>
+</odoo>

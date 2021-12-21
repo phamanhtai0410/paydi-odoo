@@ -1,0 +1,27 @@
+# File: docker-compose.yml
+# Created at 03/11/2021
+
+version: '3'
+
+services:
+  odoo:
+    image: odoo-service
+    container_name: odoo-service
+    build: ./
+    restart: on-failure
+    #
+    volumes:
+      - ./:/webapps/service
+
+    ports:
+      - "5089:8069"
+
+    networks:
+      - same-network
+
+    command: supervisord -n -c /etc/supervisor.d/supervisord.conf
+
+
+networks:
+  same-network:
+    external: true

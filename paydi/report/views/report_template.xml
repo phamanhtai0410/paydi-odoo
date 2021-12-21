@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>  
+    <template id="report_page" name="Reports">
+           <t t-call="website.layout">
+                <div class="mx-3">
+                    <h2>Statistic Report</h2>
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">Transactions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td t-esc="count"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+           </t>
+    </template>
+</odoo>

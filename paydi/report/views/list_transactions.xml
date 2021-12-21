@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>  
+    <template id="list_transactions_page" name="Transactions">
+           <t t-call="website.layout">
+                <div class="mx-3">
+                    <h2 class="text-left mt-5">
+                        Transactions
+                    </h2>
+                    <table class="table text-center table-responsive-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Account ID</th>
+                            <th scope="col">Merchant ID</th>
+                            <th scope="col">POS ID</th>
+                            <th scope="col">Terminal ID</th>
+                            <th scope="col">Giá trị giao dịch</th>  
+                            <th scope="col">Ngày giao dịch</th>
+                            <th scope="col">Loại thanh toán</th>
+                            <th scope="col">Loại thẻ</th>
+                            <th scope="col">#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach='transactions' t-as='transaction'>
+                            <td t-esc="transaction.get('account_id')"></td>
+                            <td t-esc="transaction.get('merchant_id')"></td>
+                            <td t-esc="transaction.get('pos_id')"></td>
+                            <td t-esc="transaction.get('terminal_id')"></td>
+                            <td t-esc="transaction.get('total_amount')"></td>
+                            <td t-esc="transaction.get('created_time')"></td>
+                            <td t-esc="transaction.get('obj_type')"></td>
+                            <td t-esc="transaction.get('card_type') "></td>
+                            <td>
+                                <button class="btn btn-info"> 
+                                <i class="fa fa-edit"></i>    
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+           </t>
+    </template>
+</odoo>
