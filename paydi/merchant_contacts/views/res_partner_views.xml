@@ -105,6 +105,9 @@
                 </page>
             </xpath>
 
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="team_id" invisible="1"/>
+            </xpath>
 
             <xpath expr="//*[@name='user_id']" position="attributes">
                 <attribute name="string">Điều phối viên phụ trách</attribute>
@@ -113,9 +116,7 @@
                 <attribute name="string">Đội ngũ điều phối viên</attribute>
                 <attribute name="invisible">0</attribute>
             </xpath>
-            <xpath expr="//field[@name='user_id']" position="after">
-                <field name="team_id" invisible="1"/>
-            </xpath>
+
             <xpath expr="//field[@name='team_id']" position="after">
                 <field name="supporter_id"/>
                 <field name="supporter_department_id"/>
