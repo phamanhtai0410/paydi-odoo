@@ -109,15 +109,15 @@
             <xpath expr="//*[@name='user_id']" position="attributes">
                 <attribute name="string">Điều phối viên phụ trách</attribute>
             </xpath>
-<!--            <xpath expr="//field[@name='team_id']" position="attributes">-->
-<!--                <attribute name="string">Đội ngũ điều phối viên</attribute>-->
-<!--                <attribute name="invisible">0</attribute>-->
-<!--            </xpath>-->
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="string">Đội ngũ điều phối viên</attribute>
+                <attribute name="invisible">0</attribute>
+            </xpath>
 
-<!--            <xpath expr="//field[@name='team_id']" position="after">-->
-<!--                <field name="supporter_id"/>-->
-<!--                <field name="supporter_department_id"/>-->
-<!--            </xpath>-->
+            <xpath expr="//field[@name='team_id']" position="after">
+                <field name="supporter_id"/>
+                <field name="supporter_department_id"/>
+            </xpath>
 
             <xpath expr="//notebook//group[@name='sale']" position="attributes">
                 <attribute name="string">Nhân viên phụ trách</attribute>
