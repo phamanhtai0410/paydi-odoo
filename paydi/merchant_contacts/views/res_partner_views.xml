@@ -106,18 +106,13 @@
             </xpath>
 
             <xpath expr="//page[@name='sales_purchases']//field[@name='user_id']" position="after">
-                <field name="team_id" invisible="1"/>
+                <field name="team_id" string="Đội ngũ điều phối viên"/>
                 <field name="supporter_id"/>
                 <field name="supporter_department_id"/>
             </xpath>
 
             <xpath expr="//*[@name='user_id']" position="attributes">
                 <attribute name="string">Điều phối viên phụ trách</attribute>
-            </xpath>
-
-            <xpath expr="//*[@name='team_id']" position="attributes">
-                <attribute name="string">Đội ngũ điều phối viên</attribute>
-                <attribute name="invisible">0</attribute>
             </xpath>
 
             <xpath expr="//notebook//group[@name='sale']" position="attributes">
