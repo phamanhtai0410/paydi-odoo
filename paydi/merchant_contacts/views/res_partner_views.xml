@@ -107,6 +107,8 @@
 
             <xpath expr="//field[@name='user_id']" position="after">
                 <field name="team_id" invisible="1"/>
+                <field name="supporter_id"/>
+                <field name="supporter_department_id"/>
             </xpath>
 
             <xpath expr="//*[@name='user_id']" position="attributes">
