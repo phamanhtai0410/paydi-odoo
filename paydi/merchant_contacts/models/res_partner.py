@@ -22,3 +22,38 @@ class ResPartner(models.Model):
 
     # mid = fields.One2many('mms.mid', 'partner_id',  string='Mã mid'2)
     service_ids = fields.One2many('merchant.service', 'partner_id', string="Dịch vụ khác")
+
+    def _get_city_code(self):
+        for record in self:
+            if record.city:
+                record.city_code = self.env['vn.location'].search([('code', '=', record.city_code)], limit=1)
+
+    def _set_city_code(self):
+        for record in self:
+            if record.city_code:
+                record.city = record.city_code.code
+
+    city_id = fields.Many2one('vn.location', string="Tỉnh/TP", domain=[('parent_id', '=', False)])
+
+    district_id = fields.Many2one('vn.location', string="Quận/Huyện")
+
+    ward_id = fields.Many2one('vn.location', string="Phường/xã")
+
+    @api.onchange('city_id')
+    def onchange_city_id(self):
+        if self.city_id and self.district_id and self.city_id.id != self.district_id.parent_id.id:
+            self.district_id = None
+            self.ward_id = None
+
+    @api.onchange('district_id')
+    def onchange_district_id(self):
+        if self.district_id and self.ward_id and self.district_id.id != self.ward_id.parent_id.id:
+            self.ward_id = None
+
+    supporter_id = fields.Many2one('hr.employee',
+                                   check_company=True,
+                                   string="Nhân viên kinh doanh"
+                                   )
+    supporter_department_id = fields.Many2one('hr.department',
+                                              string="Đội ngũ bán hàng",
+                                              related='supporter_id.department_id')

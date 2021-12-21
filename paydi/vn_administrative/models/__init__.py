@@ -8,5 +8,4 @@
         -
         -
 """
-
-from . import models
+from . import vn_location
