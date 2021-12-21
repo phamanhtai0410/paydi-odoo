@@ -50,18 +50,20 @@ class AccountPosMachines(models.Model):
     def send_backend(self):
         self.ensure_one()
         secret_key = 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
-        user_id = self.partner_id.user_id
+        supporter_id = self.supporter_id
         contact_seller = {
             'phone': '',
             'email': '',
+            'name': '',
             'company': self.partner_id.company_id.name,
             'mms_user_id': 0
         }
 
-        if user_id and user_id.partner_id:
-            contact_seller['phone'] = user_id.partner_id.phone or ''
-            contact_seller['email'] = user_id.partner_id.email or ''
-            contact_seller['mms_user_id'] = user_id.id
+        if supporter_id:
+            contact_seller['phone'] = supporter_id.mobile_phone or ''
+            contact_seller['email'] = supporter_id.work_email or ''
+            contact_seller['name'] = supporter_id.name or ''
+            contact_seller['mms_user_id'] = supporter_id.id
 
         value = {
             "serial_number": self.lot_id.name,
