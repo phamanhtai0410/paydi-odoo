@@ -29,7 +29,7 @@ function openTab(evt, tabName) {
 
 //////////////////////////////////////////////
 
-scrollToPager = () => {
+scrollToPager = (tabName) => {
     var y = $(window).scrollTop();
     $('html, body').animate({
         scrollTop: y + $('#transactions_table').height()
@@ -64,7 +64,7 @@ scrollToPreAuthPager = () => {
 function format ( d ) {
     if (JSON.stringify(d.extract) !== JSON.stringify({})) {
         // `d` is the original data object for the row
-        return '<table class="table table-responsive-sm text-left" cellpadding="5" cellspacing="5" border="0" style="padding-left:50px;">'+
+        return '<table class="table table-bordered table-responsive-sm text-left" cellpadding="5" cellspacing="5" border="0" style="padding-left:50px;">'+
             '<tr>'+
                 '<td>Batch No.:</td>'+
                 '<td>'+d.extract.batch_no+'</td>'+
@@ -98,7 +98,7 @@ function format ( d ) {
 }
 
 function error_format ( d ) {
-    return '<table class="text-left table table-responsive-sm" cellpadding="5" cellspacing="4" border="0" style="padding-left:50px;">'+
+    return '<table class="text-left table table-bordered table-responsive-sm" cellpadding="5" cellspacing="4" border="1" style="padding-left:50px;">'+
         '<tr>'+
             '<td>Card Holder:</td>'+
             '<td>'+d.card_holder+'</td>'+
@@ -146,7 +146,7 @@ function error_format ( d ) {
 
 
 function card_format ( d ) {
-    return '<table class="text-left table table-responsive-sm" cellpadding="5" cellspacing="4" border="0" style="padding-left:50px;">'+
+    return '<table class="text-left table table-bordered table-responsive-sm" cellpadding="5" cellspacing="4" border="1" style="padding-left:50px;">'+
     '<tr>'+
         '<td>Card Holder:</td>'+
         '<td>'+d.card_holder+'</td>'+
@@ -193,31 +193,143 @@ function card_format ( d ) {
         '<td></td>'+
         '<td></td>'+
         '<td>ISO response code:</td>'+
-        '<td class="badge badge-info mt-1">'+d.iso_response_code+'</td>'+
+        '<td class="badge badge-info mt-1 ml-2">'+d.iso_response_code+'</td>'+
     '</tr>'+
 '</table>';
 }
 
 function pre_auth_format ( d ) {
     if (d.has_voided) {
-        return 
+        return '<table class="text-left table table-bordered table-responsive-sm" cellpadding="5" cellspacing="4" border="1" style="padding-left:50px;">'+
+        '<tr>'+
+            '<td>Card Holder:</td>'+
+            '<td>'+d.void_data.card_holder+'</td>'+
+            '<td>Batch No:</td>'+
+            '<td>'+d.void_data.batch_no+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Card number:</td>'+
+            '<td>'+d.void_data.card_number+'</td>'+
+            '<td>Request card type:</td>'+
+            '<td>'+d.req_card_type+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Expiration Date:</td>'+
+            '<td>'+d.void_data.exp_date+'</td>'+
+            '<td>Trace No:</td>'+
+            '<td>'+d.void_data.trace_no+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Card Type:</td>'+
+            '<td>'+d.void_data.card_type+'</td>'+
+            '<td>Request transactions type:</td>'+
+            '<td>'+d.void_data.req_tranx_type+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Swipe type:</td>'+
+            '<td>'+d.void_data.swipe_type+'</td>'+
+            '<td>Request transaction amount:</td>'+
+            '<td>'+d.void_data.total_amount+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Currency:</td>'+
+            '<td>'+d.void_data.currency+'</td>'+
+            '<td>Request time:</td>'+
+            '<td>'+d.void_data.trans_date_time+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Code:</td>'+
+            '<td>'+d.void_data.code+'</td>'+
+            '<td>Request merchant transactions Id :</td>'+
+            '<td>'+d.void_data.req_merchant_trans_id+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Description:</td>'+
+            '<td>'+d.void_data.desc+'</td>'+
+            '<td>ISO response code:</td>'+
+            '<td class="badge badge-info mt-1 ml-2">'+d.void_data.iso_response_code+'</td>'+
+        '</tr>'+
+    '</table>';
+    } else {
+        return '<table class="text-left table table-bordered table-responsive-sm" cellpadding="5" cellspacing="4" border="1" style="padding-left:50px;">'+
+        '<tr>'+
+            '<td>Card Holder:</td>'+
+            '<td>'+d.card_holder+'</td>'+
+            '<td>Batch No:</td>'+
+            '<td>'+d.batch_no+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Card number:</td>'+
+            '<td>'+d.card_number+'</td>'+
+            '<td>Request card type:</td>'+
+            '<td>'+d.req_card_type+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Expiration Date:</td>'+
+            '<td>'+d.exp_date+'</td>'+
+            '<td>Trace No:</td>'+
+            '<td>'+d.void_data?.trace_no+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Card Type:</td>'+
+            '<td>'+d.card_type+'</td>'+
+            '<td>Request transactions type:</td>'+
+            '<td>'+d.req_tranx_type+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Swipe type:</td>'+
+            '<td>'+d.swipe_type+'</td>'+
+            '<td>Request transaction amount:</td>'+
+            '<td>'+d.total_amount+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Currency:</td>'+
+            '<td>'+d.currency+'</td>'+
+            '<td>Request tip amount:</td>'+
+            '<td>'+d.req_tip_amount+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Code:</td>'+
+            '<td>'+d.code+'</td>'+
+            '<td>Request merchant transactions Id :</td>'+
+            '<td>'+d.req_merchant_trans_id+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Description:</td>'+
+            '<td>'+d.desc+'</td>'+
+            '<td>ISO response code:</td>'+
+            '<td class="badge badge-info mt-1 ml-2">'+d.iso_response_code+'</td>'+
+        '</tr>'+
+    '</table>';
     }
 }
 //////////////////////////////////////////////////////////////////
 
 
 async function getNewTransactions(){
-    const response = await fetch('/report/transactions/data/transactions/');
+    const response = await fetch('/report/transactions/data/transactions?offset=0&limit=1');
     const res = await response.json();
     let transactions = res.data;
-    // console.log('Data send to DataTable = ', transactions);
     $('#loadingLabel1').hide();
-
-    // console.log( $('#transactions_table'))
-    // asd
     var table = $('#transactions_table').DataTable({
-        data: transactions,
+        // dom: "Bfrtip",
+        paging: true,
+        processing: true,
+        serverSide: true,
         bLengthChange: true,
+        ajax: {
+            url: '/report/transactions/data/transactions',
+            type: 'GET',
+            dataFilter: function (data) {
+                
+                var json = jQuery.parseJSON(data);
+                json.recordsTotal = json.total;
+                json.recordsFiltered  = json.total;
+                json.data = json.data;
+                console.log(JSON.stringify(json))
+                return JSON.stringify(json);
+            },
+        },
         columns: [
             {
                 "className":      'dt-control',
@@ -235,7 +347,7 @@ async function getNewTransactions(){
             {
                 targets: [2],
                 "render": function ( data, type, row, meta ) {
-                    var table = $('#transactions_table').dataTable().api();
+                    // var table = $('#transactions_table').dataTable().api();
                     if (type === 'display') {
                         var node = table.cell(meta.row, meta.col).nodes().to$();
                         if ( data === 'Success' ) {
@@ -252,7 +364,7 @@ async function getNewTransactions(){
             {
                 targets: [1],
                 "render": function ( data, type, row, meta ) {
-                    var table = $('#transactions_table').dataTable().api();
+                    // var table = $('#transactions_table').dataTable().api();
                     if (type === 'display') {
                         var row = table.row(meta.row).nodes().to$();
                         if ( data === 'By Card' ) {
@@ -267,9 +379,10 @@ async function getNewTransactions(){
         ],
         "order": [[5, 'desc']]
     });
-
+    
     // Add event listener for opening and closing details
     $('#transactions_table tbody').on('click', 'td.dt-control', function () {
+        // var table = $('#transactions_table').dataTable().api();
         var tr = $(this).closest('tr');
         var row = table.row( tr );
         if ( row.child.isShown() ) {
@@ -282,12 +395,13 @@ async function getNewTransactions(){
             row.child( format(row.data()) ).show();
             tr.addClass('shown');
         }
-    } );     
+    } );
+         
 };
 
 
 async function getNewErrorTransactions(){
-    const response = await fetch('/report/transactions/data/error_transactions/');
+    const response = await fetch('/report/transactions/data/error_transactions?offset=0&limit=1');
     const res = await response.json();
     let transactions = res.data;
     // console.log('Data send to DataTable = ', transactions);
@@ -296,7 +410,22 @@ async function getNewErrorTransactions(){
     // console.log( $('#transactions_table'))
     // asd
     var table = $('#error_transactions_table').DataTable({
-        data: transactions,
+        processing: true,
+        serverSide: true,
+        paging: true,
+        ajax: {
+            url: '/report/transactions/data/error_transactions',
+            type: 'GET',
+            dataFilter: function (data) {
+                
+                var json = jQuery.parseJSON(data);
+                json.recordsTotal = json.total;
+                json.recordsFiltered  = json.total;
+                json.data = json.data;
+                console.log(JSON.stringify(json))
+                return JSON.stringify(json);
+            },
+        },
         bLengthChange: true,
         columns: [
             {
@@ -333,7 +462,7 @@ async function getNewErrorTransactions(){
 
 
 async function getNewCardTransactions(){
-    const response = await fetch('/report/transactions/data/card_transactions/');
+    const response = await fetch('/report/transactions/data/card_transactions?offset=0&limit=1');
     const res = await response.json();
     let transactions = res.data;
     // console.log('Data send to DataTable = ', transactions);
@@ -342,7 +471,21 @@ async function getNewCardTransactions(){
     // console.log( $('#transactions_table'))
     // asd
     var table = $('#card_transactions_table').DataTable({
-        data: transactions,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '/report/transactions/data/card_transactions',
+            type: 'GET',
+            dataFilter: function (data) {
+                
+                var json = jQuery.parseJSON(data);
+                json.recordsTotal = json.total;
+                json.recordsFiltered  = json.total;
+                json.data = json.data;
+                console.log(JSON.stringify(json))
+                return JSON.stringify(json);
+            },
+        },
         bLengthChange: true,
         columns: [
             {
@@ -385,7 +528,7 @@ async function getNewCardTransactions(){
 };
 
 async function getNewPreAuthTransactions(){
-    const response = await fetch('/report/transactions/data/pre_auth_transactions/');
+    const response = await fetch('/report/transactions/data/pre_auth_transactions?offset=0&limit=1');
     const res = await response.json();
     let transactions = res.data;
     // console.log('Data send to DataTable = ', transactions);
@@ -394,7 +537,21 @@ async function getNewPreAuthTransactions(){
     // console.log( $('#transactions_table'))
     // asd
     var table = $('#pre_auth_transactions_table').DataTable({
-        data: transactions,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '/report/transactions/data/pre_auth_transactions',
+            type: 'GET',
+            dataFilter: function (data) {
+                
+                var json = jQuery.parseJSON(data);
+                json.recordsTotal = json.total;
+                json.recordsFiltered  = json.total;
+                json.data = json.data;
+                console.log(JSON.stringify(json))
+                return JSON.stringify(json);
+            },
+        },
         bLengthChange: true,
         columns: [
             {
@@ -413,13 +570,13 @@ async function getNewPreAuthTransactions(){
             {
                 targets: [2],
                 "render": function ( data, type, row, meta ) {
-                    var table = $('#pre_auth_transactions_table').dataTable().api();
+                    // var table = $('#pre_auth_transactions_table').dataTable().api();
                     if (type === 'display') {
                         var node = table.cell(meta.row, meta.col).nodes().to$();
                         if ( data === true ) {
-                            node.addClass('badge badge-success mt-1');
+                            node.addClass('badge badge-success mt-1 ml-2');
                         } else {
-                            node.addClass('badge badge-danger mt-1');
+                            node.addClass('badge badge-danger mt-1 ml-2');
                         }
                     }
                     return data;

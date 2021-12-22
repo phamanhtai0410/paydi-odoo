@@ -63,9 +63,9 @@ class TransactionController(http.Controller):
         ###############################################################
         #                           Transactions
         ###############################################################
-        
+        # print('get Transactions kw = ', kw)
         responseGetListTransactions = requests.get(
-            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/transactions?offset=0&limit=20', 
+            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/transactions?offset={}&limit={}'.format(kw.get('start'), kw.get('length')), 
             headers={}
         ) 
         transactions = responseGetListTransactions.json().get('data').get('transactions')
@@ -88,8 +88,11 @@ class TransactionController(http.Controller):
         # --------------------------------------------------------
         
         return  json.dumps({
+            'draw': kw.get('draw'),
             'data': transactions,
             'total': total,
+            'start': kw.get('start'),
+            'length': kw.get('length')
         })
 
 
@@ -105,7 +108,7 @@ class TransactionController(http.Controller):
         ###############################################################
         
         responseGetListErrorTransactions = requests.get(
-            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/error_transactions?offset=0&limit=20',
+            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/error_transactions?offset={}&limit={}'.format(kw.get('start'), kw.get('length')),
             headers={}
         )
         error_transactions = responseGetListErrorTransactions.json().get('data').get('transactions')
@@ -137,8 +140,11 @@ class TransactionController(http.Controller):
         # --------------------------------------------------------
         
         return  json.dumps({
+            'draw': kw.get('draw'),
             'data': error_transactions,
-            'total': error_total
+            'total': error_total,
+            'start': kw.get('start'),
+            'length': kw.get('length')
         })
 
 
@@ -153,7 +159,7 @@ class TransactionController(http.Controller):
         ###############################################################
         
         responseGetListCardTransactions = requests.get(
-            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/card_transactions?offset=0&limit=20',
+            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/card_transactions?offset={}&limit={}'.format(kw.get('start'), kw.get('length')),
             headers={}
         )
         card_transactions = responseGetListCardTransactions.json().get('data').get('transactions')
@@ -198,8 +204,11 @@ class TransactionController(http.Controller):
         # --------------------------------------------------------
         
         return  json.dumps({
+            'draw': kw.get('draw'),
             'data': card_transactions,
-            'total': card_total
+            'total': card_total,
+            'start': kw.get('start'),
+            'length': kw.get('length')
         })
 
 
@@ -215,7 +224,7 @@ class TransactionController(http.Controller):
         ###############################################################
         
         responseGetListPreAuthTransactions = requests.get(
-            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/pre_auth_transactions',
+            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/pre_auth_transactions?offset={}&limit={}'.format(kw.get('start'), kw.get('length')),
             headers={}
         )
         pre_auth_transactions = responseGetListPreAuthTransactions.json().get('data').get('transactions')
@@ -245,14 +254,14 @@ class TransactionController(http.Controller):
                 "req_card_type": transaction.get("req_card_type"),
                 "req_currency_name": transaction.get("req_currency_name"),
                 "req_merchant_trans_id": transaction.get("req_merchant_trans_id"),
-                "req_tip_amount": '{:,.2f}'.format(transaction.get("req_tip_amount")),
-                "req_transaction_amount": '{:,.2f}'.format(transaction.get("req_transaction_amount")),
+                "req_tip_amount": '{:,.2f}'.format(transaction.get('req_tip_amount')) if isinstance(transaction.get('req_tip_amount'), float) else '',
+                "req_transaction_amount": '{:,.2f}'.format(transaction.get("req_transaction_amount")) if isinstance(transaction.get('req_transaction_amount'), float) else '',
                 "req_tranx_type": transaction.get("accoureq_tranx_typent_id"),
                 "section_no": transaction.get("section_no"),
                 "swipe_type": transaction.get("swipe_type"),
                 "terminal_id": transaction.get("terminal_id"),
-                "total_amount": '{:,.2f}'.format(transaction.get("total_amount")),
-                "trace_no": transaction.get("trace_no"),
+                "total_amount": '{:,.2f}'.format(transaction.get("total_amount")) if isinstance(transaction.get('total_amount'), float) else '',
+                "trace_no": transaction.get("trace_no", ""),
                 "trans_date_time": datetime.fromtimestamp(transaction.get('trans_date_time')).strftime("%d/%m/%Y, %H:%M:%S") if isinstance(transaction.get('trans_date_time'), int) else transaction.get('trans_date_time'),
                 "tranx_type": transaction.get("tranx_type"),
                 "void_data": transaction.get("void_data"),
@@ -264,8 +273,11 @@ class TransactionController(http.Controller):
         # --------------------------------------------------------
         
         return  json.dumps({
+            'draw': kw.get('draw'),
             'data': pre_auth_transactions,
-            'total': pre_auth_total
+            'total': pre_auth_total,
+            'start': kw.get('start'),
+            'length': kw.get('length')
         })
 
 

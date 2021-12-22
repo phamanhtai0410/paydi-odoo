@@ -52,3 +52,50 @@
   }
   
   .topright:hover {color: red;}
+
+.scroll {
+	width: 30px;
+	height: 30px;
+	border: 2px solid #333;
+	border-radius: 50%;
+	position: relative;
+	animation: down 1.5s infinite;
+	-webkit-animation: down 1.5s infinite;
+	
+}
+
+.scroll::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 9px;
+    width: 9px;
+    height: 9px;
+    border-left: 2px solid #333;
+  border-bottom: 2px solid #333;
+    transform: rotate(-45deg);
+}
+
+@keyframes down {
+	0% {
+		transform: translate(0);
+	}
+	20% {
+		transform: translateY(8px);
+	}
+	40% {
+		transform: translate(0);
+	}
+}
+
+@-webkit-keyframes down {
+	0% {
+		transform: translate(0);
+	}
+	20% {
+		transform: translateY(8px);
+	}
+	40% {
+		transform: translate(0);
+	}
+}

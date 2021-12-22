@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- <template id="assets_frontend" inherit_id="website.assets_frontend">
+        <xpath expr="script[last()]" position="after">
+            <script type="text/javascript" src="/report/static/js/openTabTransactions.js"></script>
+        </xpath>
+    </template> -->
     <template id="list_transactions_page" name="Transactions">
         <t t-set="head">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" ></script>
@@ -26,32 +31,37 @@
                     <button class="tablinks" onclick="openTab(event, 'card_transactions')">Card Transactions</button>
                     <button class="tablinks" onclick="openTab(event, 'pre_auth_transactions')">Pre-Auth Transactions</button>
                 </div>
+               
                 <!-- Tab content -->
-                <div id="transactions" class="tabcontent">
+                <div id="transactions" class="tabcontent">   
                     <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/>
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
-                    <button onclick="scrollToPager()">Scroll Down</button>
-                    <table class="table text-center table-responsive-lg" id="transactions_table"></table>
+                    <!-- <button onclick="scrollToPager()">Scroll Down</button> -->
+                    <div class="scroll" onclick="scrollToPager()"></div>
+                    <table class="display text-center" id="transactions_table" style="width=100%"></table>
                     <div id="loadingLabel1">Loading...</div>
                 </div>
 
                 <div id="error_transactions" class="tabcontent">
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
-                    <button onclick="scrollToErrorPager()">Scroll Down</button>
+                    <!-- <button onclick="scrollToErrorPager()">Scroll Down</button> -->
+                    <div class="scroll" onclick="scrollToErrorPager()"></div>
                     <table class="table text-center table-responsive-sm" id="error_transactions_table" style="width: 100%"></table> 
                     <div id="loadingLabel2">Loading...</div> 
                 </div>
 
                 <div id="card_transactions" class="tabcontent">
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
-                    <button onclick="scrollToCardPager()">Scroll Down</button>
+                    <!-- <button onclick="scrollToCardPager()">Scroll Down</button> -->
+                     <div class="scroll" onclick="scrollToCardPager()"></div>
                     <table class="table text-center table-responsive-sm" id="card_transactions_table" style="width: 100%"></table> 
                     <div id="loadingLabel3">Loading...</div>  
                 </div>
 
                 <div id="pre_auth_transactions" class="tabcontent">
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
-                    <button onclick="scrollToPreAuthPager()">Scroll Down</button>
+                    <!-- <button onclick="scrollToPreAuthPager()">Scroll Down</button> -->
+                    <div class="scroll" onclick="scrollToPreAuthPager()"></div>
                     <table class="table text-center table-responsive-sm" id="pre_auth_transactions_table" style="width: 100%"></table>
                     <div id="loadingLabel4">Loading...</div>  
                 </div>
