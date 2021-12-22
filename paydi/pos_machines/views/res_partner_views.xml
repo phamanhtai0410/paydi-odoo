@@ -10,7 +10,12 @@
 
             <xpath expr="//field[@name='name']" position="after">
                 <br/>
-                <field name="ref_view"/>
+                <label for="ref_view" string="Mã MID"/>
+                <field name="ref_view" placeholder="Nhập mã"/>
+            </xpath>
+
+            <xpath expr="//field[@name='parent_id']" position="before">
+                <label for="parent_id" string="Trực thuộc công ty"/>
             </xpath>
 
             <xpath expr="//notebook" position="inside">

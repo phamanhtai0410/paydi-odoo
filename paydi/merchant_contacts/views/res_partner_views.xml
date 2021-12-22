@@ -57,6 +57,45 @@
                        attrs="{'invisible': [('is_company','=', False)], 'required': [('obj_type','=', 'merchant')]}"/>
             </xpath>
 
+            <xpath expr="//field[@name='country_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='state_id']" position="before">
+                <field name="city_id" class="mr-2" placeholder="Tỉnh/TP"/>
+            </xpath>
+
+
+            <xpath expr="//field[@name='city']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='city']" position="before">
+                <field name="district_id"
+                       class="mr-2"
+                       placeholder="Quận/Huyện/TP"
+                       attrs="{'readonly': [('city_id','=', False)]}"
+                       domain="[('parent_id', '=', city_id)]"/>
+            </xpath>
+
+            <xpath expr="//field[@name='street2']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='street2']" position="before">
+                <field name="ward_id"
+                       class="mr-2"
+                       placeholder="Phường/Xã"
+                       attrs="{'readonly': [('district_id','=', False)]}"
+                       domain="[('parent_id', '=', district_id)]"/>
+            </xpath>
+
+            <xpath expr="//field[@name='acc_holder_name']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+
             <xpath expr="//notebook" position="inside">
                 <page string="Dịch vụ khác"
                       name="other_service">
@@ -65,6 +104,21 @@
                     </group>
                 </page>
             </xpath>
+
+            <xpath expr="//page[@name='sales_purchases']//field[@name='user_id']" position="after">
+                <field name="team_id" string="Đội ngũ điều phối viên"/>
+                <field name="supporter_id"/>
+                <field name="supporter_department_id"/>
+            </xpath>
+
+            <xpath expr="//*[@name='user_id']" position="attributes">
+                <attribute name="string">Điều phối viên phụ trách</attribute>
+            </xpath>
+
+            <xpath expr="//notebook//group[@name='sale']" position="attributes">
+                <attribute name="string">Nhân viên phụ trách</attribute>
+            </xpath>
+
         </field>
     </record>
 
@@ -82,6 +136,24 @@
         <field name="act_window_id" ref="action_res_merchants_contacts"/>
     </record>
 
+    <record id="res_bank_view_tree" model="ir.ui.view">
+        <field name="name">res.banks.tree</field>
+        <field name="model">res.bank</field>
+        <field name="arch" type="xml">
+            <tree string="Ngân hàng">
+                <field name="name"/>
+                <field name="bic"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--    <record id="action_bank_menu" model="ir.actions.act_window.view">-->
+    <!--        <field name="sequence" eval="1"/>-->
+    <!--        <field name="view_mode">tree</field>-->
+    <!--        <field name="view_id" ref="res_bank_view_tree"/>-->
+    <!--        <field name="act_window_id" ref="action_res_merchants_contacts"/>-->
+    <!--    </record>-->
+
     <record id="action_res_merchants_contacts_view_form" model="ir.actions.act_window.view">
         <field name="sequence" eval="2"/>
         <field name="view_mode">form</field>
@@ -96,5 +168,23 @@
               action="action_res_merchants_contacts"
               groups="base.group_system"
               sequence="2"/>
+
+    <record id="res_bank_act_window" model="ir.actions.act_window">
+        <field name="name">Banks</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.bank</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Dữ liệu
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="res_banks_menu"
+              name="Quản lý banks"
+              action="res_bank_act_window"
+              groups="base.group_system"
+              sequence="3"/>
 
 </odoo>

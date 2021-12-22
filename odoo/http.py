@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-#----------------------------------------------------------
+# ----------------------------------------------------------
 # OpenERP HTTP layer
-#----------------------------------------------------------
+# ----------------------------------------------------------
 import ast
 import collections
 import contextlib
@@ -37,6 +37,7 @@ import werkzeug.routing
 import werkzeug.wrappers
 from werkzeug import urls
 from werkzeug.wsgi import wrap_file
+
 try:
     from werkzeug.middleware.shared_data import SharedDataMiddleware
 except ImportError:
@@ -86,15 +87,16 @@ babel.core.LOCALE_ALIASES['nb'] = 'nb_NO'
 """
 ALLOWED_DEBUG_MODES = ['', '1', 'assets', 'tests']
 
-#----------------------------------------------------------
+# ----------------------------------------------------------
 # RequestHandler
-#----------------------------------------------------------
+# ----------------------------------------------------------
 # Thread local global request object
 _request_stack = werkzeug.local.LocalStack()
 request = _request_stack()
 """
     A global proxy that always redirect to the current request object.
 """
+
 
 def replace_request_password(args):
     # password is always 3rd argument in a request, we replace it in RPC logs
@@ -128,7 +130,8 @@ def dispatch_rpc(service_name, method, params):
             if psutil:
                 start_memory = memory_info(psutil.Process(os.getpid()))
             if rpc_request and rpc_response_flag:
-                odoo.netsvc.log(rpc_request, logging.DEBUG, '%s.%s' % (service_name, method), replace_request_password(params))
+                odoo.netsvc.log(rpc_request, logging.DEBUG, '%s.%s' % (service_name, method),
+                                replace_request_password(params))
 
         threading.current_thread().uid = None
         threading.current_thread().dbname = None
@@ -145,7 +148,9 @@ def dispatch_rpc(service_name, method, params):
             end_memory = 0
             if psutil:
                 end_memory = memory_info(psutil.Process(os.getpid()))
-            logline = '%s.%s time:%.3fs mem: %sk -> %sk (diff: %sk)' % (service_name, method, end_time - start_time, start_memory / 1024, end_memory / 1024, (end_memory - start_memory)/1024)
+            logline = '%s.%s time:%.3fs mem: %sk -> %sk (diff: %sk)' % (
+            service_name, method, end_time - start_time, start_memory / 1024, end_memory / 1024,
+            (end_memory - start_memory) / 1024)
             if rpc_response_flag:
                 odoo.netsvc.log(rpc_response, logging.DEBUG, logline, result)
             else:
@@ -159,6 +164,7 @@ def dispatch_rpc(service_name, method, params):
         odoo.tools.debugger.post_mortem(odoo.tools.config, sys.exc_info())
         raise
 
+
 def local_redirect(path, query=None, keep_hash=False, code=303):
     # FIXME: drop the `keep_hash` param, now useless
     url = path
@@ -168,12 +174,14 @@ def local_redirect(path, query=None, keep_hash=False, code=303):
         url += '?' + urls.url_encode(query)
     return werkzeug.utils.redirect(url, code)
 
+
 def redirect_with_hash(url, code=303):
     # Section 7.1.2 of RFC 7231 requires preservation of URL fragment through redirects,
     # so we don't need any special handling anymore. This function could be dropped in the future.
     # seealso : http://www.rfc-editor.org/info/rfc7231
     #           https://tools.ietf.org/html/rfc7231#section-7.1.2
     return werkzeug.utils.redirect(url, code)
+
 
 class WebRequest(object):
     """ Parent class for all Odoo Web request types, mostly deals with
@@ -194,6 +202,7 @@ class WebRequest(object):
         useful as they're provided directly to the handler method as keyword
         arguments
     """
+
     def __init__(self, httprequest):
         self.httprequest = httprequest
         self.httpresponse = None
@@ -289,8 +298,8 @@ class WebRequest(object):
 
     def set_handler(self, endpoint, arguments, auth):
         # is this needed ?
-        arguments ={k: v for k, v in arguments.items()
-                         if not k.startswith("_ignored_")}
+        arguments = {k: v for k, v in arguments.items()
+                     if not k.startswith("_ignored_")}
         self.endpoint_arguments = arguments
         self.endpoint = endpoint
         self.auth_method = auth
@@ -429,6 +438,7 @@ class WebRequest(object):
         hm_expected = hmac.new(secret.encode('ascii'), msg.encode('utf-8'), hashlib.sha1).hexdigest()
         return consteq(hm, hm_expected)
 
+
 def route(route=None, **kw):
     """Decorator marking the decorated method as being a handler for
     requests. The method must be part of a subclass of ``Controller``.
@@ -507,6 +517,7 @@ def route(route=None, **kw):
     """
     routing = kw.copy()
     assert 'type' not in routing or routing['type'] in ("http", "json")
+
     def decorator(f):
         if route:
             if isinstance(route, list):
@@ -527,7 +538,8 @@ def route(route=None, **kw):
                 fargs = {p.name for p in params if is_keyword_compatible(p)}
                 ignored = ['<%s=%s>' % (k, kw.pop(k)) for k in list(kw) if k not in fargs]
                 if ignored:
-                    _logger.info("<function %s.%s> called ignoring args %s" % (f.__module__, f.__name__, ', '.join(ignored)))
+                    _logger.info(
+                        "<function %s.%s> called ignoring args %s" % (f.__module__, f.__name__, ', '.join(ignored)))
 
             response = f(*args, **kw)
             if isinstance(response, Response) or f.routing_type == 'json':
@@ -543,12 +555,16 @@ def route(route=None, **kw):
                 response.set_default()
                 return response
 
-            _logger.warning("<function %s.%s> returns an invalid response type for an http request" % (f.__module__, f.__name__))
+            _logger.warning(
+                "<function %s.%s> returns an invalid response type for an http request" % (f.__module__, f.__name__))
             return response
+
         response_wrap.routing = routing
         response_wrap.original_func = f
         return response_wrap
+
     return decorator
+
 
 class JsonRequest(WebRequest):
     """ Request handler for `JSON-RPC 2
@@ -615,10 +631,12 @@ class JsonRequest(WebRequest):
         self.context = self.params.pop('context', dict(self.session.context))
 
     def _json_response(self, result=None, error=None):
+        if isinstance(result, Response):
+            return result
         response = {
             'jsonrpc': '2.0',
             'id': self.jsonrequest.get('id')
-            }
+        }
         if error is not None:
             response['error'] = error
         if result is not None:
@@ -679,7 +697,7 @@ class JsonRequest(WebRequest):
                 start_memory = memory_info(psutil.Process(os.getpid()))
             if rpc_request and rpc_response_flag:
                 rpc_request.debug('%s: %s %s, %s',
-                    endpoint, model, method, pprint.pformat(args))
+                                  endpoint, model, method, pprint.pformat(args))
 
         result = self._call_function(**self.params)
 
@@ -689,7 +707,8 @@ class JsonRequest(WebRequest):
             if psutil:
                 end_memory = memory_info(psutil.Process(os.getpid()))
             logline = '%s: %s %s: time:%.3fs mem: %sk -> %sk (diff: %sk)' % (
-                endpoint, model, method, end_time - start_time, start_memory / 1024, end_memory / 1024, (end_memory - start_memory)/1024)
+                endpoint, model, method, end_time - start_time, start_memory / 1024, end_memory / 1024,
+                (end_memory - start_memory) / 1024)
             if rpc_response_flag:
                 rpc_response.debug('%s, %s', logline, pprint.pformat(result))
             else:
@@ -771,12 +790,12 @@ class HttpRequest(WebRequest):
             return Response(status=200, headers=headers)
 
         if request.httprequest.method not in ('GET', 'HEAD', 'OPTIONS', 'TRACE') \
-                and request.endpoint.routing.get('csrf', True): # csrf checked by default
+                and request.endpoint.routing.get('csrf', True):  # csrf checked by default
             token = self.params.pop('csrf_token', None)
             if not self.validate_csrf(token):
                 if token is not None:
                     _logger.warning("CSRF validation failed on path '%s'",
-                                 request.httprequest.path)
+                                    request.httprequest.path)
                 else:
                     _logger.warning("""No CSRF validation token provided for path '%s'
 
@@ -854,11 +873,13 @@ more details.
         """
         return werkzeug.exceptions.NotFound(description)
 
-#----------------------------------------------------------
+
+# ----------------------------------------------------------
 # Controller and route registration
-#----------------------------------------------------------
+# ----------------------------------------------------------
 addons_manifest = {}
 controllers_per_module = collections.defaultdict(list)
+
 
 class ControllerType(type):
     def __init__(cls, name, bases, attrs):
@@ -870,11 +891,13 @@ class ControllerType(type):
                 # Set routing type on original functions
                 routing_type = v.routing.get('type')
                 parent = [claz for claz in bases if isinstance(claz, ControllerType) and hasattr(claz, k)]
-                parent_routing_type = getattr(parent[0], k).original_func.routing_type if parent else routing_type or 'http'
+                parent_routing_type = getattr(parent[0],
+                                              k).original_func.routing_type if parent else routing_type or 'http'
                 if routing_type is not None and routing_type is not parent_routing_type:
                     routing_type = parent_routing_type
                     _logger.warning("Subclass re-defines <function %s.%s.%s> with different type than original."
-                                    " Will use original type: %r" % (cls.__module__, cls.__name__, k, parent_routing_type))
+                                    " Will use original type: %r" % (
+                                    cls.__module__, cls.__name__, k, parent_routing_type))
                 v.original_func.routing_type = routing_type or parent_routing_type
 
                 sign = inspect.signature(v.original_func)
@@ -895,7 +918,9 @@ class ControllerType(type):
             return
         controllers_per_module[module].append(name_class)
 
+
 Controller = ControllerType('Controller', (object,), {})
+
 
 class EndPoint(object):
     def __init__(self, method, routing):
@@ -917,6 +942,7 @@ def _generate_routing_rules(modules, nodb_only, converters=None):
     def get_subclasses(klass):
         def valid(c):
             return c.__module__.startswith('odoo.addons.') and c.__module__.split(".")[2] in modules
+
         subclasses = klass.__subclasses__()
         result = []
         for subclass in subclasses:
@@ -955,14 +981,16 @@ def _generate_routing_rules(modules, nodb_only, converters=None):
                             yield (url, endpoint, routing)
 
 
-#----------------------------------------------------------
+# ----------------------------------------------------------
 # HTTP Sessions
-#----------------------------------------------------------
+# ----------------------------------------------------------
 class AuthenticationError(Exception):
     pass
 
+
 class SessionExpiredException(Exception):
     pass
+
 
 class OpenERPSession(sessions.Session):
     def __init__(self, *args, **kwargs):
@@ -976,6 +1004,7 @@ class OpenERPSession(sessions.Session):
 
     def __getattr__(self, attr):
         return self.get(attr, None)
+
     def __setattr__(self, k, v):
         if getattr(self, "inited", False):
             try:
@@ -1164,7 +1193,7 @@ class OpenERPSession(sessions.Session):
 def session_gc(session_store):
     if random.random() < 0.001:
         # we keep session one week
-        last_week = time.time() - 60*60*24*7
+        last_week = time.time() - 60 * 60 * 24 * 7
         for fname in os.listdir(session_store.path):
             path = os.path.join(session_store.path, fname)
             try:
@@ -1173,6 +1202,7 @@ def session_gc(session_store):
             except OSError:
                 pass
 
+
 ODOO_DISABLE_SESSION_GC = str2bool(os.environ.get('ODOO_DISABLE_SESSION_GC', '0'))
 
 if ODOO_DISABLE_SESSION_GC:
@@ -1180,16 +1210,16 @@ if ODOO_DISABLE_SESSION_GC:
     # calling it out of setup_session()
     session_gc = lambda s: None
 
-
-#----------------------------------------------------------
+# ----------------------------------------------------------
 # WSGI Layer
-#----------------------------------------------------------
+# ----------------------------------------------------------
 # Add potentially missing (older ubuntu) font mime types
 mimetypes.add_type('application/font-woff', '.woff')
 mimetypes.add_type('application/vnd.ms-fontobject', '.eot')
 mimetypes.add_type('application/x-font-ttf', '.ttf')
 # Add potentially missing (detected on windows) svg mime types
 mimetypes.add_type('image/svg+xml', '.svg')
+
 
 class Response(werkzeug.wrappers.Response):
     """ Response object passed through controller route chain.
@@ -1210,6 +1240,7 @@ class Response(werkzeug.wrappers.Response):
     :class:`werkzeug.wrappers.Response`.
     """
     default_mimetype = 'text/html'
+
     def __init__(self, *args, **kw):
         template = kw.pop('template', None)
         qcontext = kw.pop('qcontext', None)
@@ -1251,6 +1282,7 @@ class Response(werkzeug.wrappers.Response):
             self.response.append(self.render())
             self.template = None
 
+
 class DisableCacheMiddleware(object):
     def __init__(self, app):
         self.app = app
@@ -1269,11 +1301,14 @@ class DisableCacheMiddleware(object):
                 start_response(status, new_headers)
             else:
                 start_response(status, headers)
+
         return self.app(environ, start_wrapped)
+
 
 class Root(object):
     """Root WSGI application for the OpenERP Web Client.
     """
+
     def __init__(self):
         self._loaded = False
 
@@ -1339,7 +1374,7 @@ class Root(object):
         sid = httprequest.args.get('session_id')
         explicit_session = True
         if not sid:
-            sid =  httprequest.headers.get("X-Openerp-Session-Id")
+            sid = httprequest.headers.get("X-Openerp-Session-Id")
         if not sid:
             sid = httprequest.cookies.get('session_id')
             explicit_session = False
@@ -1355,7 +1390,7 @@ class Root(object):
         if db:
             if db not in db_filter([db], httprequest=httprequest):
                 _logger.warning("Logged into database '%s', but dbfilter "
-                             "rejects it; logging session out.", db)
+                                "rejects it; logging session out.", db)
                 httprequest.session.logout()
                 db = None
 
@@ -1491,9 +1526,11 @@ class Root(object):
             return self.nodb_routing_map
         return request.registry['ir.http'].routing_map()
 
+
 def db_list(force=False, httprequest=None):
     dbs = odoo.service.db.list_dbs(force)
     return db_filter(dbs, httprequest=httprequest)
+
 
 def db_filter(dbs, httprequest=None):
     httprequest = httprequest or request.httprequest
@@ -1511,6 +1548,7 @@ def db_filter(dbs, httprequest=None):
         exposed_dbs = set(db.strip() for db in odoo.tools.config['db_name'].split(','))
         dbs = sorted(exposed_dbs.intersection(dbs))
     return dbs
+
 
 def db_monodb(httprequest=None):
     """
@@ -1536,6 +1574,7 @@ def db_monodb(httprequest=None):
     if len(dbs) == 1:
         return dbs[0]
     return None
+
 
 def send_file(filepath_or_fp, mimetype=None, as_attachment=False, filename=None, mtime=None,
               add_etags=True, cache_timeout=STATIC_CACHE, conditional=True):
@@ -1601,7 +1640,7 @@ def send_file(filepath_or_fp, mimetype=None, as_attachment=False, filename=None,
 
     data = wrap_file(request.httprequest.environ, file)
     rv = Response(data, mimetype=mimetype, headers=headers,
-                                    direct_passthrough=True)
+                  direct_passthrough=True)
 
     if isinstance(mtime, str):
         try:
@@ -1633,6 +1672,7 @@ def send_file(filepath_or_fp, mimetype=None, as_attachment=False, filename=None,
             if rv.status_code == 304:
                 rv.headers.pop('x-sendfile', None)
     return rv
+
 
 def content_disposition(filename):
     filename = odoo.tools.ustr(filename)

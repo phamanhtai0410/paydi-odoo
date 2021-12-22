@@ -11,6 +11,7 @@
                         <group>
                             <field name="bank"/>
                             <field name="card_type"/>
+                            <field name="fee"/>
                             <field name="from_date"/>
                             <field name="active"/>
                         </group>
@@ -26,6 +27,7 @@
                 <tree>
                     <field name="bank"/>
                     <field name="card_type"/>
+                    <field name="fee"/>
                     <field name="from_date"/>
                     <field name="industry_id"/>
                     <field name="active"/>
