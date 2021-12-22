@@ -37,7 +37,7 @@
                     <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/>
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
                     <!-- <button onclick="scrollToPager()">Scroll Down</button> -->
-                    <div class="scroll" onclick="scrollToPager()"></div>
+                    <div class="scroll" onclick="scrollToPagerOf(this)"></div>
                     <table class="display text-center" id="transactions_table" style="width=100%"></table>
                     <div id="loadingLabel1">Loading...</div>
                 </div>
@@ -45,24 +45,24 @@
                 <div id="error_transactions" class="tabcontent">
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
                     <!-- <button onclick="scrollToErrorPager()">Scroll Down</button> -->
-                    <div class="scroll" onclick="scrollToErrorPager()"></div>
-                    <table class="table text-center table-responsive-sm" id="error_transactions_table" style="width: 100%"></table> 
+                    <div class="scroll" onclick="scrollToPagerOf(this)"></div>
+                    <table class="display text-center" id="error_transactions_table" style="width: 100%"></table> 
                     <div id="loadingLabel2">Loading...</div> 
                 </div>
 
                 <div id="card_transactions" class="tabcontent">
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
                     <!-- <button onclick="scrollToCardPager()">Scroll Down</button> -->
-                     <div class="scroll" onclick="scrollToCardPager()"></div>
-                    <table class="table text-center table-responsive-sm" id="card_transactions_table" style="width: 100%"></table> 
+                     <div class="scroll" onclick="scrollToPagerOf(this)"></div>
+                    <table class="display text-center" id="card_transactions_table" style="width: 100%"></table> 
                     <div id="loadingLabel3">Loading...</div>  
                 </div>
 
                 <div id="pre_auth_transactions" class="tabcontent">
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
                     <!-- <button onclick="scrollToPreAuthPager()">Scroll Down</button> -->
-                    <div class="scroll" onclick="scrollToPreAuthPager()"></div>
-                    <table class="table text-center table-responsive-sm" id="pre_auth_transactions_table" style="width: 100%"></table>
+                    <div class="scroll" onclick="scrollToPagerOf(this)"></div>
+                    <table class="display text-center" id="pre_auth_transactions_table" style="width: 100%"></table>
                     <div id="loadingLabel4">Loading...</div>  
                 </div>
             </div>

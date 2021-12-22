@@ -71,6 +71,7 @@ class TransactionController(http.Controller):
         transactions = responseGetListTransactions.json().get('data').get('transactions')
         transactions = [
             {
+                '_id': transaction.get('_id'),
                 'pos_id': transaction.get('pos_id'),
                 'obj_type': TRANSACTION_TYPE.get(transaction.get('obj_type')),
                 'status': TRANSACTION_STATUS.get(transaction.get('status')) if transaction.get('status') == 'success' or transaction.get('status') == 'pending' else 'Failed',
@@ -230,6 +231,7 @@ class TransactionController(http.Controller):
         pre_auth_transactions = responseGetListPreAuthTransactions.json().get('data').get('transactions')
         pre_auth_transactions = [ 
             {
+                "_id": transaction.get('_id'),
                 "account_id": transaction.get("account_id"),
                 "app_ver": transaction.get("app_ver", ""),
                 "approve_code": transaction.get("approve_code", ""),

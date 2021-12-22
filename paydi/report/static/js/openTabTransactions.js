@@ -28,32 +28,11 @@ function openTab(evt, tabName) {
 }
 
 //////////////////////////////////////////////
-
-scrollToPager = (tabName) => {
+scrollToPagerOf = (ele) => {
+    var tabId = ele.nextSibling.nextElementSibling.childNodes[3].id;
     var y = $(window).scrollTop();
     $('html, body').animate({
-        scrollTop: y + $('#transactions_table').height()
-    })
-}
-
-scrollToErrorPager = () => {
-    var y = $(window).scrollTop();
-    $('html, body').animate({
-        scrollTop: y + $('#error_transactions_table').height()
-    })
-}
-
-scrollToCardPager = () => {
-    var y = $(window).scrollTop();
-    $('html, body').animate({
-        scrollTop: y + $('#card_transactions_table').height()
-    })
-}
-
-scrollToPreAuthPager = () => {
-    var y = $(window).scrollTop();
-    $('html, body').animate({
-        scrollTop: y + $('#pre_auth_transactions_table').height()
+        scrollTop: y + $(`#${tabId}`).height()
     })
 }
 
@@ -64,26 +43,26 @@ scrollToPreAuthPager = () => {
 function format ( d ) {
     if (JSON.stringify(d.extract) !== JSON.stringify({})) {
         // `d` is the original data object for the row
-        return '<table class="table table-bordered table-responsive-sm text-left" cellpadding="5" cellspacing="5" border="0" style="padding-left:50px;">'+
+        return '<table class="table table-bordered table-responsive-sm text-left" cellpadding="5" cellspacing="5" border="0" style="padding-left:20%;">'+
             '<tr>'+
-                '<td>Batch No.:</td>'+
-                '<td>'+d.extract.batch_no+'</td>'+
+                '<td class="col-2">Batch No.:</td>'+
+                '<td class="col-5">'+d.extract.batch_no+'</td>'+
             '</tr>'+
             '<tr>'+
-                '<td>Card number:</td>'+
-                '<td>'+d.extract.card_number+'</td>'+
+                '<td class="col-2">Card number:</td>'+
+                '<td class="col-5">'+d.extract.card_number+'</td>'+
             '</tr>'+
             '<tr>'+
-                '<td>Card type:</td>'+
-                '<td>'+d.extract.card_type+'</td>'+
+                '<td class="col-2">Card type:</td>'+
+                '<td class="col-5">'+d.extract.card_type+'</td>'+
             '</tr>'+
             '<tr>'+
-                '<td>Code:</td>'+
-                '<td>'+d.extract.code+'</td>'+
+                '<td class="col-2">Code:</td>'+
+                '<td class="col-5">'+d.extract.code+'</td>'+
             '</tr>'+
             '<tr>'+
-                '<td>Swipe type:</td>'+
-                '<td>'+d.extract.swipe_type+'</td>'+
+                '<td class="col-2">Swipe type:</td>'+
+                '<td class="col-5">'+d.extract.swipe_type+'</td>'+
             '</tr>'+
         '</table>';
     } else {
@@ -313,7 +292,6 @@ async function getNewTransactions(){
     $('#loadingLabel1').hide();
     var table = $('#transactions_table').DataTable({
         // dom: "Bfrtip",
-        paging: true,
         processing: true,
         serverSide: true,
         bLengthChange: true,
@@ -326,7 +304,7 @@ async function getNewTransactions(){
                 json.recordsTotal = json.total;
                 json.recordsFiltered  = json.total;
                 json.data = json.data;
-                console.log(JSON.stringify(json))
+                // console.log(JSON.stringify(json))
                 return JSON.stringify(json);
             },
         },
@@ -337,6 +315,7 @@ async function getNewTransactions(){
                 "data":           null,
                 "defaultContent": ''
             },
+            { data: '_id', title: 'Transaction Id' },
             { data: 'obj_type', title: 'Type' },
             { data: 'status', title: 'Status' },
             { data: 'total_amount', title: 'Total Amount' },
@@ -345,7 +324,7 @@ async function getNewTransactions(){
         ],
         columnDefs: [
             {
-                targets: [2],
+                targets: [3],
                 "render": function ( data, type, row, meta ) {
                     // var table = $('#transactions_table').dataTable().api();
                     if (type === 'display') {
@@ -362,7 +341,7 @@ async function getNewTransactions(){
                 }
             },
             {
-                targets: [1],
+                targets: [2],
                 "render": function ( data, type, row, meta ) {
                     // var table = $('#transactions_table').dataTable().api();
                     if (type === 'display') {
@@ -377,7 +356,7 @@ async function getNewTransactions(){
                 }
             }
         ],
-        "order": [[5, 'desc']]
+        "order": [[6, 'desc']]
     });
     
     // Add event listener for opening and closing details
@@ -422,7 +401,7 @@ async function getNewErrorTransactions(){
                 json.recordsTotal = json.total;
                 json.recordsFiltered  = json.total;
                 json.data = json.data;
-                console.log(JSON.stringify(json))
+                // console.log(JSON.stringify(json))
                 return JSON.stringify(json);
             },
         },
@@ -482,7 +461,7 @@ async function getNewCardTransactions(){
                 json.recordsTotal = json.total;
                 json.recordsFiltered  = json.total;
                 json.data = json.data;
-                console.log(JSON.stringify(json))
+                // console.log(JSON.stringify(json))
                 return JSON.stringify(json);
             },
         },
@@ -548,7 +527,7 @@ async function getNewPreAuthTransactions(){
                 json.recordsTotal = json.total;
                 json.recordsFiltered  = json.total;
                 json.data = json.data;
-                console.log(JSON.stringify(json))
+                // console.log(JSON.stringify(json))
                 return JSON.stringify(json);
             },
         },
@@ -560,6 +539,7 @@ async function getNewPreAuthTransactions(){
                 "data":           null,
                 "defaultContent": ''
             },
+            { data: '_id', title: 'Transaction Id' },
             { data: 'invoice_no', title: 'Invoice No.' },
             { data: 'has_voided', title: 'Has Voided' },
             { data: 'req_card_type', title: 'Request card type' },
@@ -568,7 +548,7 @@ async function getNewPreAuthTransactions(){
         ],
         columnDefs: [
             {
-                targets: [2],
+                targets: [3],
                 "render": function ( data, type, row, meta ) {
                     // var table = $('#pre_auth_transactions_table').dataTable().api();
                     if (type === 'display') {
