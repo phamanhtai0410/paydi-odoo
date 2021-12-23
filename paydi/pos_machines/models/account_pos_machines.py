@@ -4,7 +4,7 @@ import json
 
 import requests
 
-from odoo import fields, models, api
+from odoo import fields, models, api, tools
 
 
 def sha512(data, secret_key):
@@ -49,7 +49,9 @@ class AccountPosMachines(models.Model):
 
     def send_backend(self):
         self.ensure_one()
-        secret_key = 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
+        secret_key = tools.config['mms_secret_key'] #'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
+        api_domain = tools.config['api_domain']
+        api_key = tools.config['mms_api_key']
         supporter_id = self.supporter_id
         contact_seller = {
             'phone': '',
@@ -96,7 +98,7 @@ class AccountPosMachines(models.Model):
         headers = {
             'Content-Type': 'application/json'
         }
-        url = "https://paydi-staging.rinznetwork.com/v1/auth/iapi/pos/gen_account?api_key=api_key_12563698"
+        url = f"{api_domain}/v1/auth/iapi/pos/gen_account?api_key={api_key}"
 
         payload = json.dumps({
             **value,
