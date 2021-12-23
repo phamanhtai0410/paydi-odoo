@@ -52,7 +52,7 @@ class AccountPosMachines(models.Model):
         secret_key = tools.config['mms_secret_key'] #'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
         api_domain = tools.config['api_domain']
         api_key = tools.config['mms_api_key']
-        supporter_id = self.supporter_id
+        supporter_id = self.partner_id.supporter_id
         contact_seller = {
             'phone': '',
             'email': '',
