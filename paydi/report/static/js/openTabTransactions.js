@@ -294,7 +294,8 @@ async function getNewTransactions(){
         // dom: "Bfrtip",
         processing: true,
         serverSide: true,
-        bLengthChange: true,
+        info: false,
+        // bLengthChange: false,
         ajax: {
             url: '/report/transactions/data/transactions',
             type: 'GET',
@@ -310,7 +311,7 @@ async function getNewTransactions(){
         },
         columns: [
             {
-                "className":      'dt-control',
+                "className":      'dt-control ',
                 "orderable":      false,
                 "data":           null,
                 "defaultContent": ''
@@ -324,7 +325,7 @@ async function getNewTransactions(){
                 if(type === 'display' && data !== -1){
                     data = '<a href="/web#id=' + data + '&model=res.partner">Merchant #' + data + '</a>';
                 } else if (data === -1) {
-                    data = 'Invalid contact Id'
+                    data = '<p><em class="text-muted">&rarr; Invalid Id &larr;</em></p>'
                 }
 
                 return data;
@@ -404,6 +405,7 @@ async function getNewErrorTransactions(){
         processing: true,
         serverSide: true,
         paging: true,
+        info: false,
         ajax: {
             url: '/report/transactions/data/error_transactions',
             type: 'GET',
@@ -464,6 +466,7 @@ async function getNewCardTransactions(){
     var table = $('#card_transactions_table').DataTable({
         processing: true,
         serverSide: true,
+        info: false,
         ajax: {
             url: '/report/transactions/data/card_transactions',
             type: 'GET',
@@ -530,6 +533,7 @@ async function getNewPreAuthTransactions(){
     var table = $('#pre_auth_transactions_table').DataTable({
         processing: true,
         serverSide: true,
+        info: false,
         ajax: {
             url: '/report/transactions/data/pre_auth_transactions',
             type: 'GET',
