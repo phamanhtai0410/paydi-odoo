@@ -319,8 +319,20 @@ async function getNewTransactions(){
             { data: 'obj_type', title: 'Type' },
             { data: 'status', title: 'Status' },
             { data: 'total_amount', title: 'Total Amount' },
+            { data: 'contact', title: 'To Owner Contact Profile',
+              render: function( data, type, row, meta ) {
+                if(type === 'display' && data !== -1){
+                    data = '<a href="/web#id=' + data + '&model=res.partner">Merchant #' + data + '</a>';
+                } else if (data === -1) {
+                    data = 'Invalid contact Id'
+                }
+
+                return data;
+              }
+            },
             { data: 'error_msg', title: 'Error Message' },
-            { data: 'created_time', title: 'Created Time' }
+            { data: 'created_time', title: 'Created Time' },
+            
         ],
         columnDefs: [
             {
@@ -356,7 +368,7 @@ async function getNewTransactions(){
                 }
             }
         ],
-        "order": [[6, 'desc']]
+        "order": [[7, 'desc']]
     });
     
     // Add event listener for opening and closing details
@@ -582,12 +594,17 @@ async function getNewPreAuthTransactions(){
     } );     
 };
 //////////////////////////////////////////////////////////////////
+$( document ).ready(function() {
+    console.log( "ready!" );
+    document.getElementById("defaultOpen").click();
+    getNewTransactions();
+    getNewErrorTransactions();
+    getNewCardTransactions();
+    getNewPreAuthTransactions();
 
-document.getElementById("defaultOpen").click();
-getNewTransactions();
-getNewErrorTransactions();
-getNewCardTransactions();
-getNewPreAuthTransactions();
+});
+
+
 
 
 

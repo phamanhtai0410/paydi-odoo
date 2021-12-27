@@ -1,8 +1,9 @@
 
 from logging import error
 from sys import path_hooks
-from odoo import http
+# from odoo import http
 from odoo.http import request
+import odoo.http as http
 import requests
 import json
 from datetime import datetime
@@ -64,11 +65,26 @@ class TransactionController(http.Controller):
         #                           Transactions
         ###############################################################
         # print('get Transactions kw = ', kw)
+        print('----------- -----------')
+        print('DataTables List Transactions opitons : ', kw)
+        search_value = kw.get('search[value]')
         responseGetListTransactions = requests.get(
-            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/transactions?offset={}&limit={}'.format(kw.get('start'), kw.get('length')), 
+            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/transactions?offset={}&limit={}&search={}'.format(kw.get('start'), kw.get('length'), kw.get('search[value]')), 
             headers={}
         ) 
         transactions = responseGetListTransactions.json().get('data').get('transactions')
+        
+        def get_company_id_of_tranx(odoo_contact_id: str):
+            contact = http.request.env['res.partner'].sudo().search([('id', '=', odoo_contact_id)]).read()
+            if len(contact):  
+                return contact[0].get('company_id')
+            else:
+                return None
+            
+        def check_odoo_contact_id(odoo_contact_id: str):
+            contact = http.request.env['res.partner'].sudo().search([('id', '=', odoo_contact_id)]).read()
+            return len(contact)
+        
         transactions = [
             {
                 '_id': transaction.get('_id'),
@@ -78,7 +94,9 @@ class TransactionController(http.Controller):
                 'total_amount': '{:,.2f}'.format(transaction.get('total_amount')) + ' VNĐ',
                 'error_msg': transaction.get('error_msg'),
                 'created_time': datetime.fromtimestamp(transaction.get('created_time')).strftime("%d/%m/%Y, %H:%M:%S"),
-                'extract': transaction.get('extract')
+                'extract': transaction.get('extract'),
+                'contact': transaction.get('odoo_contact_id') if check_odoo_contact_id(transaction.get('odoo_contact_id')) else -1,
+                'company_id': get_company_id_of_tranx(transaction.get('odoo_contact_id'))
             }
             for transaction in transactions
         ]
@@ -291,7 +309,7 @@ class TransactionController(http.Controller):
     def get_list_customer_report(self, page=0, **post):
 
         responseGetTotalReports = requests.get(
-            DefaultConfig.url_prefix + '/v1/support/report/get_list_for_admin?limit={}&offset={}'.format(10, 0), 
+            DefaultConfig.url_prefix + '/v1/data-odoo/report/get_list_for_admin?limit={}&offset={}'.format(10, 0), 
             headers={}
         )
         
@@ -309,7 +327,7 @@ class TransactionController(http.Controller):
         offset = pager['offset']
 
         responseGetListReport = requests.get(
-            DefaultConfig.url_prefix + '/v1/support/report/get_list_for_admin?limit={}&offset={}'.format(limit, offset), 
+            DefaultConfig.url_prefix + '/v1/data-odoo/report/get_list_for_admin?limit={}&offset={}'.format(limit, offset), 
             headers={}
         )
 

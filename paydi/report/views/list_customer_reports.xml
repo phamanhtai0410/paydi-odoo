@@ -38,7 +38,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-set="i" t-value="1"/>
+                            <t t-set="i" t-value="from_index"/>
                             <tr t-foreach='reports' t-as='report'>
                                 <td> <span t-esc="i"/> </td>
                                 <t t-set="i" t-value="i+1"/>

@@ -16,8 +16,10 @@
             <link rel="stylesheet" type="text/css" href="/report/static/css/list_transactions.css"/>
             <!-- JS -->
             <script type="text/javascript">
+            
                 
             </script>
+            <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/>
             <!-- <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/> -->
 
         </t>
@@ -34,7 +36,7 @@
                
                 <!-- Tab content -->
                 <div id="transactions" class="tabcontent">   
-                    <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/>
+                    
                     <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
                     <!-- <button onclick="scrollToPager()">Scroll Down</button> -->
                     <div class="scroll" onclick="scrollToPagerOf(this)"></div>
