@@ -36,7 +36,7 @@
     <menuitem name="Quản lý báo cáo từ máy POS"
               id="menu_report"
               action="action_report"
-              active="False"
+              active="True"
               web_icon="report,static/images/icon.png"
               sequence="10"/>
 

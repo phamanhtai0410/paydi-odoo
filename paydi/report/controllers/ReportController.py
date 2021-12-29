@@ -96,7 +96,8 @@ class TransactionController(http.Controller):
                 'created_time': datetime.fromtimestamp(transaction.get('created_time')).strftime("%d/%m/%Y, %H:%M:%S"),
                 'extract': transaction.get('extract'),
                 'contact': transaction.get('odoo_contact_id') if check_odoo_contact_id(transaction.get('odoo_contact_id')) else -1,
-                'company_id': get_company_id_of_tranx(transaction.get('odoo_contact_id'))
+                'company_id': get_company_id_of_tranx(transaction.get('odoo_contact_id')),
+                'has_voided': transaction.get('has_voided')
             }
             for transaction in transactions
         ]

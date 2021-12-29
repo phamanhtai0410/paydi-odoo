@@ -36,6 +36,35 @@ scrollToPagerOf = (ele) => {
     })
 }
 
+
+/////////////////////////////////////////////
+
+$( document ).ready(function() {
+    //Get the button:
+    mybutton = document.getElementById("myBtn");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+    } else {
+        mybutton.style.display = "none";
+    }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+
+});
+
+
+
+
 //////////////////////////////////////////////
 //              FORMATER                    //
 //////////////////////////////////////////////
@@ -43,10 +72,10 @@ scrollToPagerOf = (ele) => {
 function format ( d ) {
     if (JSON.stringify(d.extract) !== JSON.stringify({})) {
         // `d` is the original data object for the row
-        return '<table class="table table-bordered table-responsive-sm text-left" cellpadding="5" cellspacing="5" border="0" style="padding-left:20%;">'+
+        return '<table class="table table-bordered table-responsive-sm text-left d-flex " cellpadding="5" cellspacing="5" border="0" style="width: 50%">'+
             '<tr>'+
-                '<td class="col-2">Batch No.:</td>'+
-                '<td class="col-5">'+d.extract.batch_no+'</td>'+
+                '<td class="col-2">Has Voided:</td>'+
+                '<td class="col-5">'+ (d.has_voided ? '<div class="badge badge-success">': '<div class="badge badge-danger">') +d.has_voided+'</div></td>'+
             '</tr>'+
             '<tr>'+
                 '<td class="col-2">Card number:</td>'+
@@ -54,15 +83,31 @@ function format ( d ) {
             '</tr>'+
             '<tr>'+
                 '<td class="col-2">Card type:</td>'+
-                '<td class="col-5">'+d.extract.card_type+'</td>'+
+                '<td class="col-5">'+ (d.extract.card_type == 1 ? 'Thẻ quốc tế (không phải MasterCard)' : d.extract.card_type == 2 ? 'Thẻ nội địa' : d.extract.card_type == 3 ? 'Thẻ MasterCard' : 'Loại thẻ không xác định' ) +'</td>'+
             '</tr>'+
             '<tr>'+
                 '<td class="col-2">Code:</td>'+
-                '<td class="col-5">'+d.extract.code+'</td>'+
+                '<td class="col-5"><div class="badge badge-info">'+d.extract.code+'</div></td>'+
             '</tr>'+
             '<tr>'+
-                '<td class="col-2">Swipe type:</td>'+
-                '<td class="col-5">'+d.extract.swipe_type+'</td>'+
+                '<td class="col-2">Invoice No.:</td>'+
+                '<td class="col-5">'+d.extract.invoice_no+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td class="col-2">Trace No.:</td>'+
+                '<td class="col-5">'+d.extract.trace_no+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td class="col-2">Section No.:</td>'+
+                '<td class="col-5">'+d.extract.section_no+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td class="col-2">Ref No.:</td>'+
+                '<td class="col-5">'+d.extract.ref_no+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td class="col-2">Transaction Type:</td>'+
+                '<td class="col-5">'+d.extract.tranx_type+'</td>'+
             '</tr>'+
         '</table>';
     } else {
@@ -291,11 +336,10 @@ async function getNewTransactions(){
     let transactions = res.data;
     $('#loadingLabel1').hide();
     var table = $('#transactions_table').DataTable({
-        // dom: "Bfrtip",
         processing: true,
         serverSide: true,
         info: false,
-        // bLengthChange: false,
+        bLengthChange: true,
         ajax: {
             url: '/report/transactions/data/transactions',
             type: 'GET',
@@ -558,7 +602,7 @@ async function getNewPreAuthTransactions(){
             { data: '_id', title: 'Transaction Id' },
             { data: 'invoice_no', title: 'Invoice No.' },
             { data: 'has_voided', title: 'Has Voided' },
-            { data: 'req_card_type', title: 'Request card type' },
+            // { data: 'req_card_type', title: 'Request card type' },
             { data: 'section_no', title: 'Section No.' },
             
         ],
@@ -578,7 +622,8 @@ async function getNewPreAuthTransactions(){
                     return data;
                 }
             },
-        ]
+        ],
+        "order": [[1, 'desc']]
     });
 
     // Add event listener for opening and closing details

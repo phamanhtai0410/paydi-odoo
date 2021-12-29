@@ -20,7 +20,6 @@
                 
             </script>
             <!-- <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/> -->
-            <!-- <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/> -->
 
         </t>
         <t t-call="website.layout">
@@ -33,19 +32,20 @@
                     <button class="tablinks" onclick="openTab(event, 'card_transactions')">Card Transactions</button>
                     <button class="tablinks" onclick="openTab(event, 'pre_auth_transactions')">Pre-Auth Transactions</button>
                 </div>
-               
+               <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/>
                 <!-- Tab content -->
                 <div id="transactions" class="tabcontent">   
-                    <script type="text/javascript" src="/report/static/js/openTabTransactions.js"/>
-                    <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
+                    
+                    <span onclick="this.parentElement.style.display='none'" class="topright">&#128473;</span>
                     <!-- <button onclick="scrollToPager()">Scroll Down</button> -->
                     <div class="scroll" onclick="scrollToPagerOf(this)"></div>
                     <table class="display text-center" id="transactions_table" style="width=100%"></table>
                     <div id="loadingLabel1">Loading...</div>
+                    
                 </div>
 
                 <div id="error_transactions" class="tabcontent">
-                    <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
+                    <span onclick="this.parentElement.style.display='none'" class="topright">&#128473;</span>
                     <!-- <button onclick="scrollToErrorPager()">Scroll Down</button> -->
                     <div class="scroll" onclick="scrollToPagerOf(this)"></div>
                     <table class="display text-center" id="error_transactions_table" style="width: 100%"></table> 
@@ -53,7 +53,7 @@
                 </div>
 
                 <div id="card_transactions" class="tabcontent">
-                    <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
+                    <span onclick="this.parentElement.style.display='none'" class="topright">&#128473;</span>
                     <!-- <button onclick="scrollToCardPager()">Scroll Down</button> -->
                      <div class="scroll" onclick="scrollToPagerOf(this)"></div>
                     <table class="display text-center" id="card_transactions_table" style="width: 100%"></table> 
@@ -61,12 +61,16 @@
                 </div>
 
                 <div id="pre_auth_transactions" class="tabcontent">
-                    <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
+                    <span onclick="this.parentElement.style.display='none'" class="topright">&#128473;</span>
                     <!-- <button onclick="scrollToPreAuthPager()">Scroll Down</button> -->
                     <div class="scroll" onclick="scrollToPagerOf(this)"></div>
                     <table class="display text-center" id="pre_auth_transactions_table" style="width: 100%"></table>
                     <div id="loadingLabel4">Loading...</div>  
                 </div>
+                <div>
+                    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+                </div>
+                
             </div>
         </t>
     </template>
