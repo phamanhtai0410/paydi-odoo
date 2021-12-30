@@ -37,30 +37,6 @@ scrollToPagerOf = (ele) => {
 }
 
 
-/////////////////////////////////////////////
-
-$( document ).ready(function() {
-    //Get the button:
-    mybutton = document.getElementById("myBtn");
-
-    // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function() {scrollFunction()};
-
-    function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        mybutton.style.display = "block";
-    } else {
-        mybutton.style.display = "none";
-    }
-    }
-
-    // When the user clicks on the button, scroll to the top of the document
-    function topFunction() {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    }
-
-});
 
 
 
@@ -72,7 +48,7 @@ $( document ).ready(function() {
 function format ( d ) {
     if (JSON.stringify(d.extract) !== JSON.stringify({})) {
         // `d` is the original data object for the row
-        return '<table class="table table-bordered table-responsive-sm text-left d-flex " cellpadding="5" cellspacing="5" border="0" style="width: 50%">'+
+        return '<table class="table table-bordered table-responsive-sm text-left w-50" cellpadding="5" cellspacing="5" border="0">'+
             '<tr>'+
                 '<td class="col-2">Has Voided:</td>'+
                 '<td class="col-5">'+ (d.has_voided ? '<div class="badge badge-success">': '<div class="badge badge-danger">') +d.has_voided+'</div></td>'+
@@ -410,12 +386,20 @@ async function getNewTransactions(){
                         }
                     }
                     return data;
-                }
+                },
             }
         ],
         "order": [[7, 'desc']]
     });
-    
+
+    table.columns().eq(0).each(function (colIdx) {
+        $('input', table.column(colIdx).footer()).on('keyup change', function () {
+            table
+                .column(colIdx)
+                .search(this.value)
+                .draw();
+        });
+    });
     // Add event listener for opening and closing details
     $('#transactions_table tbody').on('click', 'td.dt-control', function () {
         // var table = $('#transactions_table').dataTable().api();
@@ -650,6 +634,14 @@ $( document ).ready(function() {
     getNewErrorTransactions();
     getNewCardTransactions();
     getNewPreAuthTransactions();
+
+    // mybutton = document.getElementById("myBtn");
+    // function topFunction() {
+    //     var y = $(window).scrollTop();
+    //     $('html, body').animate({
+    //         scrollTop: y
+    //     });
+    // }
 
 });
 

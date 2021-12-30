@@ -7,12 +7,13 @@ import odoo.http as http
 import requests
 import json
 from datetime import datetime
-from ..enums.customer_reports import CARD_TYPES, CUSTOMER_REPORT_TYPES, CUSTOMER_REPORT_OID, TRANSACTION_TYPE
+from ..enums.customer_reports import CARD_TYPES, CUSTOMER_REPORT_TYPES, CUSTOMER_REPORT_OID
 from ..enums.transactions import TRANSACTION_TYPE, TRANSACTION_STATUS
 from config import DefaultConfig
 import boto3
 import uuid
 from botocore.exceptions import ClientError
+import re
 # common header
 
 
@@ -67,10 +68,56 @@ class TransactionController(http.Controller):
         # print('get Transactions kw = ', kw)
         print('----------- -----------')
         print('DataTables List Transactions opitons : ', kw)
+        
         search_value = kw.get('search[value]')
+        id_search_value = kw.get('columns[1][search][value]')
+        type_search_value = kw.get('columns[2][search][value]')
+        status_search_value = kw.get('columns[3][search][value]')
+        created_time_search_value = kw.get('columns[7][search][value]')
+        
+        print('search_value : ', search_value)
+        print('id_search_value : ', id_search_value)
+        print('created_time_search_value : ', created_time_search_value)
+        print('type_search_value : ', type_search_value)
+        print('status_search_value : ', status_search_value)
+        
+        for key, val in TRANSACTION_TYPE.items():
+            if type_search_value:
+                if not re.search(type_search_value.lower(), val.lower()):
+                    return json.dumps({
+                        'draw': kw.get('draw'),
+                        'data': {},
+                        'total': 0,
+                        'start': kw.get('start'),
+                        'length': kw.get('length')
+                    })
+                else:
+                    type_search_value = key
+                    break
+            
+            
+        for key, val in TRANSACTION_STATUS.items():
+            if status_search_value:
+                if not re.search(status_search_value.lower(), val.lower()):
+                    return json.dumps({
+                        'draw': kw.get('draw'),
+                        'data': {},
+                        'total': 0,
+                        'start': kw.get('start'),
+                        'length': kw.get('length')
+                    })
+                else:
+                    status_search_value = key
+                    break
+        
+              
         responseGetListTransactions = requests.get(
-            DefaultConfig.url_prefix + '/v1/data-odoo/transactions_statistic/transactions?offset={}&limit={}&search={}'.format(kw.get('start'), kw.get('length'), kw.get('search[value]')), 
-            headers={}
+            DefaultConfig.url_prefix + 
+            '/v1/data-odoo/transactions_statistic/transactions?offset={}&limit={}&search={}&search_type={}&search_status={}'
+            .format(kw.get('start'), kw.get('length'), search_value, type_search_value, status_search_value), 
+            headers={
+                
+            }
         ) 
         transactions = responseGetListTransactions.json().get('data').get('transactions')
         

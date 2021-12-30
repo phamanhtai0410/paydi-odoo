@@ -5,11 +5,7 @@ CARD_TYPES = [
     "Thẻ MasterCard"
 ]
 
-TRANSACTION_TYPE = {
-    'card': 'By Card',
-    'cash': 'By Cash',
-    'qr_code': 'By QR Code'
-}
+
 # Customer Reports
 CUSTOMER_REPORT_TYPES = {
     'app_error': 'App Errors',

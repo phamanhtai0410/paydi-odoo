@@ -9,3 +9,10 @@ TRANSACTION_STATUS = {
     'pending': 'Pending',
     'failed': 'Failed'
 }
+
+
+TRANSACTION_TYPE = {
+    'card': 'By Card',
+    'cash': 'By Cash',
+    'qr_code': 'By QR Code'
+}
