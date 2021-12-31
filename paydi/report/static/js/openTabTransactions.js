@@ -304,18 +304,15 @@ function pre_auth_format ( d ) {
     }
 }
 //////////////////////////////////////////////////////////////////
-
-
-async function getNewTransactions(){
-    const response = await fetch('/report/transactions/data/transactions?offset=0&limit=1');
-    const res = await response.json();
-    let transactions = res.data;
+function getNewTransactions(){
     $('#loadingLabel1').hide();
     var table = $('#transactions_table').DataTable({
         processing: true,
         serverSide: true,
         info: false,
         bLengthChange: true,
+        paging: true,
+        dom: 'lrtp',
         ajax: {
             url: '/report/transactions/data/transactions',
             type: 'GET',
@@ -420,11 +417,7 @@ async function getNewTransactions(){
 };
 
 
-async function getNewErrorTransactions(){
-    const response = await fetch('/report/transactions/data/error_transactions?offset=0&limit=1');
-    const res = await response.json();
-    let transactions = res.data;
-    // console.log('Data send to DataTable = ', transactions);
+function getNewErrorTransactions(){
     $('#loadingLabel2').hide();
 
     // console.log( $('#transactions_table'))
@@ -434,6 +427,7 @@ async function getNewErrorTransactions(){
         serverSide: true,
         paging: true,
         info: false,
+        dom: 'lrtp',
         ajax: {
             url: '/report/transactions/data/error_transactions',
             type: 'GET',
@@ -464,6 +458,14 @@ async function getNewErrorTransactions(){
         "order": [[5, 'desc']]
     });
 
+    table.columns().eq(0).each(function (colIdx) {
+        $('input', table.column(colIdx).footer()).on('keyup change', function () {
+            table
+                .column(colIdx)
+                .search(this.value)
+                .draw();
+        });
+    });
     // Add event listener for opening and closing details
     $('#error_transactions_table tbody').on('click', 'td.dt-control', function () {
         var tr = $(this).closest('tr');
@@ -482,11 +484,7 @@ async function getNewErrorTransactions(){
 };
 
 
-async function getNewCardTransactions(){
-    const response = await fetch('/report/transactions/data/card_transactions?offset=0&limit=1');
-    const res = await response.json();
-    let transactions = res.data;
-    // console.log('Data send to DataTable = ', transactions);
+function getNewCardTransactions(){
     $('#loadingLabel3').hide();
 
     // console.log( $('#transactions_table'))
@@ -531,7 +529,14 @@ async function getNewCardTransactions(){
         ],
         "order": [[12, 'desc']]
     });
-
+    table.columns().eq(0).each(function (colIdx) {
+        $('input', table.column(colIdx).footer()).on('keyup change', function () {
+            table
+                .column(colIdx)
+                .search(this.value)
+                .draw();
+        });
+    });
     // Add event listener for opening and closing details
     $('#card_transactions_table tbody').on('click', 'td.dt-control', function () {
         var tr = $(this).closest('tr');
@@ -549,15 +554,8 @@ async function getNewCardTransactions(){
     } );     
 };
 
-async function getNewPreAuthTransactions(){
-    const response = await fetch('/report/transactions/data/pre_auth_transactions?offset=0&limit=1');
-    const res = await response.json();
-    let transactions = res.data;
-    // console.log('Data send to DataTable = ', transactions);
+function getNewPreAuthTransactions(){
     $('#loadingLabel4').hide();
-
-    // console.log( $('#transactions_table'))
-    // asd
     var table = $('#pre_auth_transactions_table').DataTable({
         processing: true,
         serverSide: true,
@@ -609,7 +607,14 @@ async function getNewPreAuthTransactions(){
         ],
         "order": [[1, 'desc']]
     });
-
+    table.columns().eq(0).each(function (colIdx) {
+        $('input', table.column(colIdx).footer()).on('keyup change', function () {
+            table
+                .column(colIdx)
+                .search(this.value)
+                .draw();
+        });
+    });
     // Add event listener for opening and closing details
     $('#pre_auth_transactions_table tbody').on('click', 'td.dt-control', function () {
         var tr = $(this).closest('tr');
@@ -634,15 +639,6 @@ $( document ).ready(function() {
     getNewErrorTransactions();
     getNewCardTransactions();
     getNewPreAuthTransactions();
-
-    // mybutton = document.getElementById("myBtn");
-    // function topFunction() {
-    //     var y = $(window).scrollTop();
-    //     $('html, body').animate({
-    //         scrollTop: y
-    //     });
-    // }
-
 });
 
 

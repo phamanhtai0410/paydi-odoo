@@ -44,7 +44,9 @@
                         <tfoot>
                             <tr>
                                 <th></th>
-                                <th><input type="search" placeholder="Search ID"/> </th>
+                                <th>
+                                    <!-- <input type="search" placeholder="Search ID"/> -->
+                                </th>
                                 <th>
                                     <input type="search" placeholder="Search Type"/>
                                 </th>
@@ -52,16 +54,16 @@
                                     <input type="search" placeholder="Search Status"/>
                                 </th>
                                 <th>
-                                    <input type="search" placeholder="Search Amount"/>
+                                    <!-- <input type="search" placeholder="Search Amount"/> -->
                                 </th>
                                 <th>
-                                    <input type="search" placeholder="Search Contact"/>
+                                    <!-- <input type="search" placeholder="Search Contact"/> -->
                                 </th>
                                 <th>
-                                    <input type="search" placeholder="Search Error Message"/>
+                                    <!-- <input type="search" placeholder="Search Error Message"/> -->
                                 </th>
                                 <th>
-                                   <input type="search" placeholder="Search Created Time"/>
+                                   <!-- <input type="search" placeholder="Search Created Time"/> -->
                                 </th>
                             </tr>
                         </tfoot>
@@ -74,7 +76,30 @@
                     <span onclick="this.parentElement.style.display='none'" class="topright">&#128473;</span>
                     <!-- <button onclick="scrollToErrorPager()">Scroll Down</button> -->
                     <div class="scroll" onclick="scrollToPagerOf(this)"></div>
-                    <table class="display text-center" id="error_transactions_table" style="width: 100%"></table> 
+                    <table class="display text-center" id="error_transactions_table" style="width: 100%">
+                        <tfoot>
+                            <tr>
+                                <th>
+                                
+                                </th>
+                                <th>
+                                
+                                </th>
+                                <th>
+                                    <input type="search" placeholder="Search App Version"/>
+                                </th>
+                                <th>
+                                    <input type="search" placeholder="Search Code"/>
+                                </th>
+                                <th>
+                                    <input type="search" placeholder="Search Description"/>
+                                </th>
+                                <th>
+                                
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table> 
                     <div id="loadingLabel2">Loading...</div> 
                 </div>
 
@@ -82,7 +107,51 @@
                     <span onclick="this.parentElement.style.display='none'" class="topright">&#128473;</span>
                     <!-- <button onclick="scrollToCardPager()">Scroll Down</button> -->
                      <div class="scroll" onclick="scrollToPagerOf(this)"></div>
-                    <table class="display text-center" id="card_transactions_table" style="width: 100%"></table> 
+                    <table class="display text-center" id="card_transactions_table" style="width: 100%">
+                        <tfoot>
+                            <tr>
+                                <th>
+                                
+                                </th>
+                                <th>
+                                
+                                </th>
+                                <th>
+                                    <input type="search" placeholder="Search Batch No."/>
+                                </th>
+                                <th>
+                                
+                                </th>
+                                <th>
+                                
+                                </th>
+                                <th>
+                                
+                                </th>
+                                <th>
+                                    <input type="search" placeholder="Search App Version"/>
+                                </th>
+                                <th>
+                                    <input type="search" placeholder="Search Code"/>
+                                </th>
+                                <th>
+                                
+                                </th>
+                                <th>
+                                    <input type="search" placeholder="Search Description"/>
+                                </th>
+                                <th>
+                                    <input type="search" placeholder="Search Tranx Type"/>
+                                </th>
+                                <th>
+                                
+                                </th>
+                                <th>
+                                
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table> 
                     <div id="loadingLabel3">Loading...</div>  
                 </div>
 
@@ -90,7 +159,27 @@
                     <span onclick="this.parentElement.style.display='none'" class="topright">&#128473;</span>
                     <!-- <button onclick="scrollToPreAuthPager()">Scroll Down</button> -->
                     <div class="scroll" onclick="scrollToPagerOf(this)"></div>
-                    <table class="display text-center" id="pre_auth_transactions_table" style="width: 100%"></table>
+                    <table class="display text-center" id="pre_auth_transactions_table" style="width: 100%">
+                        <tfoot>
+                            <tr>
+                                <th>
+                                
+                                </th>
+                                <th>
+                                
+                                </th>
+                                <th>
+                                    <input type="search" placeholder="Search Invoice No."/>
+                                </th>
+                                <th>
+                                    <input type="search" placeholder="Void ?"/>
+                                </th>
+                                <th>
+                                
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
                     <div id="loadingLabel4">Loading...</div>  
                 </div>
                 <div>
