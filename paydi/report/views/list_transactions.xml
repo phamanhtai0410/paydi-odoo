@@ -83,7 +83,7 @@
                                 
                                 </th>
                                 <th>
-                                
+                                    <input type="search" placeholder="Search Bank Code"/>
                                 </th>
                                 <th>
                                     <input type="search" placeholder="Search App Version"/>
@@ -126,7 +126,7 @@
                                 
                                 </th>
                                 <th>
-                                
+                                    <input type="search" placeholder="Search Bank Code"/>
                                 </th>
                                 <th>
                                     <input type="search" placeholder="Search App Version"/>
@@ -167,6 +167,9 @@
                                 </th>
                                 <th>
                                 
+                                </th>
+                                <th>
+                                    <input type="search" placeholder="Search Bank Code"/>
                                 </th>
                                 <th>
                                     <input type="search" placeholder="Search Invoice No."/>

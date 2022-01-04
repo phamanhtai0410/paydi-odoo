@@ -174,11 +174,17 @@ class TransactionController(http.Controller):
         app_ver_search_value = kw.get('columns[2][search][value]')
         code_search_value = kw.get('columns[3][search][value]')
         description_search_value = kw.get('columns[4][search][value]')
+        bank_code_search_value = kw.get('columns[1][search][value]').upper()
         
         responseGetListErrorTransactions = requests.get(
             DefaultConfig.url_prefix + 
-            '/v1/data-odoo/transactions_statistic/error_transactions?offset={}&limit={}&search_app_ver={}&search_code={}&search_description={}'
-            .format(kw.get('start'), kw.get('length'), app_ver_search_value, code_search_value, description_search_value),
+            '/v1/data-odoo/transactions_statistic/error_transactions?offset={}&limit={}&search_app_ver={}&search_code={}&search_description={}&search_bank_code={}'
+            .format(kw.get('start'),
+                    kw.get('length'),
+                    app_ver_search_value,
+                    code_search_value,
+                    description_search_value,
+                    bank_code_search_value),
             headers={}
         )
         
@@ -206,6 +212,7 @@ class TransactionController(http.Controller):
                 "tranx_type": transaction.get("tranx_type", ""),
                 'contact': transaction.get('odoo_contact_id') if TransactionController.check_odoo_contact_id(transaction.get('odoo_contact_id')) else -1,
                 'company_id': TransactionController.get_company_id_of_tranx(transaction.get('odoo_contact_id')),
+                'bank_code': transaction.get('bank_code') if transaction.get('bank_code') else 'None'
             }
             for transaction in error_transactions
         ]
@@ -239,11 +246,19 @@ class TransactionController(http.Controller):
         code_search_value = kw.get('columns[7][search][value]')
         description_search_value = kw.get('columns[9][search][value]')
         tranx_type_search_value = kw.get('columns[10][search][value]')
+        bank_code_search_value = kw.get('columns[5][search][value]').upper()
         
         responseGetListCardTransactions = requests.get(
             DefaultConfig.url_prefix +
-            '/v1/data-odoo/transactions_statistic/card_transactions?offset={}&limit={}&search_batch_no={}&search_app_ver={}&search_code={}&search_description={}&search_tranx_type={}'
-            .format(kw.get('start'), kw.get('length'), batch_no_search_value, app_ver_search_value, code_search_value, description_search_value, tranx_type_search_value),
+            '/v1/data-odoo/transactions_statistic/card_transactions?offset={}&limit={}&search_batch_no={}&search_app_ver={}&search_code={}&search_description={}&search_tranx_type={}&search_bank_code={}'
+            .format(kw.get('start'),
+                    kw.get('length'),
+                    batch_no_search_value,
+                    app_ver_search_value,
+                    code_search_value,
+                    description_search_value,
+                    tranx_type_search_value,
+                    bank_code_search_value),
             headers={}
         )
         card_transactions = responseGetListCardTransactions.json().get('data').get('transactions')
@@ -282,6 +297,7 @@ class TransactionController(http.Controller):
                 "tranx_type": transaction.get("tranx_type"),
                 'contact': transaction.get('odoo_contact_id') if TransactionController.check_odoo_contact_id(transaction.get('odoo_contact_id')) else -1,
                 'company_id': TransactionController.get_company_id_of_tranx(transaction.get('odoo_contact_id')),
+                'bank_code': transaction.get('bank_code') if transaction.get('bank_code') else 'None'
             }
             for transaction in card_transactions
         ]
@@ -309,14 +325,18 @@ class TransactionController(http.Controller):
         #                    Pre-Auth Transactions
         ###############################################################
         print('DataTables List Pre-Auth Transactions opitons : ', kw)
-        
-        invoice_no_search_value = kw.get('columns[2][search][value]')
-        has_voided_search_value = kw.get('columns[3][search][value]')
+        bank_code_search_value = kw.get('columns[2][search][value]').upper()
+        invoice_no_search_value = kw.get('columns[3][search][value]')
+        has_voided_search_value = kw.get('columns[4][search][value]')
         
         responseGetListPreAuthTransactions = requests.get(
             DefaultConfig.url_prefix +
-            '/v1/data-odoo/transactions_statistic/pre_auth_transactions?offset={}&limit={}&search_invoice_no={}&search_has_voided={}'
-            .format(kw.get('start'), kw.get('length'), invoice_no_search_value, has_voided_search_value),
+            '/v1/data-odoo/transactions_statistic/pre_auth_transactions?offset={}&limit={}&search_invoice_no={}&search_has_voided={}&search_bank_code={}'
+            .format(kw.get('start'),
+                    kw.get('length'),
+                    invoice_no_search_value,
+                    has_voided_search_value,
+                    bank_code_search_value),
             headers={}
         )
         pre_auth_transactions = responseGetListPreAuthTransactions.json().get('data').get('transactions')
@@ -360,6 +380,7 @@ class TransactionController(http.Controller):
                 "void_data": transaction.get("void_data"),
                 'contact': transaction.get('odoo_contact_id') if TransactionController.check_odoo_contact_id(transaction.get('odoo_contact_id')) else -1,
                 'company_id': TransactionController.get_company_id_of_tranx(transaction.get('odoo_contact_id')),
+                'bank_code': transaction.get('bank_code') if transaction.get('bank_code') else 'None'
             }
             for transaction in pre_auth_transactions
         ]

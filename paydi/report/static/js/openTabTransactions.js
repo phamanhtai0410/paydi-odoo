@@ -449,7 +449,7 @@ function getNewErrorTransactions(){
                 "data":           null,
                 "defaultContent": ''
             },
-            { data: 'pos_id', title: 'Pos Id'},
+            { data: 'bank_code', title: 'Bank Code'},
             { data: 'app_ver', title: 'App Version' },
             { data: 'code', title: 'Code' },
             { data: 'desc', title: 'Description' },
@@ -518,7 +518,7 @@ function getNewCardTransactions(){
             { data: 'batch_no', title: 'Batch No.' },
             { data: 'ref_no', title: 'Ref No.' },
             { data: 'trace_no', title: 'Trace No.' },
-            { data: 'pos_id', title: 'Pos Id'},
+            { data: 'bank_code', title: 'Bank Code'},
             { data: 'app_ver', title: 'App Version' },
             { data: 'code', title: 'Code' },
             { data: 'total_amount', title: 'Total Amount' },
@@ -582,6 +582,7 @@ function getNewPreAuthTransactions(){
                 "defaultContent": ''
             },
             { data: '_id', title: 'Transaction Id' },
+            { data: 'bank_code', title: 'Bank Code' },
             { data: 'invoice_no', title: 'Invoice No.' },
             { data: 'has_voided', title: 'Has Voided' },
             // { data: 'req_card_type', title: 'Request card type' },
@@ -590,7 +591,7 @@ function getNewPreAuthTransactions(){
         ],
         columnDefs: [
             {
-                targets: [3],
+                targets: [4],
                 "render": function ( data, type, row, meta ) {
                     // var table = $('#pre_auth_transactions_table').dataTable().api();
                     if (type === 'display') {
