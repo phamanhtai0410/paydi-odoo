@@ -13,13 +13,44 @@ from config import DefaultConfig
 import boto3
 import uuid
 from botocore.exceptions import ClientError
+from odoo import tools
 import re
+import hashlib
+import hmac
 # common header
 
 
+def sha512(data, secret_key):
+    _key = str(secret_key).encode('utf-8')
+    byte_input = data.encode('utf-8')
+    return hmac.new(_key, byte_input, hashlib.sha512).hexdigest()
 
+def get_data_from_backend(data, sub_url):
+    secret_key = tools.config['mms_secret_key'] #'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
+    api_domain = DefaultConfig.url_prefix
+    api_key = tools.config['mms_api_key']
+    
+    gen_data = sorted(data.items())
+    string_data = json.dumps(gen_data)
+    hash_string = sha512(string_data, secret_key)
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    
+    url = f"{api_domain}{sub_url}&api_key={api_key}&code={hash_string}"
 
+    # params = json.dumps({
+    #     **data,
+    #     "code": hash_string
+    # })
+    response = requests.request("GET", url, headers=headers)
 
+    print(response.text)
+
+    if not response.status_code == 200:
+        raise Exception
+
+    return response.json().get('data')
 class TransactionController(http.Controller):
 
     @staticmethod
@@ -37,29 +68,8 @@ class TransactionController(http.Controller):
     
     @http.route('/report/', website=True, auth="public") 
     def statictis_report(self, **kw):
-        responseLogin = requests.post(
-            DefaultConfig.url_prefix + '/v1/auth/pos/login',
-            headers={},
-            json={
-                "name": "pos_dev",
-                "password": "123456",
-                "serial_number": "test123"
-            }
-        )
-        print("responseLogin", responseLogin.json())
-        token = responseLogin.json().get('data').get('token')
-
-        responseGetListTransactions = requests.get(
-            DefaultConfig.url_prefix + '/v1/transaction/pos', 
-            headers={
-                'Authorization': 'Bearer ' + token
-            }
-        )
-        
-        transactions = responseGetListTransactions.json().get('data').get('transactions')
-
         return request.render("report.report_page", {
-            'count': len(transactions)
+            'count': 100
         })
 
     # ----------------------------------------------------------------------------------------------------
@@ -81,6 +91,8 @@ class TransactionController(http.Controller):
         # print('get Transactions kw = ', kw)
         print('----------- -----------')
         print('DataTables List Transactions opitons : ', kw)
+        
+        
         
         type_search_value = kw.get('columns[2][search][value]')
         status_search_value = kw.get('columns[3][search][value]')
@@ -117,16 +129,25 @@ class TransactionController(http.Controller):
                                 'length': kw.get('length')
                             })
         
-        responseGetListTransactions = requests.get(
-            DefaultConfig.url_prefix + 
-            '/v1/data-odoo/transactions_statistic/transactions?offset={}&limit={}&search_type={}&search_status={}'
-            .format(kw.get('start'), kw.get('length'), type_search_value, status_search_value), 
-            headers={
-                
-            }
-        ) 
         
-        transactions = responseGetListTransactions.json().get('data').get('transactions')
+        responseGetListTransactions = get_data_from_backend(
+            data={
+                'limit': kw.get('length'),
+                'offset': kw.get('start'),
+                'search_type': type_search_value,
+                'search_status': status_search_value    
+            },
+            sub_url='/v1/data-odoo/transactions_statistic/transactions?offset={}&limit={}&search_type={}&search_status={}'
+            .format(
+                kw.get('start'),
+                kw.get('length'),
+                type_search_value,
+                status_search_value
+            )
+        )
+        
+        print('Transactions = ', responseGetListTransactions)
+        transactions = responseGetListTransactions.get('transactions')
           
         transactions = [
             {
@@ -145,7 +166,7 @@ class TransactionController(http.Controller):
             for transaction in transactions
         ]
         
-        total = responseGetListTransactions.json().get('data').get('total')
+        total = responseGetListTransactions.get('total')
               
         # --------------------------------------------------------
         
@@ -176,19 +197,27 @@ class TransactionController(http.Controller):
         description_search_value = kw.get('columns[4][search][value]')
         bank_code_search_value = kw.get('columns[1][search][value]').upper()
         
-        responseGetListErrorTransactions = requests.get(
-            DefaultConfig.url_prefix + 
-            '/v1/data-odoo/transactions_statistic/error_transactions?offset={}&limit={}&search_app_ver={}&search_code={}&search_description={}&search_bank_code={}'
-            .format(kw.get('start'),
-                    kw.get('length'),
-                    app_ver_search_value,
-                    code_search_value,
-                    description_search_value,
-                    bank_code_search_value),
-            headers={}
+        responseGetListErrorTransactions = get_data_from_backend(
+            data={
+                'limit': kw.get('length'),
+                'offset': kw.get('start'),
+                'search_app_ver': app_ver_search_value,
+                'search_code': code_search_value,
+                'search_description': description_search_value,
+                'search_bank_code': bank_code_search_value    
+            },
+            sub_url='/v1/data-odoo/transactions_statistic/error_transactions?offset={}&limit={}&search_app_ver={}&search_code={}&search_description={}&search_bank_code={}'
+            .format(
+                kw.get('start'),
+                kw.get('length'),
+                app_ver_search_value,
+                code_search_value,
+                description_search_value,
+                bank_code_search_value,
+            )
         )
         
-        error_transactions = responseGetListErrorTransactions.json().get('data').get('transactions')
+        error_transactions = responseGetListErrorTransactions.get('transactions')
         
         error_transactions = [ 
             {
@@ -217,7 +246,7 @@ class TransactionController(http.Controller):
             for transaction in error_transactions
         ]
         
-        error_total = responseGetListErrorTransactions.json().get('data').get('total')
+        error_total = responseGetListErrorTransactions.get('total')
        
         # --------------------------------------------------------
         
@@ -248,20 +277,32 @@ class TransactionController(http.Controller):
         tranx_type_search_value = kw.get('columns[10][search][value]')
         bank_code_search_value = kw.get('columns[5][search][value]').upper()
         
-        responseGetListCardTransactions = requests.get(
-            DefaultConfig.url_prefix +
-            '/v1/data-odoo/transactions_statistic/card_transactions?offset={}&limit={}&search_batch_no={}&search_app_ver={}&search_code={}&search_description={}&search_tranx_type={}&search_bank_code={}'
-            .format(kw.get('start'),
-                    kw.get('length'),
-                    batch_no_search_value,
-                    app_ver_search_value,
-                    code_search_value,
-                    description_search_value,
-                    tranx_type_search_value,
-                    bank_code_search_value),
-            headers={}
+        responseGetListCardTransactions = get_data_from_backend(
+            data={
+                'limit': kw.get('length'),
+                'offset': kw.get('start'),
+                'search_app_ver': app_ver_search_value,
+                'search_code': code_search_value,
+                'search_description': description_search_value,
+                'search_bank_code': bank_code_search_value,
+                'search_batch_no': batch_no_search_value,
+                'search_tranx_type': tranx_type_search_value,   
+            },
+            sub_url='/v1/data-odoo/transactions_statistic/card_transactions?offset={}&limit={}&search_batch_no={}&search_app_ver={}&search_code={}&search_description={}&search_tranx_type={}&search_bank_code={}'
+            .format(
+                kw.get('start'),
+                kw.get('length'),
+                batch_no_search_value,
+                app_ver_search_value,
+                code_search_value,
+                description_search_value,
+                tranx_type_search_value,
+                bank_code_search_value
+            )
         )
-        card_transactions = responseGetListCardTransactions.json().get('data').get('transactions')
+        
+        
+        card_transactions = responseGetListCardTransactions.get('transactions')
         card_transactions = [ 
             {
                 "account_id": transaction.get("account_id"),
@@ -301,7 +342,7 @@ class TransactionController(http.Controller):
             }
             for transaction in card_transactions
         ]
-        card_total = responseGetListCardTransactions.json().get('data').get('total')
+        card_total = responseGetListCardTransactions.get('total')
       
         # --------------------------------------------------------
         
@@ -329,17 +370,25 @@ class TransactionController(http.Controller):
         invoice_no_search_value = kw.get('columns[3][search][value]')
         has_voided_search_value = kw.get('columns[4][search][value]')
         
-        responseGetListPreAuthTransactions = requests.get(
-            DefaultConfig.url_prefix +
-            '/v1/data-odoo/transactions_statistic/pre_auth_transactions?offset={}&limit={}&search_invoice_no={}&search_has_voided={}&search_bank_code={}'
-            .format(kw.get('start'),
-                    kw.get('length'),
-                    invoice_no_search_value,
-                    has_voided_search_value,
-                    bank_code_search_value),
-            headers={}
+        responseGetListPreAuthTransactions = get_data_from_backend(
+            data={
+                'limit': kw.get('length'),
+                'offset': kw.get('start'),
+                'search_bank_code': bank_code_search_value,
+                'search_invoice_no': invoice_no_search_value,
+                'search_has_voided': has_voided_search_value,   
+            },
+            sub_url='/v1/data-odoo/transactions_statistic/pre_auth_transactions?offset={}&limit={}&search_invoice_no={}&search_has_voided={}&search_bank_code={}'
+            .format(
+                kw.get('start'),
+                kw.get('length'),
+                invoice_no_search_value,
+                has_voided_search_value,
+                bank_code_search_value,
+            )
         )
-        pre_auth_transactions = responseGetListPreAuthTransactions.json().get('data').get('transactions')
+        
+        pre_auth_transactions = responseGetListPreAuthTransactions.get('transactions')
         pre_auth_transactions = [ 
             {
                 "_id": transaction.get('_id'),
@@ -384,7 +433,7 @@ class TransactionController(http.Controller):
             }
             for transaction in pre_auth_transactions
         ]
-        pre_auth_total = responseGetListPreAuthTransactions.json().get('data').get('total')
+        pre_auth_total = responseGetListPreAuthTransactions.get('total')
         
         # --------------------------------------------------------
         
@@ -403,36 +452,46 @@ class TransactionController(http.Controller):
     
     @http.route(['/report/customer_report', '/report/customer_report/page/<int:page>'], auth="user", website=True, type="http")
     def get_list_customer_report(self, page=0, **post):
-
-        responseGetTotalReports = requests.get(
-            DefaultConfig.url_prefix + '/v1/data-odoo/report/get_list_for_admin?limit={}&offset={}'.format(10, 0), 
-            headers={}
+        # responseGetTotalReports = requests.get(
+        #     DefaultConfig.url_prefix + '/v1/data-odoo/report/get_list_for_admin?limit={}&offset={}'.format(10, 0), 
+        #     headers={}
+        # )
+        responseGetTotalReports = get_data_from_backend(
+            data={
+                'limit': '1',
+                'offset': '0'
+            },
+            sub_url='/v1/data-odoo/report/get_list_for_admin?limit={}&offset={}'.format(1, 0)
         )
-        
-        total = responseGetTotalReports.json().get('data').get('total')
+        total = responseGetTotalReports.get('total')
         print('total = ', total)
         limit = 10
-
         pager = request.website.pager(
             url='/report/customer_report',
             total=total,
             page=page,
             step=limit,
         )
-
         offset = pager['offset']
-
-        responseGetListReport = requests.get(
-            DefaultConfig.url_prefix + '/v1/data-odoo/report/get_list_for_admin?limit={}&offset={}'.format(limit, offset), 
-            headers={}
+        # -----------------------------------------------------
+        responseGetListReport = get_data_from_backend(
+            data={
+                'limit': str(limit),
+                'offset': str(offset),
+            },
+            sub_url='/v1/data-odoo/report/get_list_for_admin?limit={}&offset={}'.format(limit, offset)
         )
-
-        print('limit =', limit)
-        print('offset =', offset)
-        print('response get List report =', responseGetListReport.json())
+        
+        # requests.get(
+        #     DefaultConfig.url_prefix + '/v1/data-odoo/report/get_list_for_admin?limit={}&offset={}'.format(limit, offset), 
+        #     headers={}
+        # )
+        # print('limit =', limit)
+        # print('offset =', offset)
+        # print('response get List report =', responseGetListReport.json())
         
 
-        reports = responseGetListReport.json().get('data').get('reports')
+        reports = responseGetListReport.get('reports')
 
         reports = [
                 {   
