@@ -10,13 +10,13 @@
                 <field name="sequence_code" invisible="1"/>
 
                 <field name="out_picking_id"
-                       optional="hide"
+                       optional="show"
                        string="Phiếu xuất kho"/>
                 <field name="return_picking_id"
-                       optional="hide"
+                       optional="show"
                        string="Phiếu hoàn trả"/>
                 <field
-                        optional="hide"
+                        optional="show"
                         name="first_stock_production_lot" string="Máy"/>
             </xpath>
             <xpath expr="//field[@name='state']"
