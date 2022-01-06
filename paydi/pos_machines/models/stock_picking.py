@@ -64,6 +64,10 @@ class StockPicking(models.Model):
         for line in self.move_line_ids:
             if line.account.status == 'active':
                 raise ValidationError(f'Vui lòng khóa tài khoản {line.account.username}, trước khi hoàn trả máy')
+        for line in self.move_line_ids:
+            line.account.write({
+                'status': 'return_machine'
+            })
         return {
             'type': 'ir.actions.act_window',
             'name': 'Reverse Transfer',

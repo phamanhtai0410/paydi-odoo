@@ -38,7 +38,7 @@ class ResPartner(models.Model):
             record.update({'stock_picking_ids': [(6, 0, stock_picking_ids or [])]})
 
     stock_picking_ids = fields.One2many('stock.picking', compute='_get_stock_picking_ids')
-    account_ids = fields.One2many('account.pos.machines', 'partner_id')
+    account_ids = fields.One2many('account.pos.machines', 'partner_id', domain=[('status', '!=', 'return_machine')])
 
     @api.model_create_multi
     def create(self, vals_list):

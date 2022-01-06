@@ -64,7 +64,8 @@ class ReturnPicking(models.TransientModel):
             product_return_moves_data.update(self._prepare_stock_return_picking_line_vals_from_move(move))
             product_return_moves.append((0, 0, product_return_moves_data))
         if self.picking_id and not product_return_moves:
-            raise UserError(_("No products to return (only lines in Done state and not fully returned yet can be returned)."))
+            raise UserError(
+                _("No products to return (only lines in Done state and not fully returned yet can be returned)."))
         if self.picking_id:
             self.product_return_moves = product_return_moves
             self.move_dest_exists = move_dest_exists
@@ -124,9 +125,14 @@ class ReturnPicking(models.TransientModel):
             'origin': _("Return of %s", self.picking_id.name),
             'location_id': self.picking_id.location_dest_id.id,
             'location_dest_id': self.location_id.id})
+        print('default_return_from_picking_id', self.env.context.get('default_return_from_picking_id'))
+        if self.env.context.get('default_return_from_picking_id'):
+            new_picking.write({
+                'return_from_picking_id': self.env.context.get('default_return_from_picking_id')
+            })
         new_picking.message_post_with_view('mail.message_origin_link',
-            values={'self': new_picking, 'origin': self.picking_id},
-            subtype_id=self.env.ref('mail.mt_note').id)
+                                           values={'self': new_picking, 'origin': self.picking_id},
+                                           subtype_id=self.env.ref('mail.mt_note').id)
         returned_lines = 0
         for return_line in self.product_return_moves:
             if not return_line.move_id:
@@ -148,8 +154,8 @@ class ReturnPicking(models.TransientModel):
                 # link to original move
                 move_orig_to_link |= return_line.move_id
                 # link to siblings of original move, if any
-                move_orig_to_link |= return_line.move_id\
-                    .mapped('move_dest_ids').filtered(lambda m: m.state not in ('cancel'))\
+                move_orig_to_link |= return_line.move_id \
+                    .mapped('move_dest_ids').filtered(lambda m: m.state not in ('cancel')) \
                     .mapped('move_orig_ids').filtered(lambda m: m.state not in ('cancel'))
                 move_dest_to_link = return_line.move_id.move_orig_ids.mapped('returned_move_ids')
                 # link to children of originally returned moves, if any. Note that the use of
@@ -157,8 +163,8 @@ class ReturnPicking(models.TransientModel):
                 # instead of 'return_line.move_id.move_orig_ids.move_dest_ids' prevents linking a
                 # return directly to the destination moves of its parents. However, the return of
                 # the return will be linked to the destination moves.
-                move_dest_to_link |= return_line.move_id.move_orig_ids.mapped('returned_move_ids')\
-                    .mapped('move_orig_ids').filtered(lambda m: m.state not in ('cancel'))\
+                move_dest_to_link |= return_line.move_id.move_orig_ids.mapped('returned_move_ids') \
+                    .mapped('move_orig_ids').filtered(lambda m: m.state not in ('cancel')) \
                     .mapped('move_dest_ids').filtered(lambda m: m.state not in ('cancel'))
                 vals['move_orig_ids'] = [(4, m.id) for m in move_orig_to_link]
                 vals['move_dest_ids'] = [(4, m.id) for m in move_dest_to_link]
