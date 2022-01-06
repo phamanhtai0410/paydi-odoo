@@ -789,7 +789,6 @@ class Cache(object):
         try:
             field_cache = self._data[field]
             if field.depends_context:
-                # print('[debug] record.env.cache_key(field)', record.env.cache_key(field))
                 field_cache = field_cache[record.env.cache_key(field)]
             return field_cache[record._ids[0]]
         except KeyError:

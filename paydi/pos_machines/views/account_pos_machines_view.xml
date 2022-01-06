@@ -8,11 +8,13 @@
             <field name="arch" type="xml">
                 <form string="Thông tin máy">
                     <sheet>
+                        <h1>
+                            <label for="username" string="Tài khoản"/>
+                            <field name="username"/>
+                        </h1>
                         <group>
-                            <group string="Thông tin cơ bản">
-                                <field name="username"/>
-                                <field name="ref_code" required="1"/>
-                                <field name="states"/>
+                            <group string="Mã ngân hàng">
+                                <field name="ref_codes" nolabel="1"/>
                             </group>
                             <group string="Chức năng bị khóa">
                                 <field
@@ -41,7 +43,26 @@
             <field name="arch" type="xml">
                 <tree string="Danh sách máy">
                     <field name="username"/>
-                    <field name="states"/>
+                    <field name="lot_id"/>
+                    <field name="status" invisible="1"/>
+                    <button
+                            type="object"
+                            name="blocked_machine"
+                            string="Khóa tài khoản"
+                            confirm="Bạn chắc chắn muốn khóa tài khoản này?"
+                            attrs="{'invisible': [('status','=', 'blocked')]}"
+                            class="oe_highlight bg-danger-light ml-2"
+                            groups="base.group_user"
+                    />
+                    <button
+                            type="object"
+                            name="active_machine"
+                            string="Kích hoạt"
+                            attrs="{'invisible': [('status','!=', 'blocked')]}"
+                            class="oe_highlight bg-success-light ml-2"
+                            groups="base.group_user"
+                            confirm="Bạn chắc chắn muốn kích hoạt lại tài khoản này?"
+                    />
                 </tree>
             </field>
         </record>
