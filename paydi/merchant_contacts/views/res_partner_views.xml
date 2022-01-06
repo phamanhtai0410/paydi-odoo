@@ -166,7 +166,7 @@
               name="Quản lý merchant"
               web_icon="merchant_contacts,static/images/icon.png"
               action="action_res_merchants_contacts"
-              groups="base.group_system"
+              groups="base.group_user"
               sequence="2"/>
 
     <record id="res_bank_act_window" model="ir.actions.act_window">
