@@ -43,7 +43,26 @@
             <field name="arch" type="xml">
                 <tree string="Danh sách máy">
                     <field name="username"/>
-                    <field name="states"/>
+                    <field name="lot_id"/>
+                    <field name="status" invisible="1"/>
+                    <button
+                            type="object"
+                            name="blocked_machine"
+                            string="Khóa tài khoản"
+                            confirm="Bạn chắc chắn muốn khóa tài khoản này?"
+                            attrs="{'invisible': [('status','=', 'blocked')]}"
+                            class="oe_highlight bg-danger-light ml-2"
+                            groups="base.group_user"
+                    />
+                    <button
+                            type="object"
+                            name="active_machine"
+                            string="Kích hoạt"
+                            attrs="{'invisible': [('status','!=', 'blocked')]}"
+                            class="oe_highlight bg-success-light ml-2"
+                            groups="base.group_user"
+                            confirm="Bạn chắc chắn muốn kích hoạt lại tài khoản này?"
+                    />
                 </tree>
             </field>
         </record>

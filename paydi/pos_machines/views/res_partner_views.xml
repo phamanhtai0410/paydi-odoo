@@ -45,7 +45,7 @@
                             />
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_ids"/>
+                            <field name="stock_picking_ids" context="{'show_booking': True}"/>
 
                         </div>
                     </div>

@@ -27,7 +27,7 @@ class AccountPosMachines(models.Model):
         'stock.production.lot', 'Lot/Serial Number', readonly=True)
 
     username = fields.Char(
-        string="Account",
+        string="Tài khoản",
         readonly=True
     )
 
@@ -39,6 +39,7 @@ class AccountPosMachines(models.Model):
 
     disable_functions = fields.One2many('pos.functions', 'pos_account_id')
     stock_out_picking_id = fields.Many2one('stock.picking')
+    status = fields.Char(default='active')
 
     @api.model
     def get_states_options(self):
@@ -112,6 +113,76 @@ class AccountPosMachines(models.Model):
         if not response.status_code == 200:
             raise Exception
 
+        return True
+
+    def blocked_machine(self):
+        # self.ensure_one()
+        secret_key = tools.config['mms_secret_key']  # 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
+        api_domain = tools.config['api_domain']
+        api_key = tools.config['mms_api_key']
+
+        value = {
+            "serial_number": self.lot_id.name,
+            "username": self.username,
+            "status": "blocked"
+        }
+        # print('send_backend', value)
+        gen_data = sorted(value.items())
+        string_data = json.dumps(gen_data)
+        hash_string = sha512(string_data, secret_key)
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        url = f"{api_domain}/v1/auth/iapi/pos/change_status?api_key={api_key}"
+
+        payload = json.dumps({
+            **value,
+            "code": hash_string
+        })
+        response = requests.request("PUT", url, headers=headers, data=payload)
+
+        print(response.text)
+
+        if not response.status_code == 200:
+            raise Exception
+        self.write({
+            'status': 'blocked'
+        })
+        return True
+
+    def active_machine(self):
+        # self.ensure_one()
+        secret_key = tools.config['mms_secret_key']  # 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
+        api_domain = tools.config['api_domain']
+        api_key = tools.config['mms_api_key']
+
+        value = {
+            "serial_number": self.lot_id.name,
+            "username": self.username,
+            "status": "active"
+        }
+        # print('send_backend', value)
+        gen_data = sorted(value.items())
+        string_data = json.dumps(gen_data)
+        hash_string = sha512(string_data, secret_key)
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        url = f"{api_domain}/v1/auth/iapi/pos/change_status?api_key={api_key}"
+
+        payload = json.dumps({
+            **value,
+            "code": hash_string
+        })
+        response = requests.request("PUT", url, headers=headers, data=payload)
+
+        print(response.text)
+
+        if not response.status_code == 200:
+            raise Exception
+        self.write({
+            'status': 'active'
+        })
         return True
 
     @api.model

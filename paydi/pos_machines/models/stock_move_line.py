@@ -55,7 +55,8 @@ class StockMoveLine(models.Model):
                 'lot_id': self.lot_id.id,
                 'partner_id': partner_id.id,
                 'move_line_id': self.id,
-                'username': f"{partner_id.id}-{self.lot_id.id}"
+                'username': f"{partner_id.id}-{self.lot_id.id}",
+                'status': 'active'
             })
             self.write({
                 'account': account.id
