@@ -19,61 +19,47 @@
             </xpath>
 
             <xpath expr="//notebook" position="inside">
-                <page string="Phí máy">
+                <page string="Phí máy"
+                      attrs="{'invisible': [('obj_type','!=', 'merchant')]}"
+                >
                     <field name="partner_fee_ids" context="{
                                     'force_detailed_view': True
                                }"/>
                 </page>
                 <page string="Máy POS"
+                      attrs="{'invisible': [('obj_type','!=', 'merchant')]}"
                       name="pos_stock_move_line">
-                    <field name="picking_id" invisible="1"/>
-                    <field name="picking_type_code" invisible="1"/>
+                    <!--                    <field name="picking_id" invisible="1"/>-->
 
-                    <field name="show_operations" invisible="1"/>
-                    <field name="show_reserved" invisible="1"/>
-                    <field name="show_lots_text" invisible="1"/>
-                    <field name="has_tracking" invisible="1"/>
-                    <field name="immediate_transfer" invisible="1"/>
-                    <field name="sequence_code" invisible="1"/>
-                    <field name="picking_state" invisible="1"/>
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div>
+                                <h3>Máy đang làm hồ sơ</h3>
+                            </div>
+                            <button
+                                    type="object"
+                                    class="oe_highlight"
+                                    name="booking_pos"
+                                    confirm="Bạn chắc chắn muốn tạo phiếu đặt máy làm hồ sơ"
+                                    string="Thêm máy"
+                            />
+                        </div>
+                        <div class="card-body">
+                            <field name="stock_picking_ids"/>
 
-                    <field
-                            attrs="{'invisible': [('picking_id', '=', False)]}"
-                            name="move_line_ids" nolabel="1"
-                            context="{
-                                    'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree',
-                                    'default_picking_id': picking_id,
-                                    'force_detailed_view': True,
-                                    'default_show_account_actions': True
-                               }"/>
-                    <button
-                            attrs="{'invisible': [('picking_id', '=', False)]}"
-                            type="object"
-                            class="oe_highlight"
-                            name="edit_booking" string="Chỉnh sửa"
-                    />
+                        </div>
+                    </div>
 
-                    <button
-                            type="object"
-                            class="oe_highlight"
-                            attrs="{'invisible': [('picking_id', '!=', False)]}"
-                            name="booking_pos" string="Đặt máy"
-                    />
-
-                    <button
-                            type="action"
-                            class="oe_highlight bg-success-light ml-2"
-                            attrs="{'invisible': ['|' ,('picking_state', '!=', 'done'), ('stock_out_picking_id', '!=', False)]}"
-                            name="%(act_stock_booking_picking)d"
-                            confirm="Bạn chắc chắn muốn tạo phiếu xuất kho"
-                            string="Xuất máy"
-                            groups="base.group_user"
-                    />
-
-
-                    <field
-                            attrs="{'invisible': [('stock_out_picking_id', '=', False)]}"
-                            name="stock_out_picking_id"/>
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div>
+                                <h3>Máy đang giữ</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <field name="account_ids"/>
+                        </div>
+                    </div>
 
                 </page>
             </xpath>

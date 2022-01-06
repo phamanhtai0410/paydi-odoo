@@ -49,7 +49,6 @@ class StockMoveLine(models.Model):
 
     def setting_account(self):
         account = self.account
-        partner_id = self.picking_id.partner_id
         if not account:
             partner_id = self.picking_id.partner_id
             account = self.env['account.pos.machines'].create({

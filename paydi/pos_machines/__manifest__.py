@@ -14,6 +14,9 @@
         'views/res_partner_fee_view.xml',
         'views/res_partner_views.xml',
         'views/stock_move_line.xml',
+        'views/stock.book.line.views.xml',
+        'views/stock_picking.xml',
+        'views/ref.code.views.xml'
     ],
     'demo': [],
     'installable': True,

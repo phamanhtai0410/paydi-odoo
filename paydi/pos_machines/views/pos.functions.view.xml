@@ -9,6 +9,7 @@
                 <form>
                     <sheet>
                         <group>
+                            <field name="bank_id"/>
                             <field name="name"/>
                             <field name="disable"/>
                         </group>
@@ -22,6 +23,7 @@
             <field name="model">pos.functions</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="bank_id"/>
                     <field name="name"/>
                     <field name="disable"/>
                 </tree>

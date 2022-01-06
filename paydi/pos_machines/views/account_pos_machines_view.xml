@@ -8,11 +8,13 @@
             <field name="arch" type="xml">
                 <form string="Thông tin máy">
                     <sheet>
+                        <h1>
+                            <label for="username" string="Tài khoản"/>
+                            <field name="username"/>
+                        </h1>
                         <group>
-                            <group string="Thông tin cơ bản">
-                                <field name="username"/>
-                                <field name="ref_code" required="1"/>
-                                <field name="states"/>
+                            <group string="Mã ngân hàng">
+                                <field name="ref_codes" nolabel="1"/>
                             </group>
                             <group string="Chức năng bị khóa">
                                 <field

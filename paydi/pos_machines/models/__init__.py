@@ -16,3 +16,6 @@ from . import stock_production_lot
 from . import res_partner
 from . import pos_functions
 from . import res_partner_fee
+from . import stock_book_line
+from . import ref_code
+

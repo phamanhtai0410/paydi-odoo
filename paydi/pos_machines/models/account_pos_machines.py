@@ -35,9 +35,10 @@ class AccountPosMachines(models.Model):
 
     states = fields.Selection(selection='get_states_options', string='Trạng thái máy', tracking=True)
 
-    ref_code = fields.Char(string="Mã ref")
+    ref_codes = fields.One2many('ref.code', 'account_id', string="Mã ref")
 
     disable_functions = fields.One2many('pos.functions', 'pos_account_id')
+    stock_out_picking_id = fields.Many2one('stock.picking')
 
     @api.model
     def get_states_options(self):
@@ -49,7 +50,7 @@ class AccountPosMachines(models.Model):
 
     def send_backend(self):
         self.ensure_one()
-        secret_key = tools.config['mms_secret_key'] #'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
+        secret_key = tools.config['mms_secret_key']  # 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
         api_domain = tools.config['api_domain']
         api_key = tools.config['mms_api_key']
         supporter_id = self.partner_id.supporter_id
@@ -69,7 +70,7 @@ class AccountPosMachines(models.Model):
 
         value = {
             "serial_number": self.lot_id.name,
-            "ref_code": self.ref_code,
+            "ref_codes": [x.ref_no for x in self.ref_codes],
             "disable_functions": [x.name for x in self.disable_functions],
             "odoo_contact_id": str(self.partner_id.id),
             "username": self.username,
@@ -116,24 +117,8 @@ class AccountPosMachines(models.Model):
     @api.model
     def create(self, vals):
         pos_account = super().create(vals)
-        default_disable_functions = self.env['pos.functions'].create({
-            'name': 'pre_auth',
-            'disable': True,
-            'pos_account_id': pos_account.id
-        })
-
         return pos_account
 
     @api.model_create_multi
     def create(self, vals_list):
-        print('[debug]  model_create_multi')
-        for values in vals_list:
-            print('model_create_multi', values)
-        accounts = super(AccountPosMachines, self).create(vals_list=vals_list)
-        default_disable_functions = self.env['pos.functions'].create([{
-            'name': 'pre_auth',
-            'disable': True,
-            'pos_account_id': ac.id
-        } for ac in accounts])
-        print('default', default_disable_functions)
-        return accounts
+        return super(AccountPosMachines, self).create(vals_list=vals_list)

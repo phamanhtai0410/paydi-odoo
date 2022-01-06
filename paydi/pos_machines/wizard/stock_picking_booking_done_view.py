@@ -27,10 +27,11 @@ class BookingPicking(models.TransientModel):
         if len(self.env.context.get('active_ids', list())) > 1:
             raise UserError(_("You may only return one picking at a time."))
         res = super(BookingPicking, self).default_get(fields)
-        if self.env.context.get('active_id') and self.env.context.get('active_model') == 'res.partner':
-            partner = self.env['res.partner'].browse(self.env.context.get('active_id'))
-            if partner.exists():
-                res.update({'picking_id': partner.picking_id.id, 'partner_id': partner.id})
+
+        if self.env.context.get('active_id') and self.env.context.get('active_model') == 'stock.picking':
+            picking = self.env['stock.picking'].browse(self.env.context.get('active_id'))
+            if picking.exists():
+                res.update({'picking_id': picking.id, 'partner_id': picking.partner_id.id})
         return res
 
     partner_id = fields.Many2one('res.partner')
@@ -120,7 +121,7 @@ class BookingPicking(models.TransientModel):
             if not move_line.account:
                 raise UserError('Vui lòng cài đặt máy')
 
-            if not move_line.account.ref_code:
+            if not move_line.account.ref_codes:
                 raise UserError('Vui lòng cài đặt máy')
 
         for return_move in self.product_return_moves.mapped('move_id'):
@@ -180,7 +181,7 @@ class BookingPicking(models.TransientModel):
         if not returned_lines:
             raise UserError(_("Please specify at least one non-zero quantity."))
 
-        for move_line in self.partner_id.move_line_ids:
+        for move_line in self.picking_id.move_line_ids:
             move_line.account.send_backend()
 
         new_picking.action_confirm()
@@ -202,8 +203,8 @@ class BookingPicking(models.TransientModel):
             'search_default_planning_issues': False,
             'search_default_available': False,
         })
-        self.partner_id.write({
-            'stock_out_picking_id': new_picking_id
+        self.picking_id.write({
+            'out_picking_id': new_picking_id
         })
         return {
             'name': _('Booking Picking'),

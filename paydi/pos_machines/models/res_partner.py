@@ -27,24 +27,18 @@ class ResPartner(models.Model):
                 record.ref_id = record.ref_view
 
     ref_view = fields.Char(compute='_get_ref_view', inverse='_set_ref_view')
-    picking_id = fields.Many2one('stock.picking', readonly=True)
+    stock_book_lines = fields.One2many('stock.book.line', 'partner_id')
 
-    stock_out_picking_id = fields.Many2one('stock.picking',
-                                           string="Phiếu xuất kho",
-                                           readonly=True)
+    def _get_stock_picking_ids(self):
+        for record in self:
+            stock_picking_ids = []
+            if record.stock_book_lines:
+                for x in record.stock_book_lines:
+                    stock_picking_ids.append(x.picking_id.id)
+            record.update({'stock_picking_ids': [(6, 0, stock_picking_ids or [])]})
 
-    picking_state = fields.Selection(related='picking_id.state')
-
-    move_line_ids = fields.One2many('stock.move.line', related='picking_id.move_line_ids')
-
-    picking_type_code = fields.Selection(related='picking_id.picking_type_code')
-
-    show_operations = fields.Boolean(related='picking_id.show_operations')
-    show_reserved = fields.Boolean(related='picking_id.show_reserved')
-    show_lots_text = fields.Boolean(related='picking_id.show_lots_text')
-    has_tracking = fields.Boolean(related='picking_id.has_tracking')
-    immediate_transfer = fields.Boolean(related='picking_id.immediate_transfer')
-    sequence_code = fields.Char(related='picking_id.sequence_code')
+    stock_picking_ids = fields.One2many('stock.picking', compute='_get_stock_picking_ids')
+    account_ids = fields.One2many('account.pos.machines', 'partner_id')
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -62,6 +56,7 @@ class ResPartner(models.Model):
     def booking_pos(self):
         picking_type = self.env['stock.picking.type'].search([('sequence_code', '=', 'BOOKING')], limit=1)
         view_id = self.env.ref('pos_machines.stock_picking_booking_form_view').id
+
         picking = self.env['stock.picking'].create({
             'partner_id': self.id,
             'picking_type_id': picking_type.id,
@@ -71,7 +66,10 @@ class ResPartner(models.Model):
             'location_dest_id': picking_type.default_location_dest_id.id
         })
 
-        self.write({'picking_id': picking.id})
+        self.env['stock.book.line'].create({
+            'partner_id': self.id,
+            'picking_id': picking.id
+        })
 
         return {
             'type': 'ir.actions.act_window',
@@ -88,21 +86,6 @@ class ResPartner(models.Model):
         }
 
     # app rest api controller POS GET DELETE PUT => url /<db>/<model> api body
-    def edit_booking(self):
-        view_id = self.env.ref('stock.view_picking_form').id
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Đặt máy làm hồ sơ',
-            'res_model': 'stock.picking',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_id': self.picking_id.id,
-            'view_id': view_id,
-            'target': 'new',
-            'context': {
-                'force_detailed_view': True
-            }
-        }
 
     def create_out_picking(self):
 
@@ -111,7 +94,7 @@ class ResPartner(models.Model):
             if not move_line.account:
                 raise UserError('Vui lòng cài đặt máy')
 
-            if not move_line.account.ref_code:
+            if not move_line.account.ref_codes:
                 raise UserError('Vui lòng cài đặt máy')
         for return_move in self.picking_id.move_lines:
             return_move.move_dest_ids.filtered(lambda m: m.state not in ('done', 'cancel'))._do_unreserve()

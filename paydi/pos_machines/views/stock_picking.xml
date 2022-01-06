@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_picking_form_form_inherit" model="ir.ui.view">
+        <field name="name">stock_picking_form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']"
+                   position="after">
+                <field name="sequence_code" invisible="1"/>
+                <button class="oe_highlight"
+                        name="edit_booking"
+                        string="Sửa"
+                        attrs="{'invisible': [('sequence_code','!=', 'BOOKING')]}"
+                        type="object"/>
+                <button
+                        type="action"
+                        class="oe_highlight bg-success-light ml-2"
+                        attrs="{'invisible': ['|', ('sequence_code','!=', 'BOOKING'), ('state', '!=', 'done')]}"
+                        name="%(act_stock_booking_picking)d"
+                        confirm="Bạn chắc chắn muốn tạo phiếu xuất kho"
+                        string="Xuất máy"
+                        groups="base.group_user"
+                />
+            </xpath>
+            <xpath expr="//field[@name='name']"
+                   position="after">
+                <field name="out_picking_id" string="Phiếu xuất kho"/>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>
