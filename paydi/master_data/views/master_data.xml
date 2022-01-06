@@ -54,7 +54,7 @@
                 name="Master data"
                 id="master_data_menu"
                 sequence="4"
-                groups="base.group_user"
+                groups="base.group_system"
                 web_icon="master_data,static/images/icon.png"
                 action="master_data_act_window"/>
 

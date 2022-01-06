@@ -61,6 +61,7 @@
         <menuitem
                 name="Đơn vị hành chính"
                 id="vn_location_menu"
+                groups="base.group_system"
                 action="vn_location_act_window"/>
 
     </data>
