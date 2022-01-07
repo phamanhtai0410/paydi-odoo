@@ -68,10 +68,27 @@ class TransactionController(http.Controller):
     
     @http.route('/report/', website=True, auth="public") 
     def statictis_report(self, **kw):
-        return request.render("report.report_page", {
-            'count': 100
-        })
+        
+        return request.render("report.report_page")
 
+    
+    @http.route('/report/transactions/statistics/', website=False, auth='public', methods=['GET'], csrf=False, type='http')
+    def get_transactios_statistics(self, **kw):
+        from_date = '01/01/2022'
+        to_date = '06/01/2022'
+        responseGetTransactionsStatistic = get_data_from_backend(
+            data={
+                'from_date': from_date,
+                'to_date': to_date 
+            },
+            sub_url='/v1/data-odoo/transactions_statistic/statistic?from_date={}&to_date={}'
+            .format(
+                from_date,
+                to_date
+            )
+        )
+        print('Ressponse Statistic : ', responseGetTransactionsStatistic)
+        return json.dumps(responseGetTransactionsStatistic)
     # ----------------------------------------------------------------------------------------------------
     ######################################################################################################
 
@@ -145,6 +162,18 @@ class TransactionController(http.Controller):
                 status_search_value
             )
         )
+        
+        # responseGetListTransactions = get_data_from_backend(
+        #     data={
+        #         'limit': kw.get('length'),
+        #         'offset': kw.get('start')
+        #     },
+        #     sub_url='/v1/data-odoo/transactions_statistic/transactions?offset={}&limit={}'
+        #     .format(
+        #         kw.get('start'),
+        #         kw.get('length')
+        #     )
+        # )
         
         print('Transactions = ', responseGetListTransactions)
         transactions = responseGetListTransactions.get('transactions')
@@ -557,8 +586,12 @@ class TransactionController(http.Controller):
                 }
                 for log in bank_logs['Contents']
             ]
-            
-        bank_logs.reverse()
+        
+        def sortBy(e):
+            return e['last_modified']
+        
+        bank_logs.sort(key=sortBy)   
+        # bank_logs.reverse()
 
 
         ###

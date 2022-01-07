@@ -120,3 +120,10 @@
   /* background-color: #555; Add a dark-grey background on hover */
   background-color: grey;
 }
+
+.chartCanvas {
+  width:45%;
+  max-width:45%;
+  height: 35vh;
+  max-height: 35vh;
+}

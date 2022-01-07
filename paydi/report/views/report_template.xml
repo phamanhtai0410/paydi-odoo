@@ -1,22 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>  
     <template id="report_page" name="Reports">
-           <t t-call="website.layout">
-                <div class="mx-3">
-                    <h2>Statistic Report</h2>
-                    <table class="table table-bordered text-center">
-                        <thead>
-                            <tr>
-                                <th scope="col">Transactions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td t-esc="count"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <t t-set="head">
+            <script
+                src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js">
+            </script>
+             <link rel="stylesheet" type="text/css" href="/report/static/css/list_transactions.css"/>
+        </t>
+        <t t-call="website.layout">
+            <div class="mx-3">
+                <div class="tab">
+                    <button class="tablinks" onclick="openTab(event, 'by_method')" id="defaultOpen">By Payment Method</button>
+                    <button class="tablinks" onclick="openTab(event, 'by_card_type')">By Card Type</button>
                 </div>
-           </t>
+                
+                <div id="by_method" class="tabcontent">               
+                    <canvas id="byMethodTotalTransactionsChart" class="chartCanvas"></canvas>
+                    <canvas id="byMethodTotalAmountChart" class="chartCanvas"></canvas>
+                </div>
+                <div id="by_card_type" class="tabcontent">
+                    <canvas id="byCardTypeTotalTransactionsChart" class="chartCanvas"></canvas>
+                    <canvas id="byCardTypeTotalAmountChart" class="chartCanvas"></canvas>
+                    
+                </div>
+                <script type="text/javascript" src="/report/static/js/openTabOnly.js"/>
+                <script>
+                    async function draw_chart() {
+                        const response = await fetch('/report/transactions/statistics');
+                        const res = await response.json();
+                        console.log('Fetch data : ', res);
+
+
+                        var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+                        var yValues = [55, 49, 44, 24, 15];
+                        var barColors = [
+                            "#b91d47",
+                            "#00aba9",
+                            "#2b5797",
+                            "#e8c3b9",
+                            "#1e7145"
+                        ];
+
+
+                        <!-- Data  -->
+                        var xValuesByMethod = ["By Card", "By QR Code"];
+                        var yValuesByMethodTotalAmount = [
+                            res.card.total_amount,
+                            res.qr_code.total_amount
+                        ];
+                        var yValuesByMethodTotalTransactions = [
+                            res.card.total_transactions,
+                            res.qr_code.total_transactions
+                        ];
+                        var barColorsByMethod = [
+                            "#2b5797",
+                            "#00aba9"
+                        ];
+
+                        var xValuesByCardType = [
+                            res.card.types[0].name,
+                            res.card.types[1].name,
+                            res.card.types[2].name
+                        ];
+                        var yValuesByCardTypeTotalAmount = [
+                            res.card.types[0].total_amount,
+                            res.card.types[1].total_amount,
+                            res.card.types[2].total_amount
+                        ];
+                        var yValuesByCardTypeTotalTransactions = [
+                            res.card.types[0].total_transactions,
+                            res.card.types[1].total_transactions,
+                            res.card.types[2].total_transactions
+                        ];
+                        var barColorsByCardType = [
+                            "#b91d47",
+                            "#2b5797",
+                            "#00aba9"
+                        ];
+
+
+                        <!-- Initialized Charts -->
+                        new Chart("byMethodTotalAmountChart", {
+                            type: "doughnut",
+                            data: {
+                                labels: xValuesByMethod,
+                                datasets: [{
+                                    backgroundColor: barColorsByMethod,
+                                    data: yValuesByMethodTotalAmount
+                                }]
+                            },
+                            options: {
+                                layout: {
+                                    padding: 20
+                                },
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'right',
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'TOTAL AMOUNT By Payment Method'
+                                    }
+                                }
+                            }
+                        });
+                        document.getElementById("byMethodTotalAmountChart").style.display = '';
+
+                        new Chart("byCardTypeTotalAmountChart", {
+                            type: "doughnut",
+                            data: {
+                                labels: xValuesByCardType,
+                                datasets: [{
+                                    backgroundColor: barColorsByCardType,
+                                    data: yValuesByCardTypeTotalAmount
+                                }]
+                            },
+                            options: {
+                                layout: {
+                                    padding: 20
+                                },
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'right',
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'TOTAL AMOUNT By Card Type'
+                                    }
+                                }
+                            }
+                        });
+                        document.getElementById("byCardTypeTotalAmountChart").style.display = '';
+
+                        new Chart("byMethodTotalTransactionsChart", {
+                            type: "doughnut",
+                            data: {
+                                labels: xValuesByMethod,
+                                datasets: [{
+                                    backgroundColor: barColorsByMethod,
+                                    data: yValuesByMethodTotalTransactions
+                                }]
+                            },
+                            options: {
+                                layout: {
+                                    padding: 20
+                                },
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'right',
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'TOTAL TRANSACTIONS by Payment Method'
+                                    }
+                                }
+                            }
+                        });
+                        document.getElementById("byMethodTotalTransactionsChart").style.display = '';
+
+                        new Chart("byCardTypeTotalTransactionsChart", {
+                            type: "doughnut",
+                            data: {
+                                labels: xValuesByCardType,
+                                datasets: [{
+                                    backgroundColor: barColorsByCardType,
+                                    data: yValuesByCardTypeTotalTransactions
+                                }]
+                            },
+                            options: {
+                                layout: {
+                                    padding: 20
+                                },
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'right',
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'TOTAL TRANSACTIONS By Card Type'
+                                    }
+                                }
+                            }
+                        });
+                        document.getElementById("byCardTypeTotalTransactionsChart").style.display = '';
+                    };
+                    document.getElementById("defaultOpen").click();
+                    draw_chart()
+                    
+                </script>
+            </div>
+        </t>
     </template>
 </odoo>
