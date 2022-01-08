@@ -14,7 +14,7 @@
 
         <!-- Add your JS or CSS here for this particular page. -->
             <!-- CSS -->
-            <link rel="stylesheet" type="text/css" href="/report/static/css/list_transactions.css"/>
+            <link rel="stylesheet" type="text/css" href="/report/static/css/transactions_statistic.css"/>
             <!-- JS -->
             <script type="text/javascript">
             
