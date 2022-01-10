@@ -74,8 +74,9 @@ class TransactionController(http.Controller):
     
     @http.route('/report/transactions/statistics/', website=False, auth='public', methods=['GET'], csrf=False, type='http')
     def get_transactios_statistics(self, **kw):
-        from_date = '01/01/2022'
-        to_date = '06/01/2022'
+        print('Get tranx Statistic kw = ', kw)
+        from_date = kw.get('from')
+        to_date = kw.get('to')
         responseGetTransactionsStatistic = get_data_from_backend(
             data={
                 'from_date': from_date,

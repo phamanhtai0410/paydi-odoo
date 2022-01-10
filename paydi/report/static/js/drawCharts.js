@@ -184,6 +184,8 @@ document.getElementById("defaultOpen").click();
 
 async function getCharts() {
     $('#loading').css('display', 'block');
-    await draw_charts();
+    var from = $('#from').val();
+    var to = $('#to').val();
+    await draw_charts(from, to);
     $('#loading').hide();
 }
