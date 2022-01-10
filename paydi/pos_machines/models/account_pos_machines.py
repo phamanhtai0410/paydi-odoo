@@ -27,7 +27,7 @@ class AccountPosMachines(models.Model):
         'stock.production.lot', 'Lot/Serial Number', readonly=True)
 
     username = fields.Char(
-        string="Account",
+        string="Tài khoản",
         readonly=True
     )
 
@@ -35,9 +35,11 @@ class AccountPosMachines(models.Model):
 
     states = fields.Selection(selection='get_states_options', string='Trạng thái máy', tracking=True)
 
-    ref_code = fields.Char(string="Mã ref")
+    ref_codes = fields.One2many('ref.code', 'account_id', string="Mã ref")
 
     disable_functions = fields.One2many('pos.functions', 'pos_account_id')
+    stock_out_picking_id = fields.Many2one('stock.picking')
+    status = fields.Char(default='active')
 
     @api.model
     def get_states_options(self):
@@ -49,7 +51,7 @@ class AccountPosMachines(models.Model):
 
     def send_backend(self):
         self.ensure_one()
-        secret_key = tools.config['mms_secret_key'] #'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
+        secret_key = tools.config['mms_secret_key']  # 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
         api_domain = tools.config['api_domain']
         api_key = tools.config['mms_api_key']
         supporter_id = self.partner_id.supporter_id
@@ -69,7 +71,7 @@ class AccountPosMachines(models.Model):
 
         value = {
             "serial_number": self.lot_id.name,
-            "ref_code": self.ref_code,
+            "ref_codes": [x.ref_no for x in self.ref_codes],
             "disable_functions": [x.name for x in self.disable_functions],
             "odoo_contact_id": str(self.partner_id.id),
             "username": self.username,
@@ -113,27 +115,81 @@ class AccountPosMachines(models.Model):
 
         return True
 
+    def blocked_machine(self):
+        # self.ensure_one()
+        secret_key = tools.config['mms_secret_key']  # 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
+        api_domain = tools.config['api_domain']
+        api_key = tools.config['mms_api_key']
+
+        value = {
+            "serial_number": self.lot_id.name,
+            "username": self.username,
+            "status": "blocked"
+        }
+        # print('send_backend', value)
+        gen_data = sorted(value.items())
+        string_data = json.dumps(gen_data)
+        hash_string = sha512(string_data, secret_key)
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        url = f"{api_domain}/v1/auth/iapi/pos/change_status?api_key={api_key}"
+
+        payload = json.dumps({
+            **value,
+            "code": hash_string
+        })
+        response = requests.request("PUT", url, headers=headers, data=payload)
+
+        print(response.text)
+
+        if not response.status_code == 200:
+            raise Exception
+        self.write({
+            'status': 'blocked'
+        })
+        return True
+
+    def active_machine(self):
+        # self.ensure_one()
+        secret_key = tools.config['mms_secret_key']  # 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
+        api_domain = tools.config['api_domain']
+        api_key = tools.config['mms_api_key']
+
+        value = {
+            "serial_number": self.lot_id.name,
+            "username": self.username,
+            "status": "active"
+        }
+        # print('send_backend', value)
+        gen_data = sorted(value.items())
+        string_data = json.dumps(gen_data)
+        hash_string = sha512(string_data, secret_key)
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        url = f"{api_domain}/v1/auth/iapi/pos/change_status?api_key={api_key}"
+
+        payload = json.dumps({
+            **value,
+            "code": hash_string
+        })
+        response = requests.request("PUT", url, headers=headers, data=payload)
+
+        print(response.text)
+
+        if not response.status_code == 200:
+            raise Exception
+        self.write({
+            'status': 'active'
+        })
+        return True
+
     @api.model
     def create(self, vals):
         pos_account = super().create(vals)
-        default_disable_functions = self.env['pos.functions'].create({
-            'name': 'pre_auth',
-            'disable': True,
-            'pos_account_id': pos_account.id
-        })
-
         return pos_account
 
     @api.model_create_multi
     def create(self, vals_list):
-        print('[debug]  model_create_multi')
-        for values in vals_list:
-            print('model_create_multi', values)
-        accounts = super(AccountPosMachines, self).create(vals_list=vals_list)
-        default_disable_functions = self.env['pos.functions'].create([{
-            'name': 'pre_auth',
-            'disable': True,
-            'pos_account_id': ac.id
-        } for ac in accounts])
-        print('default', default_disable_functions)
-        return accounts
+        return super(AccountPosMachines, self).create(vals_list=vals_list)

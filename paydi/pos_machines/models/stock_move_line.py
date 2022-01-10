@@ -49,14 +49,14 @@ class StockMoveLine(models.Model):
 
     def setting_account(self):
         account = self.account
-        partner_id = self.picking_id.partner_id
         if not account:
             partner_id = self.picking_id.partner_id
             account = self.env['account.pos.machines'].create({
                 'lot_id': self.lot_id.id,
                 'partner_id': partner_id.id,
                 'move_line_id': self.id,
-                'username': f"{partner_id.id}-{self.lot_id.id}"
+                'username': f"{partner_id.id}-{self.lot_id.id}",
+                'status': 'active'
             })
             self.write({
                 'account': account.id
