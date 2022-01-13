@@ -13,6 +13,7 @@ class HelpdeskTicketConstants(object):
     # Staging information sets
     partner_name = "CS Support"
     partner_email = "cs.support@paydi.vn"
+    partner_id = 18
     company_id = 1
     stage_id = 1
     user_id = 8

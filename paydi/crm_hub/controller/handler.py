@@ -71,7 +71,8 @@ class HelpdeskTicketHub(http.Controller):
             "partner_id": request.env["res.partner"]
             .sudo()
             .search([("name", "=", HelpdeskTicketConstants.partner_name), 
-                     ("email", "=", HelpdeskTicketConstants.partner_email)])
+                     ("email", "=", HelpdeskTicketConstants.partner_email),
+                     ("id", "=", HelpdeskTicketConstants.partner_id)])
             .id,
         }
         
