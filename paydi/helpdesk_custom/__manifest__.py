@@ -3,7 +3,7 @@
 
 
 {
-    'name': 'Helpdesk Custom','
+    'name': 'Helpdesk Custom',
     'version': '0.1',
     'category': 'Productivity',
     'sequence': -100,

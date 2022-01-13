@@ -75,41 +75,5 @@ class HelpdeskTicketController(http.Controller):
                     )
         return werkzeug.utils.redirect("/my/tickets")
     
-    # @http.route("/submitted/ticket_from_iapi", type="http", auth="public", website=True, csrf=True)
-    # def submit_ticket_from_iapi(self, **kw):
-    #     vals = {
-    #         "partner_name": kw.get("name"),
-    #         "user_id": "", #hard_code assignee
-    #         "company_id": '',
-    #         "category_id": kw.get("category"),
-    #         "partner_email": kw.get("email"),
-    #         "description": kw.get("description"),
-    #         "name": kw.get("subject"),
-    #         "attachment_ids": False,
-    #         "channel_id": request.env["helpdesk.ticket.channel"]
-    #         .sudo()
-    #         .search([("name", "=", "Web")])
-    #         .id,
-    #         "partner_id": request.env["res.partner"]
-    #         .sudo()
-    #         .search([("name", "=", kw.get("name")), ("email", "=", kw.get("email"))])
-    #         .id,
-    #     }
-    #     new_ticket = request.env["helpdesk.ticket"].sudo().create(vals)
-    #     # new_ticket.message_subscribe(partner_ids=request.env.user.partner_id.ids)
-    #     # if kw.get("attachment"):
-    #     #     for c_file in request.httprequest.files.getlist("attachment"):
-    #     #         data = c_file.read()
-    #     #         if c_file.filename:
-    #     #             request.env["ir.attachment"].sudo().create(
-    #     #                 {
-    #     #                     "name": c_file.filename,
-    #     #                     "datas": base64.b64encode(data),
-    #     #                     "res_model": "helpdesk.ticket",
-    #     #                     "res_id": new_ticket.id,
-    #     #                 }
-    #     #             )
-    #     print(f'+-+ Add ticket: {new_ticket.read()}')
-    #     return new_ticket.read()[0]
 
     
