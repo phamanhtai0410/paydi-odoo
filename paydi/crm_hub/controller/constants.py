@@ -15,5 +15,5 @@ class HelpdeskTicketConstants(object):
     partner_email = "cs.support@paydi.vn"
     company_id = 1
     stage_id = 1
-    user_id = 6
-    team_id = 4
+    user_id = 8
+    team_id = 2

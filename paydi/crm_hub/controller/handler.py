@@ -56,7 +56,7 @@ class HelpdeskTicketHub(http.Controller):
         
         vals = {
             "partner_name": HelpdeskTicketConstants.partner_name,
-            "company_id": HelpdeskTicketConstants.company_id, #Staging 2
+            # "company_id": HelpdeskTicketConstants.company_id, #Staging 2
             "stage_id": HelpdeskTicketConstants.stage_id,
             "partner_email": HelpdeskTicketConstants.partner_email,
             "description": body.get("description"),
