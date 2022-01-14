@@ -26,6 +26,7 @@
                 <page string="CRM connections"
                       name="other_service">
                     <group>
+                        <field name="company_code"/>
                         <field name="crm_url"/>
                         <field name="username"/>
                         <field name="password"/>
