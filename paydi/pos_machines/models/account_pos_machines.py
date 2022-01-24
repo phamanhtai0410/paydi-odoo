@@ -68,7 +68,7 @@ class AccountPosMachines(models.Model):
             contact_seller['email'] = supporter_id.work_email or ''
             contact_seller['name'] = supporter_id.name or ''
             contact_seller['mms_user_id'] = supporter_id.id
-
+        company_code = self.partner_id.partner_id.company_id.company_code if self.partner_id.partner_id else self.partner_id.company_id.company_code
         value = {
             "serial_number": self.lot_id.name,
             "ref_codes": [x.ref_no for x in self.ref_codes],
@@ -90,7 +90,7 @@ class AccountPosMachines(models.Model):
                     "ward": self.partner_id.street2 or '',
                     "detail": self.partner_id.street or ''
                 },
-                'company_code': self.partner_id.company_id.company_code
+                'company_code': company_code or 'paydi'
             },
             'contact_seller': contact_seller
         }
