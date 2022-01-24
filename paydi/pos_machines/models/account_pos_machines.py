@@ -75,6 +75,7 @@ class AccountPosMachines(models.Model):
             "disable_functions": [x.name for x in self.disable_functions],
             "odoo_contact_id": str(self.partner_id.id),
             "username": self.username,
+            'password': '000000',
             "pos_address": {
                 "city": self.partner_id.state_id.name or '',
                 "district": self.partner_id.city or '',
@@ -88,7 +89,8 @@ class AccountPosMachines(models.Model):
                     "district": self.partner_id.city or '',
                     "ward": self.partner_id.street2 or '',
                     "detail": self.partner_id.street or ''
-                }
+                },
+                'company_code': self.partner_id.company_id.company_code
             },
             'contact_seller': contact_seller
         }

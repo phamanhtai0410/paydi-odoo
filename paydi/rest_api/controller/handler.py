@@ -116,7 +116,7 @@ class HandlerController(http.Controller):
         return result
 
     @http.route(
-        f'{_prefix}object/<string:model>',
+        f'{_prefix}/object/<string:model>',
         type='http', auth='user', methods=['GET'], csrf=False)
     def get_model_data(self, model, **params):
         print('get_model_data______get_model_data', http.request.params)
