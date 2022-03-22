@@ -70,7 +70,7 @@ class ResPartner(models.Model):
                                               related='supporter_id.department_id')
 
     @api.model
-    def write(self, vals):
+    def write(self, vals,  *args, **kwargs):
         print('___________________________________DEBUG___________________________________________')
 
         before = self.supporter_id.id if self.supporter_id else False
