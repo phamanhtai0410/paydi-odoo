@@ -71,8 +71,8 @@ class ResPartner(models.Model):
 
     # @api.model
     def write(self, vals,  *args, **kwargs):
+        print("asdasd")
         print('___________________________________DEBUG___________________________________________')
-
         before = self.supporter_id.id if self.supporter_id else False
         print("update vals", vals, before)
         write_result = super(ResPartner, self).write(vals)
