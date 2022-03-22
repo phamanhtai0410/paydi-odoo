@@ -70,6 +70,7 @@ class ResPartner(models.Model):
                                               related='supporter_id.department_id')
 
     def write(self, vals):
+        print('___________________________________DEBUG___________________________________________')
         print("update vals", vals)
         before = self.supporter_id.id
         write_result = super(ResPartner, self).write(vals)
