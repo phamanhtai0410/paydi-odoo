@@ -89,7 +89,7 @@ class ResPartner(models.Model):
                     'phone': '',
                     'email': '',
                     'name': '',
-                    'company': self.partner_id.company_id.name,
+                    'company': self.company_id.name,
                     'mms_user_id': 0
                 }
                 if self.supporter_id:
