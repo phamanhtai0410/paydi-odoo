@@ -1,7 +1,18 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+import hashlib
+import hmac
+import json
 
-from odoo import api, models, modules, fields
+import requests
+
+from odoo import api, models, tools, fields
+
+
+def sha512(data, secret_key):
+    _key = str(secret_key).encode('utf-8')
+    byte_input = data.encode('utf-8')
+    return hmac.new(_key, byte_input, hashlib.sha512).hexdigest()
 
 
 class ResPartner(models.Model):
@@ -52,8 +63,50 @@ class ResPartner(models.Model):
 
     supporter_id = fields.Many2one('hr.employee',
                                    check_company=True,
-                                   string="Nhân viên kinh doanh"
+                                   string="Nhân viên hỗ trợ"
                                    )
     supporter_department_id = fields.Many2one('hr.department',
-                                              string="Đội ngũ bán hàng",
+                                              string="Đội ngũ hỗ trợ",
                                               related='supporter_id.department_id')
+
+    def write(self, vals):
+        print("update vals", vals)
+        write_result = super(ResPartner, self).write(vals)
+        if self.supporter_id != write_result.supporter_id:
+            self.ensure_one()
+            secret_key = tools.config['mms_secret_key']  # 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
+            api_domain = tools.config['api_domain']
+            api_key = tools.config['mms_api_key']
+            contact_seller = {
+                'phone': '',
+                'email': '',
+                'name': '',
+                'company': self.partner_id.company_id.name,
+                'mms_user_id': 0
+            }
+            if self.supporter_id:
+                contact_seller['phone'] = self.supporter_id.mobile_phone or ''
+                contact_seller['email'] = self.supporter_id.work_email or ''
+                contact_seller['name'] = self.supporter_id.name or ''
+                contact_seller['mms_user_id'] = self.supporter_id.id
+            print('contact_seller', contact_seller)
+            value = {
+                "contact_id": str(self.id),
+                'contact_seller': contact_seller
+            }
+            gen_data = sorted(value.items())
+            string_data = json.dumps(gen_data)
+            hash_string = sha512(string_data, secret_key)
+            headers = {
+                'Content-Type': 'application/json'
+            }
+            url = f"{api_domain}/v1/auth/iapi/pos/info?api_key={api_key}"
+
+            payload = json.dumps({
+                **value,
+                "code": hash_string
+            })
+            response = requests.request("PUT", url, headers=headers, data=payload)
+
+            print(response.text)
+        return write_result
