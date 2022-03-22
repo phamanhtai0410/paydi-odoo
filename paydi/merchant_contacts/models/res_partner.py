@@ -71,42 +71,48 @@ class ResPartner(models.Model):
 
     def write(self, vals):
         print("update vals", vals)
+        before = self.supporter_id.id
         write_result = super(ResPartner, self).write(vals)
-        if self.supporter_id != write_result.supporter_id:
+        try:
             self.ensure_one()
-            secret_key = tools.config['mms_secret_key']  # 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
-            api_domain = tools.config['api_domain']
-            api_key = tools.config['mms_api_key']
-            contact_seller = {
-                'phone': '',
-                'email': '',
-                'name': '',
-                'company': self.partner_id.company_id.name,
-                'mms_user_id': 0
-            }
+            print("before", before, self.supporter_id)
             if self.supporter_id:
-                contact_seller['phone'] = self.supporter_id.mobile_phone or ''
-                contact_seller['email'] = self.supporter_id.work_email or ''
-                contact_seller['name'] = self.supporter_id.name or ''
-                contact_seller['mms_user_id'] = self.supporter_id.id
-            print('contact_seller', contact_seller)
-            value = {
-                "contact_id": str(self.id),
-                'contact_seller': contact_seller
-            }
-            gen_data = sorted(value.items())
-            string_data = json.dumps(gen_data)
-            hash_string = sha512(string_data, secret_key)
-            headers = {
-                'Content-Type': 'application/json'
-            }
-            url = f"{api_domain}/v1/auth/iapi/pos/info?api_key={api_key}"
 
-            payload = json.dumps({
-                **value,
-                "code": hash_string
-            })
-            response = requests.request("PUT", url, headers=headers, data=payload)
+                secret_key = tools.config['mms_secret_key']  # 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
+                api_domain = tools.config['api_domain']
+                api_key = tools.config['mms_api_key']
+                contact_seller = {
+                    'phone': '',
+                    'email': '',
+                    'name': '',
+                    'company': self.partner_id.company_id.name,
+                    'mms_user_id': 0
+                }
+                if self.supporter_id:
+                    contact_seller['phone'] = self.supporter_id.mobile_phone or ''
+                    contact_seller['email'] = self.supporter_id.work_email or ''
+                    contact_seller['name'] = self.supporter_id.name or ''
+                    contact_seller['mms_user_id'] = self.supporter_id.id
+                print('contact_seller', contact_seller)
+                value = {
+                    "contact_id": str(self.id),
+                    'contact_seller': contact_seller
+                }
+                gen_data = sorted(value.items())
+                string_data = json.dumps(gen_data)
+                hash_string = sha512(string_data, secret_key)
+                headers = {
+                    'Content-Type': 'application/json'
+                }
+                url = f"{api_domain}/v1/auth/iapi/pos/info?api_key={api_key}"
 
-            print(response.text)
+                payload = json.dumps({
+                    **value,
+                    "code": hash_string
+                })
+                response = requests.request("PUT", url, headers=headers, data=payload)
+
+                print(response.text)
+        except Exception as e:
+            print(e)
         return write_result
