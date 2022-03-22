@@ -69,16 +69,13 @@ class ResPartner(models.Model):
                                               string="Đội ngũ hỗ trợ",
                                               related='supporter_id.department_id')
 
-    def write(self, vals):
+    @api.onchange('supporter_id')
+    def onchange_supporter_id(self):
         print('___________________________________DEBUG___________________________________________')
-        print("update vals", vals)
-        before = self.supporter_id.id
-        write_result = super(ResPartner, self).write(vals)
         try:
             self.ensure_one()
-            print("before", before, self.supporter_id)
+            print("before", self.supporter_id)
             if self.supporter_id:
-
                 secret_key = tools.config['mms_secret_key']  # 'x4nz(!jh6c+jvo5aanhy*=cx(8!uh85e&ocf3*py%*vw#$^g6c'
                 api_domain = tools.config['api_domain']
                 api_key = tools.config['mms_api_key']
@@ -116,4 +113,3 @@ class ResPartner(models.Model):
                 print(response.text)
         except Exception as e:
             print(e)
-        return write_result
