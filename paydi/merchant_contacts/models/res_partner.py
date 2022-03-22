@@ -69,7 +69,7 @@ class ResPartner(models.Model):
                                               string="Đội ngũ hỗ trợ",
                                               related='supporter_id.department_id')
 
-    @api.model
+    # @api.model
     def write(self, vals,  *args, **kwargs):
         print('___________________________________DEBUG___________________________________________')
 
