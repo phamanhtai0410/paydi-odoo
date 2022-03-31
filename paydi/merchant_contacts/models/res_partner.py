@@ -1,7 +1,18 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+import hashlib
+import hmac
+import json
 
-from odoo import api, models, modules, fields
+import requests
+
+from odoo import api, models, tools, fields
+
+
+def sha512(data, secret_key):
+    _key = str(secret_key).encode('utf-8')
+    byte_input = data.encode('utf-8')
+    return hmac.new(_key, byte_input, hashlib.sha512).hexdigest()
 
 
 class ResPartner(models.Model):
@@ -52,10 +63,10 @@ class ResPartner(models.Model):
 
     supporter_id = fields.Many2one('hr.employee',
                                    check_company=True,
-                                   string="Nhân viên kinh doanh"
+                                   string="Nhân viên hỗ trợ"
                                    )
     supporter_department_id = fields.Many2one('hr.department',
-                                              string="Đội ngũ bán hàng",
+                                              string="Đội ngũ hỗ trợ",
                                               related='supporter_id.department_id')
 
     support_employee_team = fields.Many2one('crm.team',
