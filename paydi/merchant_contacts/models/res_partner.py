@@ -70,11 +70,11 @@ class ResPartner(models.Model):
                                               related='supporter_id.department_id')
 
     support_employee_team = fields.Many2one('crm.team',
-                                                string="Đội ngũ chăm sóc")
+                                                string="Đội ngủ chăm sóc")
     
     supporter_employee_id = fields.Many2one('res.users',
-                                              string="Nhân viên chăm sóc",
-                                              domain="[('sale_team_id', '=', support_employee_team)]"
+                                              string="Nhân viên chăm sóc khách hàng",
+                                              related='support_employee_team.user_id'
                                               )
     
     profile_status = fields.Selection([ ('1', 'Đang đàm phán'),('2', 'Đã ký hợp đồng'),('3','Đã cấp máy')],'Trạng thái hồ sơ', default='1')
