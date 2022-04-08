@@ -105,16 +105,23 @@
                 </page>
             </xpath>
 
-            <xpath expr="//page[@name='sales_purchases']//field[@name='user_id']" position="after">
-                <field name="team_id" string="Đội ngũ điều phối viên"/>
+            <xpath expr="//page[@name='sales_purchases']//field[@name='team_id']" position="after">
+                <!-- <field name="team_id" string="Sale Team"/> -->
                 <field name="supporter_id"/>
                 <field name="supporter_department_id"/>
-            </xpath>
-
-            <xpath expr="//page[@name='sales_purchases']//field[@name='property_payment_term_id']" position="after">
                 <field name="support_employee_team"/>
                 <field name="supporter_employee_id"/>
                 <field name="profile_status"/>
+            </xpath>
+
+            <!-- <xpath expr="//page[@name='sales_purchases']//field[@name='property_payment_term_id']" position="after">
+                <field name="support_employee_team"/>
+                <field name="supporter_employee_id"/>
+                <field name="profile_status"/>
+            </xpath> -->
+
+            <xpath expr="//page[@name='sales_purchases']//field[@name='property_payment_term_id']" position="attributes">
+                <attribute name="invisible">True</attribute>
             </xpath>
 
             <xpath expr="//*[@name='user_id']" position="attributes">
