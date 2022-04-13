@@ -14,12 +14,12 @@ class ResPartnerFee(models.Model):
     bank = fields.Many2one('res.bank')
     fee = fields.Float(string='Mức phí')
     from_date = fields.Datetime(string='Bắt đầu từ')
+    to_date = fields.Datetime(string='Ngày kết thúc')
     active = fields.Boolean(string='Hiệu lực', default=False)
     industry_id = fields.Many2one('res.partner.industry',
-                                  related='partner_id.industry_id',
-                                  string='Ngành hàng',
-                                  readonly=True)
-
+                                #   related='partner_id.industry_id',
+                                  string='Ngành hàng')
+    
 # selection=[
 #         ("970425", "ABBANK"),
 #         ("970416", "ACB"),

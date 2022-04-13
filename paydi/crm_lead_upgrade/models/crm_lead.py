@@ -7,4 +7,6 @@ class ResPartner(models.Model):
     _name = "crm.lead" 
     _inherit = 'crm.lead'
 
-    industry = fields.Char('industry', compute='_compute_partner_address_values', readonly=False, store=True)
+    industry = fields.Many2one('res.partner.industry',
+                                #   related='partner_id.industry_id',
+                                  string='Ngành hàng')
