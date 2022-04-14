@@ -45,7 +45,7 @@
                             />
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_ids_draf" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids_draf" context="{'show_booking': True}" domain="[('state', '!=', 'draft')]"/>
                         </div>
                     </div>
                     <div class="card">
@@ -55,17 +55,17 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_ids_ready" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids_ready" context="{'show_booking': True}" domain="[('state', '!=', 'ready')]"/>
                         </div>
                     </div>
-                                        <div class="card">
+                    <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div>
                                 <h3>Máy đã xuất</h3>
                             </div>
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_ids_done" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids_done" context="{'show_booking': True}" domain="[('state', '!=', 'done')]"/>
                         </div>
                     </div>
                     <div class="card">
@@ -75,7 +75,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_ids_return" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids_return" context="{'show_booking': True}" domain="['|', '|',('return_picking_id', '!=',False), ('out_picking_id', '=', False), '|' ,( 'out_picking_id_state', '!=', 'done'), ('show_booking','=', False)]"/>
                         </div>
                     </div>
                     <div class="card">
