@@ -38,7 +38,7 @@ class ResPartner(models.Model):
             record.update({'stock_picking_ids_draf': [(6, 0, stock_picking_ids_draf or [])]})
 
             res_draf = {}
-            res_draf['domain'] = {'stock_picking_ids_draf': [('state', '=', 'draf')]}
+            res_draf['domain'] = {'stock_picking_ids_draf': [('state', '!=', 'draf','stock_picking_ids_draf')]}
             return res_draf
     def _get_stock_picking_ids_ready(self):
         for record in self:
@@ -49,7 +49,7 @@ class ResPartner(models.Model):
             record.update({'stock_picking_ids_ready': [(6, 0, stock_picking_ids_ready or [])]})
 
             res_ready = {}
-            res_ready['domain'] = {'stock_picking_ids_ready': [('state', '=', 'ready')]}
+            res_ready['domain'] = {'stock_picking_ids_ready': [('state', '!=', 'ready','stock_picking_ids_ready')]}
             return res_ready
 
     def _get_stock_picking_ids_done(self):
@@ -61,7 +61,7 @@ class ResPartner(models.Model):
             record.update({'stock_picking_ids_done': [(6, 0, stock_picking_ids_done or [])]})
 
             res_done = {}
-            res_done['domain'] = {'stock_picking_ids_done': [('state', '=', 'done')]}
+            res_done['domain'] = {'stock_picking_ids_done': [('state', '!=', 'done','stock_picking_ids_done')]}
             return res_done
 
     def _get_stock_picking_ids_return(self):
@@ -73,7 +73,7 @@ class ResPartner(models.Model):
             record.update({'stock_picking_ids_return': [(6, 0, stock_picking_ids_return or [])]})
 
             res_return = {}
-            res_return['domain'] = {'stock_picking_ids_done': [('return_picking_id', '!=',False,'out_picking_id', '=', False, 'out_picking_id_state', '!=', 'done','show_booking','=', False,'stock_picking_ids_return')]}
+            res_return['domain'] = {'stock_picking_ids_return': ['|','|',('return_picking_id', '!=',False), ('out_picking_id', '=', False),'|',( 'out_picking_id_state', '!=', 'done'), ('show_booking','=', False),'stock_picking_ids_return']}
             return res_return
 
     stock_picking_ids_draf = fields.One2many('stock.picking', compute='_get_stock_picking_ids_draf')
