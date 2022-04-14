@@ -65,7 +65,7 @@ class ResPartner(models.Model):
 
     stock_picking_ids_ready = fields.One2many('stock.picking', 'partner_id', domain=[('state', '=', 'assigned')])
 
-    stock_picking_ids_done = fields.One2many('stock.picking', 'partner_id', domain=[('return_picking_id', '!=',False), ('out_picking_id', '=', False) ,('state', '=', 'done')])
+    stock_picking_ids_done = fields.One2many('stock.picking', 'partner_id', domain=[('show_booking','!=', False),('state', '=', 'done')])
 
     stock_picking_ids_return = fields.One2many('stock.picking', 'partner_id', domain=[('return_picking_id', '=',False), ('out_picking_id', '!=', False) ,( 'state', '=', 'done'), ('show_booking','=', False)])
 
