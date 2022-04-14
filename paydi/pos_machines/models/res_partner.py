@@ -37,7 +37,11 @@ class ResPartner(models.Model):
                     stock_picking_ids.append(x.picking_id.id)
             record.update({'stock_picking_ids': [(6, 0, stock_picking_ids or [])]})
 
-    stock_picking_ids = fields.One2many('stock.picking', compute='_get_stock_picking_ids')
+    stock_picking_ids_draf = fields.One2many('stock.picking', compute='_get_stock_picking_ids',domain=[('state', '!=', 'draft')])
+    stock_picking_ids_ready = fields.One2many('stock.picking', compute='_get_stock_picking_ids',domain=[('state', '!=', 'ready')])
+    stock_picking_ids_done = fields.One2many('stock.picking', compute='_get_stock_picking_ids',domain=[('state', '!=', 'done')])
+    stock_picking_ids_return = fields.One2many('stock.picking', compute='_get_stock_picking_ids',domain=['|', '|',('return_picking_id', '!=',False), ('out_picking_id', '=', False), '|' ,( 'out_picking_id_state', '!=', 'done'), ('show_booking','=', False)])
+
     account_ids = fields.One2many('account.pos.machines', 'partner_id', domain=[('status', '!=', 'return_machine')])
 
     @api.model_create_multi
