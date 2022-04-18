@@ -65,9 +65,9 @@ class ResPartner(models.Model):
 
     stock_picking_ids_ready = fields.One2many('stock.picking', 'partner_id', domain=[('state', '=', 'assigned')])
 
-    stock_picking_ids_done = fields.One2many('stock.picking', 'partner_id', domain=['|',('return_picking_id', '=',False), ('out_picking_id', '=', False),('state', '=', 'done'), ('show_booking', '!=', False),'|',('return_picking_id', '!=',False), ('out_picking_id', '!=', False),('state', '=', 'done'), ('show_booking', '!=', False)])
+    stock_picking_ids_done = fields.One2many('stock.picking', 'partner_id', domain=['&','|',('return_picking_id', '=',False)'|',('out_picking_id', '=', False),'|', ('state', '=', 'done'),'|',('show_booking', '!=', False)])
 
-    stock_picking_ids_return = fields.One2many('stock.picking', 'partner_id', domain=[('return_picking_id', '=',False), ('out_picking_id', '!=', False) ,( 'state', '=', 'done'), ('show_booking','=', False)])
+    stock_picking_ids_return = fields.One2many('stock.picking', 'partner_id', domain=['&','|',('return_picking_id', '=',False),'|',('out_picking_id', '!=', False) ,'|',( 'state', '=', 'done'),'|', ('show_booking','=', False)])
 
     account_ids = fields.One2many('account.pos.machines', 'partner_id', domain=[('status', '!=', 'return_machine')])
 
