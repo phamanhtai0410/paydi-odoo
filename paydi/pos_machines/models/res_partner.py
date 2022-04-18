@@ -36,9 +36,9 @@ class ResPartner(models.Model):
             if record.stock_book_lines:
                 for x in record.stock_book_lines:
                     stock_picking_ids.append(x.picking_id.id)
-            record.update({'stock_picking_ids_draf': [(6, 0, stock_picking_ids or [])]})
+            record.update({'stock_picking_ids': [(6, 0, stock_picking_ids or [])]})
 
-    stock_picking_ids_draf = fields.One2many('stock.picking', compute='_get_stock_picking_ids', domain=[('state', '=', 'draft')])
+    stock_picking_ids = fields.One2many('stock.picking', compute='_get_stock_picking_ids', domain=[('state', '=', 'draft')])
 
     stock_picking_ids_ready = fields.One2many('stock.picking', 'partner_id', domain=[('state', '=', 'assigned')])
 
