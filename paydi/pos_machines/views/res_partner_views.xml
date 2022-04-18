@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_ready" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids" context="{'show_booking': True}" domain="[('state', '=', 'assigned')]"/>
                         </div>
                     </div>
                                         <div class="card">
@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_done" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids" context="{'show_booking': True}" domain="['|',('return_picking_id', '=',False),('out_picking_id', '=', False),'|', ('state', '=', 'done'),'|',('show_booking', '!=', False)]"/>
                         </div>
                     </div>
                     <div class="card">
@@ -75,7 +75,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_return" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids" context="{'show_booking': True}" domain="['|',('return_picking_id', '=',False),('out_picking_id', '!=', False) ,'|',( 'state', '=', 'done'),'|', ('show_booking','=', False)]"/>
                         </div>
                     </div>
                     <div class="card">
