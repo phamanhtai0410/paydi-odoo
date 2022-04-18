@@ -45,43 +45,15 @@
                             />
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_ids_draf" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids" context="{'show_booking': True}"/>
+
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div>
-                                <h3>Máy chờ xuất</h3>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <field name="stock_picking_ids_ready" context="{'show_booking': True}"/>
-                        </div>
-                    </div>
-                                        <div class="card">
-                        <div class="card-header d-flex justify-content-between">
-                            <div>
-                                <h3>Máy đã xuất</h3>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <field name="stock_picking_ids_done" context="{'show_booking': True}"/>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between">
-                            <div>
-                                <h3>Máy đã trả</h3>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <field name="stock_picking_ids_return" context="{'show_booking': True}"/>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between">
-                            <div>
-                                <h3>User name</h3>
+                                <h3>Máy đang giữ</h3>
                             </div>
                         </div>
                         <div class="card-body">
