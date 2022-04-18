@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>]
+<record id="modify_view_pickingtype_filter" model="ir.ui.view">
+        <field name="name">modify.stock.picking.type.filter</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.quick_create_opportunity_form"/>
+        <field name="arch" type="xml">
+            <xpath  expr="//button[@name='action_cancel']" position='attributes'>
+                <attribute name='invisible'>[('state', 'not in', ('assigned', 'confirmed', 'partially_available', 'draft', 'waiting'))]</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
