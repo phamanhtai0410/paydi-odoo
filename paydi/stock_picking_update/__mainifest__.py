@@ -9,7 +9,6 @@
         'views/stock-picking-update.xml',
     ],
     'demo': [],
-    'installable': True,
-    'auto_install': False,
     'application': True
+
 }

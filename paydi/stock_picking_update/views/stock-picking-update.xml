@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="stock.quick_create_opportunity_form"/>
         <field name="arch" type="xml">
             <xpath  expr="//button[@name='action_cancel']" position='attributes'>
-                <attribute name='invisible'>[('state', 'not in', ('assigned', 'confirmed', 'partially_available', 'draft', 'waiting'))]</attribute>
+                <attribute name='invisible'>[('state', 'not in', ('assigned', 'confirmed', 'partially_available', 'waiting'))]</attribute>
             </xpath>
         </field>
     </record>
