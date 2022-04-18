@@ -27,8 +27,14 @@ class ResPartner(models.Model):
                 record.ref_id = record.ref_view
 
     ref_view = fields.Char(compute='_get_ref_view', inverse='_set_ref_view')
+
     stock_book_lines = fields.One2many('stock.book.line', 'partner_id')
 
+    stock_picking_ready = fields.One2many('stock.picking', 'partner_id', domain=[('state', '=', 'assigned')])
+
+    stock_picking_done = fields.One2many('stock.picking', 'partner_id', domain=['|',('return_picking_id', '=',False),('out_picking_id', '=', False),'|', ('state', '=', 'done'),'|',('show_booking', '!=', False)])
+
+    stock_picking_return = fields.One2many('stock.picking', 'partner_id', domain=['|',('return_picking_id', '=',False),('out_picking_id', '!=', False) ,'|',( 'state', '=', 'done'),'|', ('show_booking','=', False)])
 
     def _get_stock_picking_ids(self):
         for record in self:
@@ -39,13 +45,6 @@ class ResPartner(models.Model):
             record.update({'stock_picking_ids': [(6, 0, stock_picking_ids or [])]})
 
     stock_picking_ids = fields.One2many('stock.picking', compute='_get_stock_picking_ids', domain=[('state', '=', 'draft')])
-
-    stock_picking_ids_ready = fields.One2many('stock.picking', 'partner_id', domain=[('state', '=', 'assigned')])
-
-    stock_picking_ids_done = fields.One2many('stock.picking', 'partner_id', domain=['|',('return_picking_id', '=',False),('out_picking_id', '=', False),'|', ('state', '=', 'done'),'|',('show_booking', '!=', False)])
-
-    stock_picking_ids_return = fields.One2many('stock.picking', 'partner_id', domain=['|',('return_picking_id', '=',False),('out_picking_id', '!=', False) ,'|',( 'state', '=', 'done'),'|', ('show_booking','=', False)])
-
     account_ids = fields.One2many('account.pos.machines', 'partner_id', domain=[('status', '!=', 'return_machine')])
 
     @api.model_create_multi
