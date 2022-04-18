@@ -61,13 +61,13 @@ class ResPartner(models.Model):
                     stock_picking_ids_return.append(x.picking_id.id)
             record.update({'stock_picking_ids_return': [(6, 0, stock_picking_ids_return or [])]})
 
-    stock_picking_ids_draf = fields.One2many('stock.picking', 'partner_id', domain=[('state', '=', 'draft')])
+    stock_picking_ids_draf = fields.One2many('stock.picking', compute='_get_stock_picking_ids_draf', domain=[('state', '=', 'draft')])
 
     stock_picking_ids_ready = fields.One2many('stock.picking', 'partner_id', domain=[('state', '=', 'assigned')])
 
-    stock_picking_ids_done = fields.One2many('stock.picking', 'partner_id', domain=['|',('return_picking_id', '=',False),'|',('out_picking_id', '=', False),'|', ('state', '=', 'done'),'|',('show_booking', '!=', False)])
+    stock_picking_ids_done = fields.One2many('stock.picking', 'partner_id', domain=['|',('return_picking_id', '=',False),('out_picking_id', '=', False),'|', ('state', '=', 'done'),'|',('show_booking', '!=', False)])
 
-    stock_picking_ids_return = fields.One2many('stock.picking', 'partner_id', domain=['|',('return_picking_id', '=',False),'|',('out_picking_id', '!=', False) ,'|',( 'state', '=', 'done'),'|', ('show_booking','=', False)])
+    stock_picking_ids_return = fields.One2many('stock.picking', 'partner_id', domain=['|',('return_picking_id', '=',False),('out_picking_id', '!=', False) ,'|',( 'state', '=', 'done'),'|', ('show_booking','=', False)])
 
     account_ids = fields.One2many('account.pos.machines', 'partner_id', domain=[('status', '!=', 'return_machine')])
 
