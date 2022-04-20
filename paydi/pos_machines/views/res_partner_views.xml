@@ -45,7 +45,7 @@
                             />
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_ids" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids" context="{'show_booking': True,'state':'draft'}"/>
                         </div>
                     </div>
                     <div class="card">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_ids_ready" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids" context="{'show_booking': True,'state':'assigned'}"/>
                         </div>
                     </div>
                                         <div class="card">
@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_ids_done" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids" context="{'show_booking': True,'state':'done'}"/>
                         </div>
                     </div>
                     <div class="card">
@@ -75,7 +75,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <field name="stock_picking_ids_return" context="{'show_booking': True}"/>
+                            <field name="stock_picking_ids" context="{'show_booking': True,'state':'done'}"/>
                         </div>
                     </div>
                     <div class="card">
