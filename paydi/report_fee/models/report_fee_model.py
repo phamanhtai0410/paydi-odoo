@@ -34,7 +34,7 @@ class ResPartner(models.Model):
             "fees": fees
         }
         
-        result = requests.post("http://localhost:5000/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj);
+        result = requests.post("https://paydi-staging.rinznetwork.com/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj);
         path = result.json().get('data').get('path')
         webbrowser.open_new_tab(path)
         return True
