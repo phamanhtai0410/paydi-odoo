@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="modify_report_fee_button" model="ir.ui.view">
+        <field name="name">modify.report.fee.button</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="crm.view_partners_form_crm1"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_opportunity']" position="before">
+                <!-- <button class="oe_stat_button" type="object"
+                   name="export_action" string="export">
+                </button> -->
+                <button class="oe_stat_button" type="object" name="export_action" icon="fa-calendar" string="Export excel" >
+                    
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>
