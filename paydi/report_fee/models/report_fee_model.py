@@ -20,22 +20,24 @@ class ResPartner(models.Model):
             fees = []
             for record in records:
                 record_obj = {
-                    'odoo_contact_id' : record.get('partner_id')[0],
-                    'merchant_name':record.get('partner_id')[1],
-                    'card_type' : record.get('card_type'),
-                    'bank': record.get('bank')[1],
-                    'fee': record.get('fee'),
-                    'from_date': time.mktime(record.get('from_date').timetuple()),
-                    'to_date': time.mktime(record.get('to_date').timetuple())
+                'odoo_contact_id' : record.get('partner_id')[0],
+                'merchant_name':record.get('partner_id')[1],
+                'card_type' : record.get('card_type'),
+                'bank': record.get('bank')[1],
+                'fee': record.get('fee'),
+                'from_date': time.mktime(record.get('from_date').timetuple()),
+                'to_date': time.mktime(record.get('to_date').timetuple())
                 }
                 fees.append(record_obj)
             
         fee_obj = {
             "fees": fees
         }
-        print('==================feeobj----------------', fee_obj)
+        
         result = requests.post("https://paydi-staging.rinznetwork.com/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj);
+        # result = requests.post("http://localhost:5000/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj);
         path = result.json().get('data').get('path')
         print('================================path==============================', path)
-        webbrowser.open_new_tab(path)
+        # webbrowser.open_new_tab(path)
+        webbrowser.open(path)
         return True
