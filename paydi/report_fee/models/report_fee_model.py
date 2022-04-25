@@ -35,11 +35,14 @@ class ResPartner(models.Model):
             "fees": fees
         }
         
-        result = requests.post("https://paydi-staging.rinznetwork.com/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj);
+        # result = requests.post("https://paydi-staging.rinznetwork.com/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj);
         # result = requests.post("http://localhost:5000/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj);
-        path = result.json().get('data').get('path')
-        print('================================path==============================', path)
-        # webbrowser.open_new_tab(path)
+        # path = result.json().get('data').get('path')
+        # print('================================path==============================', path)
+        # webbrowser.open_new_tab('https://www.facebook.com/')
         # webbrowser.open(path)
-        webbrowser.open_new(path)
+        # webbrowser.open_new(path)
+        # driver.execute_script("window.open('https://google.com','_blank')")
+        webbrowser.open('https://www.facebook.com/', new=2, autoraise=True)
+        
         return ''
