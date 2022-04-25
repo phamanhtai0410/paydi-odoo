@@ -5,6 +5,7 @@ import requests
 import webbrowser
 from odoo import api, models, modules, fields, _
 from odoo.http import request
+import urllib.request
 
 class ResPartner(models.Model):
     _name = 'res.partner'
@@ -39,5 +40,6 @@ class ResPartner(models.Model):
         path = result.json().get('data').get('path')
         print('================================path==============================', path)
         # webbrowser.open_new_tab(path)
-        webbrowser.open(path)
-        return True
+        # webbrowser.open(path)
+        webbrowser.open_new(path)
+        return ''
