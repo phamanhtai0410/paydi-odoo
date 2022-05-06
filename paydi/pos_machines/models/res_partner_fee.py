@@ -10,6 +10,10 @@ class ResPartnerFee(models.Model):
         ('VISA', 'VISA'),
         ('MASTERCARD', 'MASTERCARD'),
         ('JCB', 'JCB'),
+        ('NAPAS', 'NAPAS'),
+        ('UPI', 'UPI'),
+        ('AMEX', 'AMEX'),
+        ('DINERS/DISCOVER', 'DINERS/DISCOVER'),
     ], string='Lọai thẻ')
     bank = fields.Many2one('res.bank')
     fee = fields.Float(string='Mức phí')
