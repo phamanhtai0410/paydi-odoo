@@ -7,4 +7,4 @@ class RefCode(models.Model):
 
     account_id = fields.Many2one('account.pos.machines', string='Tài khoản')
     bank_id = fields.Many2one('res.bank', string='Ngân hàng')
-    ref_no = fields.Char(string='Mã ref code')
+    ref_no = fields.Char(string='Mã REF CODE')

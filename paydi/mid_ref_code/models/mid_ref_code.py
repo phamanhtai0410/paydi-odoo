@@ -11,5 +11,5 @@ class ResPartner(models.Model):
     partner_id = fields.Many2one('res.partner', string="Merchant")
 
     bank = fields.Many2one('res.bank')
-    mid_code = fields.Char(string='Mã mid')
-    ref_code = fields.Char(string='Mã ref code')
+    mid_code = fields.Char(string='Mã MID')
+    ref_code = fields.Char(string='Mã REF CODE')
