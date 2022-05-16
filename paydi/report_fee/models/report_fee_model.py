@@ -1,11 +1,11 @@
 from datetime import datetime
+from importlib.resources import path
 import json
 import time
 import requests
-import webbrowser
 from odoo import api, models, modules, fields, _
 from odoo.http import request
-import urllib.request
+
 
 class ResPartner(models.Model):
     _name = 'res.partner'
@@ -38,15 +38,11 @@ class ResPartner(models.Model):
         result = requests.post("https://paydi-staging.rinznetwork.com/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj)
         # result = requests.post("http://localhost:5000/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj);
         path = result.json().get('data').get('path')
-        print('================================path==============================', path)
-        web =  webbrowser.get('Chromium')
-        # webbrowser.open_new_tab('https://www.facebook.com/')
-        # webbrowser.open(path)
-        
-        web.open_new_tab(path)
-        # driver.execute_script("window.open('https://google.com','_blank')")
-        # web =  webbrowser.get('Chromium')
-        # web.open_new_tab('https://www.facebook.com')
-        # webbrowser.open('https://www.facebook.com/', new=2, autoraise=True)
-        
-        return ''
+        print('-------------path-------------------', path)
+
+        return {
+            'name': 'TO MODEL B',
+            'type': 'ir.actions.act_url',
+            'url': path,
+            'target': 'new',
+        }
