@@ -42,7 +42,8 @@ class ResPartner(models.Model):
 
         return {
             'name': 'TO MODEL B',
+            'res_model': 'ir.actions.act_url',
             'type': 'ir.actions.act_url',
+            'target': 'self',
             'url': path,
-            'target': 'new',
         }
