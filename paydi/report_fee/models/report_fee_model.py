@@ -14,15 +14,12 @@ class ResPartner(models.Model):
     def export_action(self):
         id = self.ids
         records = self.env["res.partner.fee"].search_read([("partner_id","=",id[0])])
-        print('-------------------records---------------', records)
-        # print('-----bank-----------------------------', records.get('bank'))
         if len(records) < 1:
             fees = []
             return
         else :
             fees = []
             for record in records:
-                print('=================bank====================', record.get('bank')[1])
                 record_obj = {
                 'odoo_contact_id' : record.get('partner_id')[0],
                 'merchant_name':record.get('partner_id')[1],
@@ -38,15 +35,13 @@ class ResPartner(models.Model):
             "fees": fees
         }
         
-        # result = requests.post("https://paydi-staging.rinznetwork.com/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj)
+        result = requests.post("https://paydi-staging.rinznetwork.com/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj)
         # result = requests.post("http://localhost:5000/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj);
-        # path = result.json().get('data').get('path')
-        # print('-------------path-------------------', path)
-        return ''
-        # return {
-        #     'name': 'TO MODEL B',
-        #     'res_model': 'ir.actions.act_url',
-        #     'type': 'ir.actions.act_url',
-        #     'target': 'self',
-        #     'url': '',
-        # }
+        path = result.json().get('data').get('path')
+        return {
+            'name': 'TO MODEL B',
+            'res_model': 'ir.actions.act_url',
+            'type': 'ir.actions.act_url',
+            'target': 'self',
+            'url': path,
+        }
