@@ -5,12 +5,22 @@ import time
 import requests
 from odoo import api, models, modules, fields, _
 from odoo.http import request
-
+from odoo import http
 
 class ResPartner(models.Model):
     _name = 'res.partner'
     _inherit = 'res.partner'
-    
+
+    fromdate = fields.Datetime('From date')
+    todate = fields.Datetime('To date')
+
+    def export_action_withdate(self,arg):
+        print(arg["fromdate"])
+        fromdate_res = datetime.strptime(arg["fromdate"], "%Y-%m-%d").strftime("%d%m%Y")
+        todate_res = datetime.strptime(arg["todate"], "%Y-%m-%d").strftime("%d%m%Y")
+        print(todate_res)
+        print(fromdate_res)
+        print("=================================model=====================================")
     def export_action(self):
         id = self.ids
         records = self.env["res.partner.fee"].search_read([("partner_id","=",id[0])])
@@ -30,7 +40,7 @@ class ResPartner(models.Model):
                 'to_date': time.mktime(record.get('to_date').timetuple())
                 }
                 fees.append(record_obj)
-            
+            print(record)
         fee_obj = {
             "fees": fees
         }
