@@ -19,6 +19,12 @@ import hmac
 
 class exportController(http.Controller):
 
-    @http.route(['/json_call_fun'], type='json', auth="public", website=True)
+    @http.route('/exportfee', type='json',website=False, auth='public', methods=['POST'], csrf=False)
     def some_url(self, **arg):
+        print("=============================================================")
+        print(arg)
+        print("=============================================================")
+
         prod_obj = http.request.env['res.partner'].export_action_withdate(arg)
+
+
