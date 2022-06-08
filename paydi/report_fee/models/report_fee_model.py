@@ -18,8 +18,9 @@ class ResPartner(models.Model):
 
     def export_action_withdate(self,arg):
         print("=================================model=====================================")
-        fromdate_res = datetime.strptime(arg["fromdate"], "%Y-%m-%d").strftime("%d%m%Y")
-        todate_res = datetime.strptime(arg["todate"], "%Y-%m-%d").strftime("%d%m%Y")
+        
+        fromdate_res = datetime.strptime(arg["fromdate"], "%Y-%m-%d").strftime("%d/%m/%Y")
+        todate_res = datetime.strptime(arg["todate"], "%Y-%m-%d").strftime("%d/%m/%Y")
 
         url = arg['crr_url']
         uri = urlparse(url)
@@ -31,10 +32,38 @@ class ResPartner(models.Model):
         print('fromdate_res ===========',fromdate_res)
         records = self.env["res.partner.fee"].search_read([("partner_id","=",ids)])
         print("=================================records in model=====================================", records)
-
+        if len(records) < 1:
+            fees = []
+            return
+        else :
+            fees = []   
+            for record in records:
+                record_obj = {
+                    'odoo_contact_id' : record.get('partner_id')[0],
+                    'merchant_name':record.get('partner_id')[1],
+                    'card_type' : record.get('card_type'),
+                    'bank': record.get('bank')[1],
+                    'fee': record.get('fee'),
+                    'from_date': time.mktime(record.get('from_date').timetuple()),
+                    'to_date': time.mktime(record.get('to_date').timetuple())
+                }
+                fees.append(record_obj)
+        fee_obj = {
+            "fromdate_res" : fromdate_res,
+            "todate_res" : todate_res,
+            "fees_by_time" : fees
+        }
+        print('fee_obj ===========================', fee_obj)
+        result = requests.post("http://localhost:5000/v1/data-odoo/transactions_statistic/report_transactions_by_time", json=fee_obj)
+        path = result.json().get('data').get('path')
+        print('-------path in odoo -----', path)
         return {
-            'type': 'ir.actions.client',
-            'tag': 'reload',
+            'name': 'TO MODEL C',
+            'res_model': 'ir.actions.act_url',
+            'type': 'ir.actions.act_url',
+            'target': 'self',
+            'url': path,
+            # 'tag': 'reload',
         }
 
     def export_action(self):

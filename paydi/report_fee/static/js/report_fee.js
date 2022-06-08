@@ -21,6 +21,7 @@ odoo.define('exportfee.script', function (require) {
                 todate: to,
 
             }).then(function (result) {
+                console.log('func reload in js')
                 location.reload(true);
             });
             return;
