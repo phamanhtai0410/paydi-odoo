@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="for_control_form_view" model="ir.ui.view">
+        <field name="name">for.control.view</field>
+        <field name="model">for.control</field>
+        <field name="arch" type="xml">
+            <form string="Data">
+                <sheet>
+                    <h1>Khanhshhhhhhhhhhhhhhhhhhh</h1>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="for_control_act_window" model="ir.actions.act_window">
+        <field name="name">Products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+        <field name="view_id" ref="product.product_template_kanban_view" />
+        <field name="search_view_id" ref="product.product_template_search_view" />
+        <field name="context">{"search_default_filter_to_sell":1, "sale_multi_pricelist_product_template": 1}</field>
+        <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+                    Create a new product
+                </p>
+        <p>
+                    You must define a product for everything you sell or purchase,
+                    whether it's a storable product, a consumable or a service.
+                </p>
+        </field>
+        <!-- <field name="name">For Control</field>
+        <field name="model">for.control</field>
+        <field name="inherit_id" ref="view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@string='Personal Information']" position='after'>
+                <page string='My new tab'>
+                    <h1>ABC</h1>
+                </page>
+            </xpath>
+        </field> -->
+    </record>
+
+    <menuitem
+        name="For_Control"
+        id="for_control_menu"
+        sequence="4"
+        web_icon="for_control,static/images/odoo_icon.png"
+        action="for_control_act_window"/>
+
+</odoo>
