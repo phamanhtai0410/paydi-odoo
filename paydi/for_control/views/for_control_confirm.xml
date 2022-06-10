@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="for_control_form_confirm_view" model="ir.ui.view">
+        <field name="name">for.control.confirm.form</field>
+        <field name="model">for.control</field>
+        <field name="inherit_id" ref="for_control_form_view"/>
+        <field name="arch" type="xml">
+            <div class="col-4 mr-3">
+                <field name="bank"/>
+            </div>
+        </field>
+    </record>
+</odoo>

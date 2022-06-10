@@ -3,9 +3,11 @@
     'category': 'Sales',
     'description': 'Description',
     'summary': '',
-    'depends': ['base', 'mail', 'account', 'vn_administrative', 'merchant_contacts'],
+    'depends': [],
     'data': [
         'views/for_control_view.xml',
+        'views/for_control_confirm.xml',
+        'security/ir.model.access.csv'
     ],
     'demo': [],
     'installable': True,
