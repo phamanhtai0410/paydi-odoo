@@ -2,12 +2,22 @@
 <odoo>
     <record id="for_control_form_confirm_view" model="ir.ui.view">
         <field name="name">for.control.confirm.form</field>
-        <field name="model">for.control</field>
+        <field name="model">for.control.confirm</field>
         <field name="inherit_id" ref="for_control_form_view"/>
         <field name="arch" type="xml">
-            <div class="col-4 mr-3">
-                <field name="bank"/>
-            </div>
+            <form>
+                <group>
+                    <group>
+                        <field name="method_test"/>
+                        <field name="method_test"/>
+                    </group>
+                </group> 
+                <footer>
+                    <button name="your_test_method" string="My Button" type="object" class="btn-primary"/> 
+                    <button string="Cancel" class="btn-default" special="cancel"/>   
+                </footer>
+            </form>
         </field>
     </record>
+
 </odoo>

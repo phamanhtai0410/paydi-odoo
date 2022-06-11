@@ -16,7 +16,8 @@ class ForControl(models.Model):
     spending_account = fields.Selection([ ('123456789', '123456789'),('132654987', '132654987')],'Tài khoản chi', default='123456789')
     method = fields.Selection([ ('noi dia', 'Nội địa'),('quoc te', 'Quốc tế')],'Phương thức thanh toán', default='noi dia')
 
-    # def _get_stock_picking_ids(self):
+    # def _get_for_control_ids(self):
+    #     print('accccc')
     #     for record in self:
     #         stock_picking_ids = []
     #         if record.stock_book_lines:
@@ -24,11 +25,12 @@ class ForControl(models.Model):
     #                 stock_picking_ids.append(x.picking_id.id)
     #         record.update({'stock_picking_ids': [(6, 0, stock_picking_ids or [])]})
 
-    transaction_ids = fields.One2many('res.partner', compute='_get_for_control_ids', domain=[('active', '=', 'true')])
+    # transaction_ids = fields.One2many('for.control')
 
-    def action_from_view(self, cr, uid, ids, context=None):
-        view_id = self.env.ref('pos_machines.for_control_form_confirm_view').id
-        print('-----------------------------------------------------ids view-----------------------------')
+    # def action_from_view(self, cr, uid, ids, context=None):
+    def action_from_view(self):
+        view_id = self.env.ref('for_confirm.for_control_form_confirm_view').id
+        print('-----------------------------------------------------ids view-----------------------------', self)
         print('view_id', view_id)
         return {
             'type': 'ir.actions.act_window',
@@ -38,5 +40,10 @@ class ForControl(models.Model):
             'views': [(view_id, 'form')], 
             'view_id': view_id, 
             'target': 'new',
-            'context': context,
+            'context': {
+                'force_detailed_view': True
+            }
         }
+    
+    def your_test_method(self):
+        print('button test ok ')

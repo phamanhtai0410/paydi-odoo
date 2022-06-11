@@ -5,8 +5,9 @@
         <record id="for_control_form_view" model="ir.ui.view">
             <field name="name">for.control.form</field>
             <field name="model">for.control</field>
+            
             <field name="arch" type="xml">
-                <!-- <form string="Data"> -->
+                <form create="false" edit="false" save="false">
                     <sheet>
                         <notebook>
                             <page name="tab1" string="Đối soát giao dịch">
@@ -17,9 +18,11 @@
                                <field name="field_name"/>
                                 <div class="form-row mt-4">
                                     <div class="col-4 mr-3">
+                                        <label for="bank" string="Ngân hàng"/>
                                         <field name="bank"/>
                                     </div>
                                     <div class="col-4 ml-3">
+                                        <label for="spending_account" string="Tài khoản chi"/>
                                         <field name="spending_account"/>
                                     </div>
                                 </div>
@@ -28,19 +31,25 @@
                                 </div>
                                 <div class="form-row mt-4">
                                     <div class="col-4 mr-3">
+                                        <label for="method" string="Phương thức thanh toán"/>
                                         <field name="method"/>
                                     </div>
                                     <div class="col-4 ml-3">
                                     </div>
                                 </div>
                                 
-                                <div class="card-body">
+                                <!-- <div class="card-body">
                                     <field name="transaction_ids"/>
-                                </div>
+                                </div> -->
 
                                 <div class="float-right mt-4">
-                                    <!-- <input name="action_from view" role="button" id='submit' class="btn btn-primary btn-md o_website_form_send" value="Xac Nhan"/> -->
-                                    <button name="action_from_view" string="Open View" type="object"/> 
+                                    
+                                    <button
+                                        type="object"
+                                        class="oe_highlight"
+                                        name="action_from_view"
+                                        string="Thêm máy"
+                                    />
                                 </div>
                                 
                             </page>
@@ -49,16 +58,26 @@
                             </page>
                         </notebook>
                     </sheet>
-                <!-- </form> -->
+                </form>
                
             </field>
         </record>
 
-        <!-- <record id="for_control_form_confirm_view" model="ir.ui.view">
-            <field name="name">for.control.confirm.form</field>
+
+        <!-- <record id="my_pet_tree_view" model="ir.ui.view">
+            <field name="name">for.control.tree.view</field>
             <field name="model">for.control</field>
             <field name="arch" type="xml">
-                <field name="bank"/>
+
+                <tree string="Pets" default_order="create_date desc">
+                    <header>
+                        <button name="action_from_view" type="object" string="Create Bills"/>
+                    </header>
+                    <field name="model"/>
+                    <field name="field"/>
+                    <field name="value"/>
+                    <field name="name"/>                    
+                </tree>
             </field>
         </record> -->
 
@@ -68,7 +87,9 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">for.control</field>
             <field name="view_mode">form,tree</field>
-            
+            <field name="target">inline</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('for_control_form_view')})]"/>
         </record>
 
         <menuitem
