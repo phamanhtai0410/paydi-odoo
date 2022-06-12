@@ -29,14 +29,14 @@ class ForControl(models.Model):
 
     # def action_from_view(self, cr, uid, ids, context=None):
     def action_from_view(self):
-        view_id = self.env.ref('for_confirm.for_control_form_confirm_view').id
+        view_id = self.env.ref('for_control.cross_checking_confirm_view').id
         print('-----------------------------------------------------ids view-----------------------------', self)
         print('view_id', view_id)
         return {
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'form',
-            'res_model': 'for.control',    
+            'res_model': 'cross.checking',    
             'views': [(view_id, 'form')], 
             'view_id': view_id, 
             'target': 'new',
@@ -44,6 +44,7 @@ class ForControl(models.Model):
                 'force_detailed_view': True
             }
         }
+
     
-    def your_test_method(self):
-        print('button test ok ')
+    
+    

@@ -1,12 +1,12 @@
 {
     'name': 'Đối Soát',
     'category': 'Sales',
-    'description': 'Description',
+    'description': 'Description',''
     'summary': '',
     'depends': [],
     'data': [
         'views/for_control_view.xml',
-        'views/for_control_confirm.xml',
+        'views/cross_checking.xml',
         'security/ir.model.access.csv'
     ],
     'demo': [],

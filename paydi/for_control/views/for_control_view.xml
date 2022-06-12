@@ -48,7 +48,7 @@
                                         type="object"
                                         class="oe_highlight"
                                         name="action_from_view"
-                                        string="Thêm máy"
+                                        string="Xác nhận"
                                     />
                                 </div>
                                 
@@ -96,7 +96,6 @@
                 name="For Control"
                 id="for_control_menu"
                 sequence="4"
-                groups="base.group_system"
                 web_icon="for_control,static/images/odoo_icon.png"
                 action="for_control_act_window"/>
 

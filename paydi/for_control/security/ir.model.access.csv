@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_for_control,access_for_control,model_for_control,base.group_user,1,1,1,1
+access_for_control,access_for_control,model_for_control,,1,1,1,1
+access_cross_checking,access_cross_checking,model_cross_checking,,1,1,1,1

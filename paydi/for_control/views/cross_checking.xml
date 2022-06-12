@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cross_checking_confirm_view" model="ir.ui.view">
+            <field name="name">cross.checking.form</field>
+            <field name="model">cross.checking</field>
+            <!-- <field name="inherit_id" ref="for_control_form_view"/> -->
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="method_checking"/>
+                            <field name="method_checking"/>
+                        </group>
+                    </group> 
+                    <footer>
+                        <button name="your_test_method" string="My Button" type="object" class="btn-primary"/> 
+                        <button string="Cancel" class="btn-default" special="cancel"/>   
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
