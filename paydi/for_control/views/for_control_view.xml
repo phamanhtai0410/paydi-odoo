@@ -15,7 +15,12 @@
                                 </group>
                             </page>
                             <page name="tab2" string="Chuyển tiền giao dịch">
-                               <field name="field_name"/>
+                                <!-- <field name="file_name"/> -->
+                                <field name="file_data" filename="file_name"/>
+                                <field name="file_name" invisible="1"/>
+
+                                <input type="file" name="attachment" multiple="true" accept="image/*,application/pdf,video/*"/>
+                                
                                 <div class="form-row mt-4">
                                     <div class="col-4 mr-3">
                                         <label for="bank" string="Ngân hàng"/>
