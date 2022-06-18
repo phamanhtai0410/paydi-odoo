@@ -15,20 +15,24 @@
                                 </group>
                             </page>
                             <page name="tab2" string="Chuyển tiền giao dịch">
+                                
                                 <!-- <field name="file_name"/> -->
-                                <field name="file_data" filename="file_name"/>
-                                <field name="file_name" invisible="1"/>
-
-                                <input type="file" name="attachment" multiple="true" accept="image/*,application/pdf,video/*"/>
+                                <!-- <field name="file_data" filename="file_name"/>
+                                <field name="file_name" invisible="1"/> -->
+                                <field name="file_data" filename="file_name" attrs="{'invisible': [('bank_title', '!=', False)]}"/>
+                                <field name="file_name"  invisible="1"/> 
+                                <button name="import_file" string="Import" type="object" class="oe_highlight" attrs="{'invisible': [('bank_title', '!=', False)]}"/>
+                                <button name="one_more" string="One More" type="object" class="oe_highlight" attrs="{'invisible': [('bank_title', '=', False)]}" />
                                 
                                 <div class="form-row mt-4">
                                     <div class="col-4 mr-3">
-                                        <label for="bank" string="Ngân hàng"/>
-                                        <field name="bank"/>
+                                        <label for="bank_title" string="Ngân hàng"/>
+                                        <field name="bank_title" readonly="1" />
                                     </div>
+                                    
                                     <div class="col-4 ml-3">
-                                        <label for="spending_account" string="Tài khoản chi"/>
-                                        <field name="spending_account"/>
+                                        <label for="stk_bank" string="Tài khoản chi"/>
+                                        <field name="stk_bank" readonly="1" />
                                     </div>
                                 </div>
                                 <div class="col-4 mr-3">
@@ -36,16 +40,33 @@
                                 </div>
                                 <div class="form-row mt-4">
                                     <div class="col-4 mr-3">
-                                        <label for="method" string="Phương thức thanh toán"/>
-                                        <field name="method"/>
+                                        <label for="bank_type" string="Phương thức thanh toán"/>
+                                        <field name="bank_type" readonly="1" />
                                     </div>
                                     <div class="col-4 ml-3">
                                     </div>
                                 </div>
                                 
-                                <!-- <div class="card-body">
-                                    <field name="transaction_ids"/>
-                                </div> -->
+                                <div class="card-body">
+                                    <!-- <field name="data_tree_file"/> -->
+                                     <field name="data_tree_file" widget="one2many" nolabel="1">
+                                        <tree string="Account Mapping" editable="bottom">
+                                            <field name="STT"/>
+                                            <field name="MID"/>
+                                            <field name="name"/>
+                                            <field name="product_name"/>
+                                            <field name="bank_value"/>
+                                            <field name="agency"/>
+                                            <field name="bank_number"/>
+                                            <field name="citab_code"/>
+                                            <field name="beneficiary"/>
+                                            <field name="totol_amount"/>
+                                           
+
+                                        </tree>
+            
+                                    </field>
+                                </div>
 
                                 <div class="float-right mt-4">
                                     
