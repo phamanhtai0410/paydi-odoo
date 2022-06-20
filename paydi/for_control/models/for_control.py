@@ -109,7 +109,7 @@ class ForControl(models.Model):
     def one_more(self):
         return {
             'type': 'ir.actions.act_url',
-            'url': 'http://localhost:8071/web#id=&action=134&model=for.control&view_type=form&cids=1&menu_id=96',
+            'url': 'https://odoo-staging.rinznetwork.com/web?debug=1#id=&action=1051&model=for.control&view_type=form&cids=1&menu_id=623',
             'target': 'self',
             'res_id': self.id,
         }   
