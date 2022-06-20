@@ -7,6 +7,7 @@
     'data': [
         'views/for_control_view.xml',
         'views/cross_checking.xml',
+        'views/popup_notification_view.xml',
         'security/ir.model.access.csv'
     ],
     'demo': [],

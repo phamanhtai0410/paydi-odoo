@@ -21,7 +21,7 @@
                                 <field name="file_name" invisible="1"/> -->
                                 <field name="file_data" filename="file_name" attrs="{'invisible': [('bank_title', '!=', False)]}"/>
                                 <field name="file_name"  invisible="1"/> 
-                                <button name="import_file" string="Import" type="object" class="oe_highlight" attrs="{'invisible': [('bank_title', '!=', False)]}"/>
+                                <button name="import_file" string="Import" type="object" class="oe_highlight ml-3" attrs="{'invisible': [('bank_title', '!=', False)]}"/>
                                 <button name="one_more" string="One More" type="object" class="oe_highlight" attrs="{'invisible': [('bank_title', '=', False)]}" />
                                 
                                 <div class="form-row mt-4">
@@ -61,11 +61,12 @@
                                             <field name="citab_code"/>
                                             <field name="beneficiary"/>
                                             <field name="totol_amount"/>
-                                           
-
                                         </tree>
-            
                                     </field>
+                                    <div class="col-4">
+                                        <label for="total_record" string="Tổng"/>
+                                        <field name="total_record" readonly="1" />
+                                    </div>
                                 </div>
 
                                 <div class="float-right mt-4">
@@ -74,6 +75,7 @@
                                         type="object"
                                         class="oe_highlight"
                                         name="action_from_view"
+                                        confirm="Bạn chắc chắn muốn chuyển tiền"
                                         string="Xác nhận"
                                     />
                                 </div>
