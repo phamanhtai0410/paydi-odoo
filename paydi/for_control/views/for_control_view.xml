@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="for_control_form_view" model="ir.ui.view">
+            <field name="name">for.control.form</field>
+            <field name="model">for.control</field>
+            
+            <field name="arch" type="xml">
+                <form create="false" edit="false" save="false">
+                    <sheet>
+                        <notebook>
+                            <page name="tab1" string="Đối soát giao dịch">
+                                <group name="container_row_2">
+                                </group>
+                            </page>
+                            <page name="tab2" string="Chuyển tiền giao dịch">
+                                
+                                <!-- <field name="file_name"/> -->
+                                <!-- <field name="file_data" filename="file_name"/>
+                                <field name="file_name" invisible="1"/> -->
+                                <field name="file_data" filename="file_name" attrs="{'invisible': [('bank_title', '!=', False)]}"/>
+                                <field name="file_name"  invisible="1"/> 
+                                <button name="import_file" string="Import" type="object" class="oe_highlight ml-3" attrs="{'invisible': [('bank_title', '!=', False)]}"/>
+                                <button name="one_more" string="One More" type="object" class="oe_highlight" attrs="{'invisible': [('bank_title', '=', False)]}" />
+                                
+                                <div class="form-row mt-4">
+                                    <div class="col-4 mr-3">
+                                        <label for="bank_title" string="Ngân hàng"/>
+                                        <field name="bank_title" readonly="1" />
+                                    </div>
+                                    
+                                    <div class="col-4 ml-3">
+                                        <label for="stk_bank" string="Tài khoản chi"/>
+                                        <field name="stk_bank" readonly="1" />
+                                    </div>
+                                </div>
+                                <div class="col-4 mr-3">
+                                    
+                                </div>
+                                <div class="form-row mt-4">
+                                    <div class="col-4 mr-3">
+                                        <label for="bank_type" string="Phương thức thanh toán"/>
+                                        <field name="bank_type" readonly="1" />
+                                    </div>
+                                    <div class="col-4 ml-3">
+                                    </div>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <!-- <field name="data_tree_file"/> -->
+                                     <field name="data_tree_file" widget="one2many" nolabel="1">
+                                        <tree string="Account Mapping" editable="bottom">
+                                            <field name="STT"/>
+                                            <field name="MID"/>
+                                            <field name="name"/>
+                                            <field name="product_name"/>
+                                            <field name="bank_value"/>
+                                            <field name="agency"/>
+                                            <field name="bank_number"/>
+                                            <field name="citab_code"/>
+                                            <field name="beneficiary"/>
+                                            <field name="totol_amount"/>
+                                        </tree>
+                                    </field>
+                                    <div class="col-4">
+                                        <label for="total_record" string="Tổng"/>
+                                        <field name="total_record" readonly="1" />
+                                    </div>
+                                </div>
+
+                                <div class="float-right mt-4">
+                                    
+                                    <button
+                                        type="object"
+                                        class="oe_highlight"
+                                        name="action_from_view"
+                                        confirm="Bạn chắc chắn muốn chuyển tiền"
+                                        string="Xác nhận"
+                                    />
+                                </div>
+                                
+                            </page>
+                            <page name="tab3" string="Báo cáo ngân hàng">
+                               
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+               
+            </field>
+        </record>
+
+
+        <!-- <record id="my_pet_tree_view" model="ir.ui.view">
+            <field name="name">for.control.tree.view</field>
+            <field name="model">for.control</field>
+            <field name="arch" type="xml">
+
+                <tree string="Pets" default_order="create_date desc">
+                    <header>
+                        <button name="action_from_view" type="object" string="Create Bills"/>
+                    </header>
+                    <field name="model"/>
+                    <field name="field"/>
+                    <field name="value"/>
+                    <field name="name"/>                    
+                </tree>
+            </field>
+        </record> -->
+
+
+        <record id="for_control_act_window" model="ir.actions.act_window">
+            <field name="name">Đối Soát Chuyển Tiền</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">for.control</field>
+            <field name="view_mode">form,tree</field>
+            <field name="target">inline</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('for_control_form_view')})]"/>
+        </record>
+
+        <menuitem
+                name="For Control"
+                id="for_control_menu"
+                sequence="4"
+                web_icon="for_control,static/images/odoo_icon.png"
+                action="for_control_act_window"/>
+
+    </data>
+</odoo>

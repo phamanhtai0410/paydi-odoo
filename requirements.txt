@@ -62,3 +62,4 @@ python-slugify==5.0.2
 paramiko==2.8.0
 python-dotenv==0.19.2
 pypeg2==2.15.2
+openpyxl==3.0.10
