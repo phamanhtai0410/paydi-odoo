@@ -50,7 +50,7 @@
                                 <div class="card-body">
                                     <!-- <field name="data_tree_file"/> -->
                                      <field name="data_tree_file" widget="one2many" nolabel="1">
-                                        <tree string="Account Mapping" editable="bottom">
+                                        <tree string="Account Mapping" create="0" delete="0" editable="bottom">
                                             <field name="STT"/>
                                             <field name="MID"/>
                                             <field name="name"/>
@@ -72,6 +72,7 @@
                                 <div class="float-right mt-4">
                                     
                                     <button
+                                        attrs="{'invisible': [('bank_title', '=', False)]}"
                                         type="object"
                                         class="oe_highlight"
                                         name="action_from_view"
@@ -121,7 +122,7 @@
         </record>
 
         <menuitem
-                name="For Control"
+                name="Cross Checking"
                 id="for_control_menu"
                 sequence="4"
                 web_icon="for_control,static/images/odoo_icon.png"
