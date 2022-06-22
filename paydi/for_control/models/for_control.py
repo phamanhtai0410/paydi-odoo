@@ -44,6 +44,7 @@ class ForControl(models.Model):
             headers = {}
 
             response = requests.request("POST", url, headers=headers, data=payload, files=files)
+            print(' response upload file =======', response.json())   
             
             if response.json()['error_code'] == '':
                 print('upload file successfully')
@@ -110,6 +111,7 @@ class ForControl(models.Model):
         return {
             'type': 'ir.actions.act_url',
             'url': 'https://odoo-staging.rinznetwork.com/web?debug=1#id=&action=1051&model=for.control&view_type=form&cids=1&menu_id=623',
+            # 'url': 'http://localhost:8071/web#id=&action=133&model=for.control&view_type=form&cids=1&menu_id=95',
             'target': 'self',
             'res_id': self.id,
         }   
