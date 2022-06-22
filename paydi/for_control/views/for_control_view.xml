@@ -64,7 +64,7 @@
                                         </tree>
                                     </field>
                                     <div class="col-4">
-                                        <label for="total_record" string="Tổng"/>
+                                        <label for="total_record" string="Tổng" attrs="{'invisible': [('bank_title', '=', False)]}"/>
                                         <field name="total_record" readonly="1" />
                                     </div>
                                 </div>
@@ -83,7 +83,6 @@
                                 
                             </page>
                             <page name="tab3" string="Báo cáo ngân hàng">
-                               
                             </page>
                         </notebook>
                     </sheet>
