@@ -51,16 +51,17 @@
                                     <!-- <field name="data_tree_file"/> -->
                                      <field name="data_tree_file" widget="one2many" nolabel="1">
                                         <tree string="Account Mapping" create="0" delete="0" editable="bottom">
-                                            <field name="STT"/>
+                                            <field name="STT" string="No"/>
                                             <field name="MID"/>
                                             <field name="name"/>
                                             <field name="product_name"/>
                                             <field name="bank_value"/>
                                             <field name="agency"/>
                                             <field name="bank_number"/>
-                                            <field name="citab_code"/>
+                                            <field name="citab_code" string="Citad code"/>
+                                            <field name="bin_code"/>
                                             <field name="beneficiary"/>
-                                            <field name="totol_amount"/>
+                                            <field name="totol_amount" string="Total Amount"/>
                                         </tree>
                                     </field>
                                     <div class="col-4">
@@ -121,7 +122,7 @@
         </record>
 
         <menuitem
-                name="Cross Checking"
+                name="For Control"
                 id="for_control_menu"
                 sequence="4"
                 web_icon="for_control,static/images/odoo_icon.png"
