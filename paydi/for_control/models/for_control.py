@@ -107,7 +107,7 @@ class ForControl(models.Model):
                 })
 
                 if record[10] is not None and record[10] != 'Số tiền':
-                    if type(record[10]) is string and record[10].find(','):
+                    if isinstance(record[10], str)and record[10].find(','):
                         amount = int(record[10].replace(",", "")) 
                         total = total + amount
                     else:
