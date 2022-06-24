@@ -21,7 +21,7 @@
                                 <field name="file_name" invisible="1"/> -->
                                 <field name="file_data" filename="file_name" attrs="{'invisible': [('bank_title', '!=', False)]}"/>
                                 <field name="file_name"  invisible="1"/> 
-                                <button name="import_file" string="Import" type="object" class="oe_highlight ml-3" attrs="{'invisible': [('bank_title', '!=', False)]}"/>
+                                <button name="import_file" string="Import" type="object" class="oe_highlight ml-3" attrs="{'invisible': ['|', ('bank_title', '!=', False),('file_data', '=', False)]}"/>
                                 <button name="one_more" string="One More" type="object" class="oe_highlight" attrs="{'invisible': [('bank_title', '=', False)]}" />
                                 
                                 <div class="form-row mt-4">
@@ -50,7 +50,7 @@
                                 <div class="card-body">
                                     <!-- <field name="data_tree_file"/> -->
                                      <field name="data_tree_file" widget="one2many" nolabel="1">
-                                        <tree string="Account Mapping" create="0" delete="0" editable="bottom">
+                                        <tree string="Account Mapping" limit="10" create="0" delete="0" editable="bottom">
                                             <field name="STT" string="No"/>
                                             <field name="MID"/>
                                             <field name="name"/>
@@ -62,11 +62,15 @@
                                             <field name="bin_code"/>
                                             <field name="beneficiary"/>
                                             <field name="totol_amount" string="Total Amount"/>
+                                            
                                         </tree>
                                     </field>
-                                    <div class="col-4">
-                                        <label for="total_record" string="Tổng" attrs="{'invisible': [('bank_title', '=', False)]}"/>
-                                        <field name="total_record" readonly="1" />
+                                    <div class="d-flex flex-row-reverse" style="margin-right:6.5%">
+                                        <div>
+                                            <label for="total_record" string="Tổng" attrs="{'invisible': [('bank_title', '=', False)]}"/>
+                                            <field name="total_record" readonly="1" />
+                                        </div>
+                                        
                                     </div>
                                 </div>
 
