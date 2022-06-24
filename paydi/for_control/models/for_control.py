@@ -1,5 +1,7 @@
 from hashlib import new
 from multiprocessing import context
+import os
+import string
 from tempfile import TemporaryFile
 
 import openpyxl
@@ -8,6 +10,9 @@ from odoo import fields, models, api
 import base64
 from io import BytesIO, StringIO
 from xlrd import open_workbook
+
+from dotenv import load_dotenv
+load_dotenv()
 
 from odoo.exceptions import UserError
 # import xlrd
@@ -38,7 +43,8 @@ class ForControl(models.Model):
                 file.write(data)
             xl_workbook = open_workbook(file.name)
             # sheet_names = xl_workbook.sheet_names()
-            url = "https://paydi-staging.rinznetwork.com/v1/odoo-api/fund_transfer/upload/transfer_report"
+            back_end_url = os.getenv('BACKEND_URL')
+            url = f'{back_end_url}/v1/odoo-api/fund_transfer/upload/transfer_report'
             payload={}
             files=[('file',open('/tmp/' + self.file_name, 'rb'))]
             headers = {}
@@ -101,8 +107,12 @@ class ForControl(models.Model):
                 })
 
                 if record[10] is not None and record[10] != 'Số tiền':
-                    amount = int(record[10].replace(",", "")) 
-                    total = total + amount
+                    if type(record[10]) is string and record[10].find(','):
+                        amount = int(record[10].replace(",", "")) 
+                        total = total + amount
+                    else:
+                        amount = int(record[10])
+                        total = total + amount
             
             self.total_record = total
         # return
@@ -122,7 +132,9 @@ class ForControl(models.Model):
             body_obj = {
                 "file_name": self.file_name
             }
-            result = requests.post("https://paydi-staging.rinznetwork.com/v1/odoo-api/fund_transfer/transfer", json=body_obj)
+            back_end_url = os.getenv('BACKEND_URL')
+
+            result = requests.post(f'{back_end_url}/v1/odoo-api/fund_transfer/transfer', json=body_obj)
             print('reponse =======================',result.json()['data'])
             print('reponse =======================',result.json()['data']['result'])
             if result.json()['data']['result'] == 'success':
@@ -147,8 +159,6 @@ class ForControl(models.Model):
                     'res_id': message_id.id,
                     'target': 'new'
                 }
-
-            
 
         else :
             print('chuyen tien khong thanh cong')
