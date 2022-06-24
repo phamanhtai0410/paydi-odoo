@@ -114,7 +114,7 @@ class ForControl(models.Model):
                         amount = int(record[10])
                         total = total + amount
             
-            self.total_record = total
+            self.total_record = "{:,}".format(total)
         # return
 
     def one_more(self):
