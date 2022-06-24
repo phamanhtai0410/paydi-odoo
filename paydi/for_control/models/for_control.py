@@ -43,7 +43,7 @@ class ForControl(models.Model):
                 file.write(data)
             xl_workbook = open_workbook(file.name)
             # sheet_names = xl_workbook.sheet_names()
-            back_end_url = os.getenv('BACKEND_URL')
+            back_end_url = os.getenv('URL_PREFIX')
             url = f'{back_end_url}/v1/odoo-api/fund_transfer/upload/transfer_report'
             payload={}
             files=[('file',open('/tmp/' + self.file_name, 'rb'))]
@@ -132,7 +132,7 @@ class ForControl(models.Model):
             body_obj = {
                 "file_name": self.file_name
             }
-            back_end_url = os.getenv('BACKEND_URL')
+            back_end_url = os.getenv('URL_PREFIX')
 
             result = requests.post(f'{back_end_url}/v1/odoo-api/fund_transfer/transfer', json=body_obj)
             print('reponse =======================',result.json()['data'])
