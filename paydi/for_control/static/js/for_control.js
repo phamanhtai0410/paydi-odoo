@@ -16,7 +16,6 @@ odoo.define('forcontrol.script', function (require) {
             }).then(function (result) {
                 const path = result.url
                 window.location.href=path;
-                console.log("clicked",path)
 
             });
             return;
