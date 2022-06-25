@@ -3,6 +3,7 @@ from multiprocessing import context
 import os
 import string
 from tempfile import TemporaryFile
+from urllib.parse import parse_qs, urlparse
 
 import openpyxl
 import requests
@@ -79,6 +80,15 @@ class ForControl(models.Model):
             total = 0
             for record in ws.iter_rows(min_row=8, max_row=None, min_col=None,max_col=None, values_only=True):
                 
+                data_record = record[10]
+                if isinstance(data_record, str):
+                    if data_record.find(",") == -1:
+                        data_col = "{:,}".format(int(data_record))
+                    else:
+                        data_col = data_record
+                else:
+                    data_col = "{:,}".format(int(data_record))
+
                 self.env['file.data'].create({
 
                     'file_name_id' : self.id,
@@ -103,7 +113,7 @@ class ForControl(models.Model):
 
                     'beneficiary': record[9],
 
-                    'totol_amount': record[10],
+                    'totol_amount': data_col,
                 })
 
                 if record[10] is not None and record[10] != 'Số tiền':
@@ -117,13 +127,20 @@ class ForControl(models.Model):
             self.total_record = "{:,}".format(total)
         # return
 
-    def one_more(self):
+    def one_more(self,arg):
+        url = arg['crr_url']
+        uri = urlparse(url)
+        qs = uri.fragment
+        ids = int(parse_qs(qs).get('id', None)[0])
+        id_url=f'id={ids}'
+        path_real = url.replace(id_url, "")
+        
         return {
+            'name': 'TO MODEL B',
+            'res_model': 'ir.actions.act_url',
             'type': 'ir.actions.act_url',
-            'url': 'https://odoo-staging.rinznetwork.com/web#id=&action=1051&model=for.control&view_type=form&cids=1&menu_id=623',
-            # 'url': 'http://localhost:8071/web#id=&action=133&model=for.control&view_type=form&cids=1&menu_id=95',
             'target': 'self',
-            'res_id': self.id,
+            'url': path_real,
         }   
 
     def action_from_view(self):
@@ -135,8 +152,6 @@ class ForControl(models.Model):
             back_end_url = os.getenv('URL_PREFIX')
 
             result = requests.post(f'{back_end_url}/v1/odoo-api/fund_transfer/transfer', json=body_obj)
-            print('reponse =======================',result.json()['data'])
-            print('reponse =======================',result.json()['data']['result'])
             if result.json()['data']['result'] == 'success':
                 message_id = self.env['popup.notification'].create({'message': ("Chuyển tiền thành công !")})
                 return {

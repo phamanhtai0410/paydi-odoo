@@ -22,10 +22,10 @@
                                 <field name="file_data" filename="file_name" attrs="{'invisible': [('bank_title', '!=', False)]}"/>
                                 <field name="file_name"  invisible="1"/> 
                                 <button name="import_file" string="Import" type="object" class="oe_highlight ml-3" attrs="{'invisible': ['|', ('bank_title', '!=', False),('file_data', '=', False)]}"/>
-                                <button name="one_more" string="One More" type="object" class="oe_highlight" attrs="{'invisible': [('bank_title', '=', False)]}" />
-                                
+                                <input name="your_test_method" type="button" value="One More" class="oe_highlight forcontrol" attrs="{'invisible': [('bank_title', '=', False)]}" />
+                                <script language="text/javascript" src="for_control/static/js/for_control.js"></script>
                                 <div class="form-row mt-4">
-                                    <div class="col-4 mr-3">
+                                    <div class="col-4 mforcontrolr-3">
                                         <label for="bank_title" string="Ngân hàng"/>
                                         <field name="bank_title" readonly="1" />
                                     </div>
