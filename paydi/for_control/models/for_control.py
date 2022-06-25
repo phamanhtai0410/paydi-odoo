@@ -3,6 +3,7 @@ from multiprocessing import context
 import os
 import string
 from tempfile import TemporaryFile
+from urllib.parse import parse_qs, urlparse
 
 import openpyxl
 import requests
@@ -117,13 +118,28 @@ class ForControl(models.Model):
             self.total_record = "{:,}".format(total)
         # return
 
-    def one_more(self):
+    def one_more(self,arg):
+        print("==============================arg",arg['crr_url'])
+
+        url = arg['crr_url']
+        uri = urlparse(url)
+        qs = uri.fragment
+        ids = int(parse_qs(qs).get('id', None)[0])
+        id_url=f'id={ids}'
+        path_real = url.replace(id_url, "")
+        print("==============================url",path_real)
+        
+
         return {
+            # 'type': 'ir.actions.act_url',
+            # 'url': path_real,
+            # 'target': 'self',
+            # 'res_id': self.id,
+            'name': 'TO MODEL B',
+            'res_model': 'ir.actions.act_url',
             'type': 'ir.actions.act_url',
-            'url': 'https://odoo-staging.rinznetwork.com/web#id=&action=1051&model=for.control&view_type=form&cids=1&menu_id=623',
-            # 'url': 'http://localhost:8071/web#id=&action=133&model=for.control&view_type=form&cids=1&menu_id=95',
             'target': 'self',
-            'res_id': self.id,
+            'url': path_real,
         }   
 
     def action_from_view(self):
