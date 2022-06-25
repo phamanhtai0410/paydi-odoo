@@ -87,7 +87,7 @@ class ForControl(models.Model):
                     else:
                         data_col = data_record
                 else:
-                    data_col = "{:,}".format(int(data_record))
+                    data_col = record[10]
 
                 self.env['file.data'].create({
 
