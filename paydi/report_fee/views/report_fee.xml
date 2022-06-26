@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="modify_report_fee_button" model="ir.ui.view">
+        <field name="name">modify.report.fee.button</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="crm.view_partners_form_crm1"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_opportunity']" position="before">
+                <!-- <button class="oe_stat_button" type="object"
+                   name="export_action" string="export">
+                </button> -->
+                <button class="oe_stat_button" type="object" name="export_action" icon="fa-calendar" string="Export excel" >
+                    
+                </button>
+            </xpath>
+        </field>
+    </record>
+        <record id="view_merchants_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Báo Cáo"
+                      
+                    name="export_excel">
+                    <form role="form" action="/exportfee" class="s_website_form form-horizontal container-fluid mt32" >    
+                        <div class="form-group form-field o_website_form_required_custom" style="display: grid;grid-template-columns: 3fr 3fr 1fr;column-gap: 10px;">    
+                            <div style="  display: grid;grid-template-columns: 1fr 4fr;align-items: center;">    
+                                <label class="control-label" for="name" string="Từ Ngày"></label>          
+                                <input type="date"  options="{'format': 'DD/MM/YYYY'}" class="form-control o_website_form_input" id="fromdate" name="fromdate" required=""/>   
+                            </div>
+                            <div style="  display: grid;grid-template-columns: 1fr 4fr;align-items: center;"> 
+                                <label  class="control-label" for="name" string="Đến Ngày"></label>                            
+                                <input type="date"  options="{'format': 'DD/MM/YYYY'}" class="form-control o_website_form_input" id="todate" name="todate" required=""/>   
+                            </div>
+                                <input type="submit" role="button" id='submit' class="btn btn-primary btn-md o_website_form_send" value="Xuất báo cáo"/>
+                                <span id="o_website_form_result"></span> 
+                        </div> 
+                        <script language="text/javascript" src="report_fee/static/js/report_fee.js"></script>
+                    </form>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

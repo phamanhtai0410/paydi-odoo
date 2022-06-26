@@ -526,8 +526,8 @@ class TransactionController(http.Controller):
         reports = [
                 {   
                     '_id': report.get('_id'),
-                    'account_id': report.get('account_id'),
-                    'pos_id': report.get('pos_id'),
+                    'account_id': report.get('account_id') if report.get("account_id") != None else 'No account Id',
+                    'pos_id': report.get('pos_id') if report.get('pos_id') != None else 'No Pos Id', 
                     'terminal_id': report.get('terminal_id') if report.get('terminal_id') != None else 'No TID',
                     'serial_number': report.get('serial_number'),
                     'message': report.get('message'),

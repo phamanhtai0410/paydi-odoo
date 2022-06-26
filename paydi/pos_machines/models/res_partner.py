@@ -29,15 +29,52 @@ class ResPartner(models.Model):
     ref_view = fields.Char(compute='_get_ref_view', inverse='_set_ref_view')
     stock_book_lines = fields.One2many('stock.book.line', 'partner_id')
 
-    def _get_stock_picking_ids(self):
+
+    def _get_stock_picking_ids_draft(self):
         for record in self:
-            stock_picking_ids = []
+            stock_picking_ids_draft = []
             if record.stock_book_lines:
                 for x in record.stock_book_lines:
-                    stock_picking_ids.append(x.picking_id.id)
-            record.update({'stock_picking_ids': [(6, 0, stock_picking_ids or [])]})
+                    if x.picking_id.state == "draft" :
+                        stock_picking_ids_draft.append(x.picking_id.id)
+            record.update({'stock_picking_ids_draft': [(6, 0, stock_picking_ids_draft or [])]})
 
-    stock_picking_ids = fields.One2many('stock.picking', compute='_get_stock_picking_ids')
+    stock_picking_ids_draft = fields.One2many('stock.picking', compute='_get_stock_picking_ids_draft')
+
+    def _get_stock_picking_ids_ready(self):
+        for record in self:
+            stock_picking_ids_ready = []
+            if record.stock_book_lines:
+                for x in record.stock_book_lines:
+                    print(" x.picking_id.state" ,x.picking_id.state)
+                    if x.picking_id.state == "assigned" :
+                        stock_picking_ids_ready.append(x.picking_id.id)
+            record.update({'stock_picking_ids_ready': [(6, 0, stock_picking_ids_ready or [])]})
+
+    stock_picking_ids_ready = fields.One2many('stock.picking', compute='_get_stock_picking_ids_ready')
+    
+    def _get_stock_picking_ids_done(self):
+        for record in self:
+            stock_picking_ids_done = []
+            if record.stock_book_lines:
+                for x in record.stock_book_lines:
+                    if x.picking_id.out_picking_id == False and x.picking_id.return_picking_id != False or x.picking_id.state == "done" and x.picking_id.show_booking == False :
+                        stock_picking_ids_done.append(x.picking_id.id)
+            record.update({'stock_picking_ids_done': [(6, 0, stock_picking_ids_done or [])]})
+
+    stock_picking_ids_done = fields.One2many('stock.picking', compute='_get_stock_picking_ids_done')
+
+    def _get_stock_picking_ids_donereturn(self):
+        for record in self:
+            stock_picking_ids_donereturn = []
+            if record.stock_book_lines:
+                for x in record.stock_book_lines:
+                    if x.picking_id.out_picking_id == False and x.picking_id.return_picking_id != False or x.picking_id.out_picking_id_state == "done" and x.picking_id.show_booking == False:
+                        stock_picking_ids_donereturn.append(x.picking_id.id)
+            record.update({'stock_picking_ids_donereturn': [(6, 0, stock_picking_ids_donereturn or [])]})
+
+    stock_picking_ids_donereturn = fields.One2many('stock.picking', compute='_get_stock_picking_ids_donereturn')
+
     account_ids = fields.One2many('account.pos.machines', 'partner_id', domain=[('status', '!=', 'return_machine')])
 
     @api.model_create_multi

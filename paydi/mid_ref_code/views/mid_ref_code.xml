@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_mid_ref_code_view" model="ir.ui.view">
+            <field name="name">res.partner.ref_mid_code.form</field>
+            <field name="model">res.partner.ref_mid_code</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="bank"/>
+                            <field name="ref_code"/>
+                            <field name="mid_code"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="res_mid_ref_code_tree_view" model="ir.ui.view">
+            <field name="name">res.partner.ref_mid_code.tree</field>
+            <field name="model">res.partner.ref_mid_code</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="bank"/>
+                    <field name="ref_code"/>
+                    <field name="mid_code"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

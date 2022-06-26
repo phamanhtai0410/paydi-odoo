@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cross_checking_confirm_view" model="ir.ui.view">
+            <!-- <field name="name">cross.checking.form</field> -->
+            <field name="name">for.control.popup.form</field>
+            <field name="model">for.control</field>
+            <!-- <field name="inherit_id" ref="for_control_form_view"/> -->
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        
+                        <div class="card-body">
+                            <!-- <field name="data_tree_file"/> -->
+                            <!-- <field name="data_tree_file" widget="one2many" nolabel="1">
+                                <tree string="Account Mapping" editable="bottom">
+                                    <field name="STT"/>
+                                    <field name="MID"/>
+                                    <field name="name"/>
+                                    <field name="product_name"/>
+                                    <field name="bank_value"/>
+                                    <field name="agency"/>
+                                    <field name="bank_number"/>
+                                    <field name="citab_code"/>
+                                    <field name="beneficiary"/>
+                                    <field name="totol_amount"/>
+                                </tree>
+                            </field> -->
+                            <field name="file_name"/>
+                            <field name="bank_title"/>
+                            <label for="bank_type" string="Phương thức thanh toán"/>
+                            <field name="bank_type" readonly="1" />
+                            <field name="stk_bank"/>
+                        </div>
+                       
+                    </group> 
+                    <footer>
+                        <button name="your_test_method" string="My Button" type="object" class="btn-primary"/> 
+                        <button string="Cancel" class="btn-default" special="cancel"/>   
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
