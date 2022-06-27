@@ -168,9 +168,9 @@ class ForControl(models.Model):
             back_end_url = os.getenv('URL_PREFIX')
 
             result = requests.post(f'{back_end_url}/v1/odoo-api/fund_transfer/transfer', json=body_obj)
-
-            # if result.json()['data']['msg'] is not None:
-            #     error_time_out = result.json()['data']['msg']
+            print('------------------result------------', result.json())
+            if result.json()['data']['msg']:
+                print('has bug mgs')
 
             if result.json()['data']['result'] == 'success':
                 message_id = self.env['popup.notification'].create({'message': ("Chuyển tiền thành công !")})
