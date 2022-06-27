@@ -168,8 +168,9 @@ class ForControl(models.Model):
             back_end_url = os.getenv('URL_PREFIX')
 
             result = requests.post(f'{back_end_url}/v1/odoo-api/fund_transfer/transfer', json=body_obj)
-            if result.json()['data']['msg'] is not None:
-                error_time_out = result.json()['data']['msg']
+
+            # if result.json()['data']['msg'] is not None:
+            #     error_time_out = result.json()['data']['msg']
 
             if result.json()['data']['result'] == 'success':
                 message_id = self.env['popup.notification'].create({'message': ("Chuyển tiền thành công !")})
@@ -181,7 +182,7 @@ class ForControl(models.Model):
                     'res_id': message_id.id,
                     'target': 'new'
                 }
-            elif error_time_out.find("ConnectTimeoutError") != -1 :
+            elif result.json()['data']['msg'].find("ConnectTimeoutError") != -1 :
                 message_id = self.env['popup.notification'].create({'message': ("Connect Timeout Error !")})
                 return {
                     'name': ('False'),
