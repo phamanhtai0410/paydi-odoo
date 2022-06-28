@@ -46,7 +46,6 @@ class ResPartner(models.Model):
             stock_picking_ids_ready = []
             if record.stock_book_lines:
                 for x in record.stock_book_lines:
-                    print(" x.picking_id.state" ,x.picking_id.state)
                     if x.picking_id.state == "assigned" :
                         stock_picking_ids_ready.append(x.picking_id.id)
             record.update({'stock_picking_ids_ready': [(6, 0, stock_picking_ids_ready or [])]})
