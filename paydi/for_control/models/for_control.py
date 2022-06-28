@@ -58,7 +58,7 @@ class ForControl(models.Model):
                 self.status_save_file = 1
             else :
                 print('upload file fasle ----')
-                message_id = self.env['popup.notification'].create({'message': ("Upload file không thành công")})
+                message_id = self.env['popup.notification'].create({'message': ("Upload file không thành công, vui lòng kiểm tra lại file !")})
                 return {
                     'name': ('False'),
                     'type': 'ir.actions.act_window',
@@ -78,63 +78,80 @@ class ForControl(models.Model):
             self.stk_bank = sheet['F3'].value
     
             total = 0
-            for record in ws.iter_rows(min_row=8, max_row=None, min_col=None,max_col=None, values_only=True):
-                
-                self.env['file.data'].create({
-
-                    'file_name_id' : self.id,
-                                
-                    'STT': record[0],
-                                
-                    'MID': record[1],
-                                
-                    'name': record[2],
-
-                    'product_name': record[3],
-
-                    'bank_value': record[4],
-
-                    'agency': record[5],
-
-                    'bank_number': record[6],
-
-                    'citab_code': record[7],
-                
-                    'bin_code': record[8],
-
-                    'beneficiary': record[9],
-
-                    'totol_amount': record[10],
-                })
-
-                if record[10] is not None and record[10] != 'Số tiền':
-                    if isinstance(record[10], str)and record[10].find(','):
-                        amount = int(record[10].replace(",", "")) 
-                        total = total + amount
+            if self.status_save_file == 1:
+                for record in ws.iter_rows(min_row=8, max_row=None, min_col=None,max_col=None, values_only=True):
+                    
+                    data_record = record[10]
+                    if isinstance(data_record, str):
+                        if data_record.find(",") == -1:
+                            data_col = "{:,}".format(int(data_record))
+                        else:
+                            data_col = data_record
+                    elif isinstance(data_record, int):
+                        data_col = "{:,}".format(data_record)
                     else:
-                        amount = int(record[10])
-                        total = total + amount
-            
-            self.total_record = "{:,}".format(total)
+                        data_col = record[10]
+                    
+                    if record[0] is not None:
+                        self.env['file.data'].create({
+
+                            'file_name_id' : self.id,
+                                        
+                            'STT': record[0],
+                                        
+                            'MID': record[1],
+                                        
+                            'name': record[2],
+
+                            'product_name': record[3],
+
+                            'bank_value': record[4],
+
+                            'agency': record[5],
+
+                            'bank_number': record[6],
+
+                            'citab_code': record[7],
+                        
+                            'bin_code': record[8],
+
+                            'beneficiary': record[9],
+
+                            'totol_amount': data_col,
+                        })
+
+                        if record[10] is not None and record[10] != 'Số tiền':
+                            if isinstance(record[10], str)and record[10].find(','):
+                                amount = int(record[10].replace(",", "")) 
+                                total = total + amount
+                            else:
+                                amount = int(record[10])
+                                total = total + amount
+                
+                self.total_record = "{:,}".format(total)
+
+            else:
+                message_id = self.env['popup.notification'].create({'message': ("Upload file không thành công, vui lòng kiểm tra lại file !")})
+                return {
+                    'name': ('False'),
+                    'type': 'ir.actions.act_window',
+                    'view_mode': 'form',
+                    'res_model': 'popup.notification',
+                    # pass the id
+                    'res_id': message_id.id,
+                    'target': 'new'
+                }
         # return
 
     def one_more(self,arg):
-        print("==============================arg",arg['crr_url'])
-
         url = arg['crr_url']
         uri = urlparse(url)
         qs = uri.fragment
         ids = int(parse_qs(qs).get('id', None)[0])
         id_url=f'id={ids}'
         path_real = url.replace(id_url, "")
-        print("==============================url",path_real)
         
-
         return {
-            # 'type': 'ir.actions.act_url',
-            # 'url': path_real,
-            # 'target': 'self',
-            # 'res_id': self.id,
             'name': 'TO MODEL B',
             'res_model': 'ir.actions.act_url',
             'type': 'ir.actions.act_url',
@@ -151,8 +168,7 @@ class ForControl(models.Model):
             back_end_url = os.getenv('URL_PREFIX')
 
             result = requests.post(f'{back_end_url}/v1/odoo-api/fund_transfer/transfer', json=body_obj)
-            print('reponse =======================',result.json()['data'])
-            print('reponse =======================',result.json()['data']['result'])
+
             if result.json()['data']['result'] == 'success':
                 message_id = self.env['popup.notification'].create({'message': ("Chuyển tiền thành công !")})
                 return {
@@ -160,10 +176,20 @@ class ForControl(models.Model):
                     'type': 'ir.actions.act_window',
                     'view_mode': 'form',
                     'res_model': 'popup.notification',
-                    # pass the id
                     'res_id': message_id.id,
                     'target': 'new'
                 }
+            elif result.json()['data']['msg'].find("ConnectTimeoutError") != -1 or result.json()['data']['msg'].find("NewConnectionError") != -1:
+                message_id = self.env['popup.notification'].create({'message': ("Connect Timeout Error !")})
+                return {
+                    'name': ('False'),
+                    'type': 'ir.actions.act_window',
+                    'view_mode': 'form',
+                    'res_model': 'popup.notification',
+                    'res_id': message_id.id,
+                    'target': 'new'
+                }
+
             else:
                 message_id = self.env['popup.notification'].create({'message': result.json()['data']['msg']})
                 return {
@@ -171,7 +197,6 @@ class ForControl(models.Model):
                     'type': 'ir.actions.act_window',
                     'view_mode': 'form',
                     'res_model': 'popup.notification',
-                    # pass the id
                     'res_id': message_id.id,
                     'target': 'new'
                 }
@@ -184,7 +209,6 @@ class ForControl(models.Model):
                 'type': 'ir.actions.act_window',
                 'view_mode': 'form',
                 'res_model': 'popup.notification',
-                # pass the id
                 'res_id': message_id.id,
                 'target': 'new'
             }
