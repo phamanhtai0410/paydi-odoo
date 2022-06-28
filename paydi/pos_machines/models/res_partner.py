@@ -74,6 +74,17 @@ class ResPartner(models.Model):
 
     stock_picking_ids_donereturn = fields.One2many('stock.picking', compute='_get_stock_picking_ids_donereturn')
 
+    def _get_stock_picking_ids_cancel(self):
+        for record in self:
+            stock_picking_ids_cancel = []
+            if record.stock_book_lines:
+                for x in record.stock_book_lines:
+                    if x.picking_id.state == "cancel" :
+                        stock_picking_ids_cancel.append(x.picking_id.id)
+            record.update({'stock_picking_ids_cancel': [(6, 0, stock_picking_ids_cancel or [])]})
+
+    stock_picking_ids_cancel = fields.One2many('stock.picking', compute='_get_stock_picking_ids_cancel')
+
     account_ids = fields.One2many('account.pos.machines', 'partner_id', domain=[('status', '!=', 'return_machine')])
 
     @api.model_create_multi
