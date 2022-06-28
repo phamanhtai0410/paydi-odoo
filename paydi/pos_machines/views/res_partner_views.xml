@@ -81,6 +81,16 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div>
+                                <h3>Máy đã huỷ</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <field name="stock_picking_ids_cancel" context="{'show_booking': True}"/>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div>
                                 <h3>User name</h3>
                             </div>
                         </div>
