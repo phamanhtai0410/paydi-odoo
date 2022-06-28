@@ -46,7 +46,6 @@ class ResPartner(models.Model):
             stock_picking_ids_ready = []
             if record.stock_book_lines:
                 for x in record.stock_book_lines:
-                    print(" x.picking_id.state" ,x.picking_id.state)
                     if x.picking_id.state == "assigned" :
                         stock_picking_ids_ready.append(x.picking_id.id)
             record.update({'stock_picking_ids_ready': [(6, 0, stock_picking_ids_ready or [])]})
@@ -58,7 +57,7 @@ class ResPartner(models.Model):
             stock_picking_ids_done = []
             if record.stock_book_lines:
                 for x in record.stock_book_lines:
-                    if x.picking_id.out_picking_id == False and x.picking_id.return_picking_id != False or x.picking_id.state == "done" and x.picking_id.show_booking == False :
+                    if x.picking_id.out_picking_id == False and x.picking_id.return_picking_id != False or x.picking_id.out_picking_id_state != "done" and x.picking_id.show_booking == False and  x.picking_id.state == "done" :
                         stock_picking_ids_done.append(x.picking_id.id)
             record.update({'stock_picking_ids_done': [(6, 0, stock_picking_ids_done or [])]})
 
