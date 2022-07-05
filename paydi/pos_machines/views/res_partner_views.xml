@@ -37,12 +37,14 @@
                                 <h3>Máy đang làm hồ sơ</h3>
                             </div>
                             <button
-                                    type="object"
-                                    class="oe_highlight"
-                                    name="booking_pos"
-                                    confirm="Bạn chắc chắn muốn tạo phiếu đặt máy làm hồ sơ"
-                                    string="Thêm máy"
+                                attrs="{'invisible': [('is_approved_user_id','!=',True)]}"
+                                type="object"
+                                class="oe_highlight"
+                                name="booking_pos"
+                                confirm="Bạn chắc chắn muốn tạo phiếu đặt máy làm hồ sơ"
+                                string="Thêm máy"
                             />
+                            <field name="is_approved_user_id"  invisible="1"/> 
                         </div>
                         <div class="card-body">
                             <field name="stock_picking_ids_draft" context="{'show_booking': True}"/>
