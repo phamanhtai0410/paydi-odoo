@@ -37,12 +37,13 @@
                                 <h3>Máy đang làm hồ sơ</h3>
                             </div>
                             <button
-                                    type="object"
-                                    class="oe_highlight"
-                                    name="booking_pos"
-                                    confirm="Bạn chắc chắn muốn tạo phiếu đặt máy làm hồ sơ"
-                                    string="Thêm máy"
+                                type="object"
+                                class="oe_highlight"
+                                name="booking_pos"
+                                confirm="Bạn chắc chắn muốn tạo phiếu đặt máy làm hồ sơ"
+                                string="Thêm máy"
                             />
+                            
                         </div>
                         <div class="card-body">
                             <field name="stock_picking_ids_draft" context="{'show_booking': True}"/>

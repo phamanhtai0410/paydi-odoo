@@ -185,3 +185,13 @@ class ResPartner(models.Model):
                 'force_detailed_view': True
             }
         }
+    
+    # is_approved_user_id = fields.Boolean(default=False, compute='_get_current_user_details')    
+    # def _get_current_user_details(self):
+    #     current_user = self.env['res.users'].search([('id','=',self.env.user.id)]) 
+    #     _company_id = current_user.company_id.id
+    #     if _company_id == 2:
+    #         self.is_approved_user_id = True
+    #     else:
+    #         self.is_approved_user_id = True
+        
