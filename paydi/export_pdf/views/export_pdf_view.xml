@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+        <record id="res_partner_report" model="ir.actions.report">
+            <field name="name">Sac PDF BM</field>
+            <field name="model">res.partner</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">export_pdf.report_res_partner</field>
+            <field name="report_file">export_pdf.report_res_partner</field>
+            <field name="print_report_name">('The Report - %s' % (object.name))</field>
+            <field name="binding_model_id" ref="model_res_partner"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_res_partner">
+            <!-- <t t-name="export_pdf.model_res_partner"> -->
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                    <div style="width:100%;font-family:'Roboto'; padding-left:5%; padding-right:5%">
+                        
+                        <div style="text-align:center">
+                        <h3>THƯ ĐỀ NGHỊ CUNG CẤP DỊCH VỤ CHẤP NHẬN THẺ</h3>
+                        </div>
+                        
+                        <div>
+                        <h4><span style="text-decoration-line: underline">Kính gửi</span>: Ngân hàng Sài Gòn Thương Tín – Trung Tâm Thẻ (Sacombank)</h4>
+                        <p style="margin-top: 24px">Đề nghị Sacombank cung cấp dịch vụ chấp nhận thẻ cho ĐVCNTT theo thông tin chi tiết thể hiện như sau:</p>
+                        
+                        <div style="display: flex; flex-direction: row; justify-content: space-between">
+                            <span>POS <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"/> </span>
+                            <span>Tap To Phone <input type="checkbox" id="vehicle1" name="vehicle2" value="Bike"/> </span>
+                            <span>QRCode <input type="checkbox" id="vehicle1" name="vehicle3" value="Bike"/> </span>
+                            <span>Thanh toán trực tuyến bằng QRCode <input type="checkbox" id="vehicle4" name="vehicle1" value="Bike"/> </span>
+                        </div>
+                        
+                        <style>
+                            table, th, td {
+                            border: 1px solid black;
+                            border-collapse: collapse;
+                            text-align: left;
+                            }
+                            th, td {
+                                padding-left: 4px;
+                                padding-right: 4px
+                            }
+                        </style>
+                        
+                        <div>
+                            <h4>1.  THÔNG TIN CHI TIẾT VỀ ĐVCNTT</h4>
+                            <table style="width:100%">
+                            <tr>
+                                <th colspan="3">Thông tin đơn vị</th>
+                            </tr>
+                            <tr>
+                                <td>Tên đơn vị: <span t-field="o.display_name"/></td>
+                                <td>Tel: <span t-field="o.mobile"/></td>
+                                <td>Fax:</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Địachỉ: <span t-field="o.street"/>/<span t-field="o.city_id"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Loại hình doanh nghiệp:</td>
+                            </tr>
+                            <tr>
+                                <th colspan="3">Thông tin người đại diện</th>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Tên ngườiđạidiện: <span t-field="o.x_Presentative_Person"/></td>
+                                <td >CMND/HC: <span t-field="o.x_Presentative_ID"/></td>
+                            </tr>
+                            <tr>
+                                <td>Điện thoại: <span t-field="o.phone"/></td>
+                                <td>Email: <span t-field="o.email"/></td>
+                                <td>Tel:</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Địa chỉ:</td>
+                            </tr>
+                            </table>
+                        </div>
+                        
+                        <div style="margin-top:24px">
+                            <h4>2.  THÔNG TIN THỂHIỆN TRÊN HÓA ĐƠN</h4>
+                            <table style="width:100%">
+                            <tr>
+                                <td colspan="3">Tên kinh doanh (thểhiện trên bảnghiệu):</td>
+                            </tr>
+                            <tr>
+                                <td>Số điện thoại:</td>
+                                <td>Email:</td>
+                                <td>Fax</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Địa chỉ kinh doanh:</td>
+                            </tr>
+                            
+                            </table>
+                        </div>
+                        
+                        <div style="margin-top:24px">
+                            <h4>3.  THÔNG TIN THẨM ĐỊNH (*)</h4>
+                            <table style="width:100%">
+                            <tr>
+                                <td style="width:60%" rowspan="2">Loại hình kinh doanh: <span t-field="o.industry_id"/></td>
+                                <td>Thời gian hoạt động:</td>
+                            </tr>
+                            <tr>
+                                <td>Doanh số dự kiến 1 năm:</td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <p>ĐVCNTT cung cấp hàng hóa/dịchvụ có đúngvới thông tin đãcung cấp cho Ngân hàng và trên giấy 				phép đăng ký kinh doanh không?</p>
+                                    <p>Đơn vị có cơ sở kinh doanh đúng như khai báo trong hợp đồng hay không?</p>
+                                </td>
+                                <td >
+                                    <div style="display: flex; flex-direction: row;" >
+                                        <span><input type="checkbox" id="vehicle5" name="vehicle5" value="Bike"/> Đúng </span>
+                                        <span><input type="checkbox" id="vehicle6" name="vehicle6" value="Bike"/> Không </span>
+                                    </div>
+                                    <div style="display: flex; flex-direction: row; margin-top: 28px">
+                                        <span><input type="checkbox" id="vehicle5" name="vehicle5" value="Bike"/> Đúng </span>
+                                        <span><input type="checkbox" id="vehicle6" name="vehicle6" value="Bike"/> Không </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                <p>(*) Nếu kết quả kiểm tra là không (đúng) hoặc không (có) thì Sacombank không đồng ý cung 				cấp dịch vụ cho đơn vị.</p>
+                                <p>Vui lòng đính kèm hình ảnh thẩm định đơn vị, hàng hoá, hoá đơn bán lẻmẫu</p>
+                                </td>
+                            </tr>
+                            
+                            </table>
+                        </div>
+                        
+                        <div style="margin-top:24px">
+                            <h4>4. THIẾT BỊ CHẤP NHẬN THẺ</h4>
+                            <table style="width:100%">
+                            <tr>
+                                <th style="width:60%" rowspan="2">Thời gian hoạtđộng:</th>
+                                <th colspan="2">Loại hình tiền tệ chấp nhận trên POS</th>
+                            </tr>
+                            <tr>
+                                <td>USD</td>
+                                <td>VNĐ</td>
+                                
+                            </tr>
+                            <tr style="height:36px">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            </table>
+                        </div>
+                        
+                        <div style="width:50%; text-align:center; float: right; margin-top:24px">
+                            <h3>ĐẠI DIỆN BÊN B</h3>
+                            <p style="font-style: italic">(Ký tên, đóngdấu và ghi rõ họ/tên)</p>
+                        </div>
+                        
+                        </div>
+                        
+                    </div>
+                    </div>
+                </t>
+            </t>
+            <!-- </t> -->
+        </template>
+    </odoo>
