@@ -5,7 +5,9 @@
     'summary': '',
     'depends': ['base', 'merchant_contacts'],
     'data': [
-        'views/export_pdf_view.xml'
+        'views/export_pdf_view.xml',
+        'views/export_pdf_bidv.xml',
+        'views/export_pdf_exim.xml',
     ],
     'demo': [],
     'installable': True,
