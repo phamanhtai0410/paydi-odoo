@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
     <odoo>
-        <record id="res_partner_report" model="ir.actions.report">
+        <record id="res_partner_report_bidv" model="ir.actions.report">
             <field name="name">BIDV PDF BM</field>
             <field name="model">res.partner</field>
             <field name="report_type">qweb-html</field>
