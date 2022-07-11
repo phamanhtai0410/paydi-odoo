@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
     <odoo>
         <record id="res_partner_report_exim" model="ir.actions.report">
-            <field name="name">EXIM PDF BM</field>
+            <field name="name">Export PDF Eximbank</field>
             <field name="model">res.partner</field>
             <field name="report_type">qweb-html</field>
             <field name="report_name">export_pdf.report_exim</field>
             <field name="report_file">export_pdf.report_exim</field>
-            <field name="print_report_name">('The Report - %s' % (object.name))</field>
+            <field name="print_report_name">('Eximbank Report - %s' % (object.name))</field>
             <field name="binding_model_id" ref="model_res_partner"/>
             <field name="binding_type">report</field>
         </record>
@@ -15,7 +15,7 @@
             <!-- <t t-name="export_pdf.model_res_partner"> -->
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.basic_layout">
-                        <div class="page">
+                        <div class="page atom_page" style="font-family:'Times New Roman', Times, serif; font-size: 16px;">
                             <style>
                             table, th, td {
                                 border: 1px solid black;
@@ -69,40 +69,40 @@
                                 <td style="padding: 0 5px"></td>
                                 <td style="padding: 0 5px"></td>
                                 </tr>
-                                                            <tr style="border-top:1px solid;line-height:45px">
+                                <tr style="border-top:1px solid;line-height:45px">
                                 <td style="text-align:center">2</td>
                                 <td style="padding: 0 5px">Tên kinh doanh (tên in trên hóa đơn)</td>
-                                <td style="padding: 0 5px"></td>
+                                <td style="padding: 0 5px"><span t-field="o.company_vn_name"/></td>
                                 <td style="padding: 0 5px"></td>
                                 </tr>
                                 <tr style="border-top:1px solid;line-height:45px">
                                 <td style="text-align:center">3</td>
                                 <td style="padding: 0 5px">Tên trên giấy phép đăng ký kinh doanh</td>
-                                <td style="padding: 0 5px"></td>
+                                <td style="padding: 0 5px"><span t-field="o.company_vn_name"/></td>
                                 <td style="padding: 0 5px"></td>
                                 </tr>
                                                             <tr style="border-top:1px solid;line-height:45px">
                                 <td style="text-align:center">4</td>
                                 <td style="padding: 0 5px">Giấy phép kinh doanh số ; ngày cấp</td>
-                                <td style="padding: 0 5px"></td>
+                                <td style="padding: 0 5px"><span t-field="o.registration_number"/></td>
                                 <td style="padding: 0 5px"></td>
                                 </tr>
                                                             <tr style="border-top:1px solid;line-height:45px">
                                 <td style="text-align:center">5</td>
                                 <td style="padding: 0 5px">Người đại diện pháp luật</td>
-                                <td style="padding: 0 5px"></td>
+                                <td style="padding: 0 5px"><span t-field="o.x_Presentative_Person"/></td>
                                 <td style="padding: 0 5px"></td>
                                 </tr>
                                                             <tr style="border-top:1px solid;line-height:45px">
                                 <td style="text-align:center">6</td>
                                 <td style="padding: 0 5px">Số CMND/CCCD/Hộchiếu</td>
-                                <td style="padding: 0 5px"></td>
+                                <td style="padding: 0 5px"><span t-field="o.x_Presentative_ID"/></td>
                                 <td style="padding: 0 5px"></td>
                                 </tr>
                                                             <tr style="border-top:1px solid;line-height:45px">
                                 <td style="text-align:center">7</td>
                                 <td style="padding: 0 5px">Địa chỉ kinh doanh (lắp đặt máy POS)</td>
-                                <td style="padding: 0 5px"></td>
+                                <td style="padding: 0 5px"><span t-field="o.street"/>/<span t-field="o.city_id"/></td>
                                 <td style="padding: 0 5px"></td>
                                 </tr>
                                                             <tr style="border-top:1px solid;line-height:45px">
