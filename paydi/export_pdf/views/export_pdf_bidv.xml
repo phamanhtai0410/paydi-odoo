@@ -41,15 +41,15 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.basic_layout">
                     <div class="page">
-                    <div style="width:100%;font-family:'Times New Roman', Times, serif; font-size: 16px;">
+                    <div style="width:100%;font-family:'Times New Roman', Times, serif; font-size: 11pt;">
                         <div>
-                        <h3 style="text-align: center; text-decoration-line: underline">Mẫu01/HĐHT/BIDV-MASTER MERCHANT</h3>
-                        <h3 style="text-align: center">PHIẾU ĐĂNG KÝ ĐƠN VỊ CHẤP NHẬN THANH TOÁN</h3>
+                        <h3 style="text-align: center; text-decoration-line: underline; font-size: 12pt; font-weight: bold">Mẫu01/HĐHT/BIDV-MASTER MERCHANT</h3>
+                        <h3 style="text-align: center; font-size: 12pt; font-weight: bold">PHIẾU ĐĂNG KÝ ĐƠN VỊ CHẤP NHẬN THANH TOÁN</h3>
                         </div>
                         
                         <div style="padding-left:5%; padding-right:5%; text-align: justify; padding-top:24px; padding-bottom:24px">
-                        <h4>Kính gửi: NGÂN HÀNG TMCP ĐẦUTƯ VÀ PHÁT TRIỂN VIỆT NAM (BIDV)</h4>
-                        <p style="margin-top: 24px">Căn cứ Hợp đồng hợp tác triển khai dịch vụ thanh toán thẻ cho ĐVCNTT số: 15732203.0122/BIDV-ONEFIN ngày 14/06/2022 giữa Ngân hàng TMCP Đầutư và Phát triển Việt Nam (BIDV) và (MASTER MERCHANT), MASTER MERCHANT xin gửi BIDV các thông tin đăng ký của ĐVCNTT như sau:</p>
+                        <h4 style="font-weight: bold; font-size:11pt">Kính gửi: NGÂN HÀNG TMCP ĐẦU TƯ VÀ PHÁT TRIỂN VIỆT NAM (BIDV)</h4>
+                        <p style="margin-top: 24px">Căn cứ Hợp đồng hợp tác triển khai dịch vụ thanh toán thẻ cho ĐVCNTT số: 15732203.0122/BIDV-ONEFIN ngày 14/06/2022 giữa Ngân hàng TMCP Đầu tư và Phát triển Việt Nam (BIDV) và (MASTER MERCHANT), MASTER MERCHANT xin gửi BIDV các thông tin đăng ký của ĐVCNTT như sau:</p>
                         </div>
                         
                         <div>
@@ -65,12 +65,12 @@
                         </style>
                         <table style="width:100%">
                             <tr>
-                            <th rowspan="2">STT</th>
-                            <th colspan="4">Đăng ký kinh doanh (ĐKKD)</th>
-                            <th colspan="2">Người đại diện</th>
-                            <th rowspan="2">MCC</th>
-                            <th rowspan="2">Loại hình kinh doanh</th>
-                            <th colspan="4">Thông tin thiết bị</th>
+                                <th rowspan="2">STT</th>
+                                <th colspan="4">Đăng ký kinh doanh (ĐKKD)</th>
+                                <th colspan="2">Người đại diện</th>
+                                <th rowspan="2">MCC</th>
+                                <th rowspan="2">Loại hình kinh doanh</th>
+                                <th colspan="4">Thông tin thiết bị</th>
                             </tr>
                             <tr>
                             <th>Số ĐKKD</th>
@@ -92,12 +92,12 @@
                             <td></td>
                             <td><span t-field="o.x_Presentative_Person"/></td>
                             <td><span t-field="o.phone"/></td>
-                            <td>50</td>
+                            <td></td>
                             <td><span t-field="o.industry_id"/></td>
-                            <td>50</td>
-                            <td>50</td>
-                            <td>50</td>
-                            <td>50</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             </tr>
                             
                         </table>
@@ -106,10 +106,10 @@
                         <div style="padding-left:5%; padding-right:5%; text-align: justify; padding-top:24px; padding-bottom:24px">
                         <p>Chúng tôi cam kết những thông tin cung cấp trên đây là đúng sự thật và hoàn toàn chịu trách nhiệm về toàn bộ các thông tin đã khai báo</p>
                         </div>
-                        <div style="width:50%; text-align:center; float: right">
-                        <p>Hà Nội, ngày....tháng....năm</p>
-                        <h4>ĐẠI DIỆN MASTER MERCHANT</h4>
-                        <p style="font-style: oblique">(Ký, ghi rõ họ tên và đóng dấu)</p>
+                        <div style="width:50%; text-align:center; float: right; font-size: 12pt">
+                            <p>...,ngày....tháng....năm</p>
+                            <h4 style="font-size:12pt; font-weight: bold">ĐẠI DIỆN MASTER MERCHANT</h4>
+                            <p style="font-style: oblique">(Ký, ghi rõ họ tên và đóng dấu)</p>
                         </div>
                     </div>
                     </div>

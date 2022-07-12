@@ -16,14 +16,14 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.basic_layout">
                     <div class="page">
-                        <div style="width:100%;font-family:'Times New Roman', Times, serif; font-size: 16px; padding-left:5%; padding-right:5%">
+                        <div style="width:100%;font-family:'Times New Roman', Times, serif; font-size: 12pt; padding-left:5%; padding-right:5%">
                             
                             <div style="text-align:center">
-                            <h3>THƯ ĐỀ NGHỊ CUNG CẤP DỊCH VỤ CHẤP NHẬN THẺ</h3>
+                                <h3 style="font-size: 12pt; font-weight: bold">THƯ ĐỀ NGHỊ CUNG CẤP DỊCH VỤ CHẤP NHẬN THẺ</h3>
                             </div>
                             
                             <div>
-                            <h4><span style="text-decoration-line: underline">Kính gửi</span>: Ngân hàng Sài Gòn Thương Tín – Trung Tâm Thẻ (Sacombank)</h4>
+                            <h4 style="font-size: 12pt; font-weight: bold"><span style="text-decoration-line: underline">Kính gửi</span>: Ngân hàng Sài Gòn Thương Tín – Trung Tâm Thẻ (Sacombank)</h4>
                             <p style="margin-top: 24px">Đề nghị Sacombank cung cấp dịch vụ chấp nhận thẻ cho ĐVCNTT theo thông tin chi tiết thể hiện như sau:</p>
                             
                             <div style="display: flex; flex-direction: row; justify-content: space-between">
@@ -46,10 +46,10 @@
                             </style>
                             
                             <div>
-                                <h4>1.  THÔNG TIN CHI TIẾT VỀ ĐVCNTT</h4>
+                                <h4 style="font-weight: bold; font-size:12pt">1.  THÔNG TIN CHI TIẾT VỀ ĐVCNTT</h4>
                                 <table style="width:100%">
                                 <tr>
-                                    <th colspan="3">Thông tin đơn vị</th>
+                                    <th colspan="3" style="font-weight: bold">Thông tin đơn vị</th>
                                 </tr>
                                 <tr>
                                     <td>Tên đơn vị: <span t-field="o.display_name"/></td>
@@ -63,7 +63,7 @@
                                     <td colspan="3">Loại hình doanh nghiệp:</td>
                                 </tr>
                                 <tr>
-                                    <th colspan="3">Thông tin người đại diện</th>
+                                    <th colspan="3" style="font-weight: bold">Thông tin người đại diện</th>
                                 </tr>
                                 <tr>
                                     <td colspan="2">Tên người đại diện: <span t-field="o.x_Presentative_Person"/></td>
@@ -81,7 +81,7 @@
                             </div>
                             
                             <div style="margin-top:24px">
-                                <h4>2.  THÔNG TIN THỂ HIỆN TRÊN HÓA ĐƠN</h4>
+                                <h4 style="font-weight: bold; font-size:12pt">2.  THÔNG TIN THỂ HIỆN TRÊN HÓA ĐƠN</h4>
                                 <table style="width:100%">
                                 <tr>
                                     <td colspan="3">Tên kinh doanh (thể hiện trên bảng hiệu):</td>
@@ -99,7 +99,7 @@
                             </div>
                             
                             <div style="margin-top:24px">
-                                <h4>3.  THÔNG TIN THẨM ĐỊNH (*)</h4>
+                                <h4 style="font-weight: bold; font-size:12pt">3.  THÔNG TIN THẨM ĐỊNH (*)</h4>
                                 <table style="width:100%">
                                 <tr>
                                     <td style="width:60%" rowspan="2">Loại hình kinh doanh: <span t-field="o.industry_id"/></td>
@@ -135,10 +135,10 @@
                             </div>
                             
                             <div style="margin-top:24px">
-                                <h4>4. THIẾT BỊ CHẤP NHẬN THẺ</h4>
+                                <h4 style="font-weight: bold; font-size:12pt">4. THIẾT BỊ CHẤP NHẬN THẺ</h4>
                                 <table style="width:100%">
                                 <tr>
-                                    <th style="width:60%" rowspan="2">Thời gian hoạt động:</th>
+                                    <th rowspan="2" style="width:60%;font-weight: bold; font-size:12pt; text-align:center">Số lượng thiết bị yêu cầu lắp đặt</th>
                                     <th colspan="2">Loại hình tiền tệ chấp nhận trên POS</th>
                                 </tr>
                                 <tr>
