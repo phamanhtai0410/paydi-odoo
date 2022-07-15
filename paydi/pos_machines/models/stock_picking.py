@@ -1,3 +1,4 @@
+from copy import copy, deepcopy
 from odoo import fields, models, api
 from odoo.exceptions import UserError, ValidationError
 
@@ -80,3 +81,41 @@ class StockPicking(models.Model):
                 'default_return_from_picking_id': self.id
             }
         }
+
+    def act_stock_booking_picking_config(self):
+      
+        picking_type_id = self.env['stock.picking.type'].search([('sequence_code', '=', 'OUT')], limit=1)
+        new_picking = {
+            
+            'origin': f'Booking of {self.name}',
+            'move_type' : 'direct',
+            'state': 'draft',
+            'scheduled_date': self.scheduled_date,
+            'has_deadline_issue': False,
+            'location_id': self.location_id.id,
+            'location_dest_id': self.partner_id.property_stock_customer.id,
+            'picking_type_id': picking_type_id.id,
+            'company_id': self.company_id.id,
+            'user_id': self.user_id.id,
+            'is_locked': False,
+            'partner_id': self.partner_id.id,
+        }
+        
+        result = self.env['stock.picking'].browse(self.id).copy({
+            'state': 'draft',
+            'is_locked': False,
+            'origin': f'Booking of {self.name}',
+            'location_dest_id': self.partner_id.property_stock_customer.id,
+            'picking_type_id': picking_type_id.id,
+            # 'move_line_ids': [(4,move_line_new.id)]
+        })
+
+        move_line_ids = self.move_line_ids[0]
+        move_line_new = move_line_ids.copy({
+            'picking_id': result.id,
+            'reference':result.name,
+        })
+
+        self.write({
+            'out_picking_id' : result.id
+        })

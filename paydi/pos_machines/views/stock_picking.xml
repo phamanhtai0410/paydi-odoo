@@ -32,10 +32,10 @@
                         attrs="{'invisible': [ '|', ('show_booking','=', False), ('out_picking_id', '!=', False)]}"
                         type="object"/>
                 <button
-                        type="action"
+                        type="object"
                         class="oe_highlight bg-success-light ml-2"
                         attrs="{'invisible': ['|', '|', ('show_booking','=', False), ('state', '!=', 'done'), ('out_picking_id', '!=',False)]}"
-                        name="%(act_stock_booking_picking)d"
+                        name="act_stock_booking_picking_config"
                         confirm="Bạn chắc chắn muốn tạo phiếu xuất kho"
                         string="Xuất máy"
                         groups="base.group_user"
