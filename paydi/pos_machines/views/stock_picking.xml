@@ -40,15 +40,15 @@
                         string="Xuất máy"
                         groups="base.group_user"
                 />
-                <button
+                <!-- <button
                         type="object"
                         class="oe_highlight bg-danger-light ml-2"
-                        attrs="{'invisible': ['|', '|',('return_picking_id', '!=',False), ('out_picking_id', '=', False), '|' ,( 'out_picking_id_state', '!=', 'done'), ('show_booking','=', False)]}"
-                        name="make_return"
+                        invisible="1" 
+                        name="act_return_stock_booking_picking"
                         confirm="Bạn chắc chắn muốn tạo phiếu hoàn trả"
                         string="Hoàn trả"
                         groups="base.group_user"
-                />
+                /> -->
             </xpath>
 
             <xpath expr="//field[@name='partner_id']" position="attributes">

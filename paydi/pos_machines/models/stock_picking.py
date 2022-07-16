@@ -119,3 +119,37 @@ class StockPicking(models.Model):
         self.write({
             'out_picking_id' : result.id
         })
+
+
+    def act_return_stock_booking_picking(self):
+        picking_name = self.name
+        print('picking name ======================', picking_name)
+        if picking_name.find("ATOM") != -1:
+            picking_type_id = self.env['stock.picking.type'].search([('sequence_code', '=', 'A-RETURN')], limit=1)
+            print('pciking type id ========================', picking_type_id)
+        if picking_name.find('PD-DN') != -1:
+            picking_type_id = self.env['stock.picking.type'].search([('sequence_code', '=', 'P-RETURN')], limit=1)
+        # picking_type_id = self.env['stock.picking.type'].search([('sequence_code', '=', 'A-RETURN')], limit=1)
+
+        result = self.env['stock.picking'].browse(self.id).copy({
+            'state': 'draft',
+            'is_locked': False,
+            'origin': f'Return of {self.name}',
+            'location_id': self.partner_id.property_stock_customer.id,
+            'location_dest_id': self.location_id.id,
+            'picking_type_id': picking_type_id.id,
+            'out_picking_id' : '',
+        })
+
+        move_line_ids = self.move_line_ids[0]
+        move_line_new = move_line_ids.copy({
+            'picking_id': result.id,
+            'reference':result.name,
+        })
+
+        self.write({
+            'return_from_picking_id' : result.id,
+            'is_locked': True,
+            'state': 'done'
+        })
+
