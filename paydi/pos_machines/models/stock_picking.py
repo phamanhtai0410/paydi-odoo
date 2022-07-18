@@ -100,25 +100,36 @@ class StockPicking(models.Model):
             'is_locked': False,
             'partner_id': self.partner_id.id,
         }
+        fee = self.env['res.partner.fee'].search_read([('partner_id', '=', self.partner_id.id)])
         
-        result = self.env['stock.picking'].browse(self.id).copy({
-            'state': 'draft',
-            'is_locked': False,
-            'origin': f'Booking of {self.name}',
-            'location_dest_id': self.partner_id.property_stock_customer.id,
-            'picking_type_id': picking_type_id.id,
-            # 'move_line_ids': [(4,move_line_new.id)]
-        })
+        if len(fee) < 1:
+            message_id = self.env['popup.notification'].create({'message': ("Nhập phí máy trước khi xuất máy !")})
+            return {
+                'name': ('False'),
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'popup.notification',
+                'res_id': message_id.id,
+                'target': 'new'
+            }
+        else :
+            result = self.env['stock.picking'].browse(self.id).copy({
+                'state': 'draft',
+                'is_locked': False,
+                'origin': f'Booking of {self.name}',
+                'location_dest_id': self.partner_id.property_stock_customer.id,
+                'picking_type_id': picking_type_id.id,
+            })
 
-        move_line_ids = self.move_line_ids[0]
-        move_line_new = move_line_ids.copy({
-            'picking_id': result.id,
-            'reference':result.name,
-        })
+            move_line_ids = self.move_line_ids[0]
+            move_line_new = move_line_ids.copy({
+                'picking_id': result.id,
+                'reference':result.name,
+            })
 
-        self.write({
-            'out_picking_id' : result.id
-        })
+            self.write({
+                'out_picking_id' : result.id
+            })
 
 
     def act_return_stock_booking_picking(self):
