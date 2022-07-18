@@ -16,7 +16,8 @@
         'views/stock_move_line.xml',
         'views/stock.book.line.views.xml',
         'views/stock_picking.xml',
-        'views/ref.code.views.xml'
+        'views/ref.code.views.xml',
+        'views/popup_notification_view.xml',
     ],
     'demo': [],
     'installable': True,
