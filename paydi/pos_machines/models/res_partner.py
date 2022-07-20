@@ -46,7 +46,6 @@ class ResPartner(models.Model):
             stock_picking_ids_ready = []
             if record.stock_book_lines:
                 for x in record.stock_book_lines:
-                    print(" x.picking_id.state" ,x.picking_id.state)
                     if x.picking_id.state == "assigned" :
                         stock_picking_ids_ready.append(x.picking_id.id)
             record.update({'stock_picking_ids_ready': [(6, 0, stock_picking_ids_ready or [])]})
@@ -58,7 +57,7 @@ class ResPartner(models.Model):
             stock_picking_ids_done = []
             if record.stock_book_lines:
                 for x in record.stock_book_lines:
-                    if x.picking_id.out_picking_id == False and x.picking_id.return_picking_id != False or x.picking_id.state == "done" and x.picking_id.show_booking == False :
+                    if x.picking_id.out_picking_id == False and x.picking_id.return_picking_id != False or x.picking_id.out_picking_id_state != "done" and x.picking_id.show_booking == False and  x.picking_id.state == "done" :
                         stock_picking_ids_done.append(x.picking_id.id)
             record.update({'stock_picking_ids_done': [(6, 0, stock_picking_ids_done or [])]})
 
@@ -74,6 +73,17 @@ class ResPartner(models.Model):
             record.update({'stock_picking_ids_donereturn': [(6, 0, stock_picking_ids_donereturn or [])]})
 
     stock_picking_ids_donereturn = fields.One2many('stock.picking', compute='_get_stock_picking_ids_donereturn')
+
+    def _get_stock_picking_ids_cancel(self):
+        for record in self:
+            stock_picking_ids_cancel = []
+            if record.stock_book_lines:
+                for x in record.stock_book_lines:
+                    if x.picking_id.state == "cancel" :
+                        stock_picking_ids_cancel.append(x.picking_id.id)
+            record.update({'stock_picking_ids_cancel': [(6, 0, stock_picking_ids_cancel or [])]})
+
+    stock_picking_ids_cancel = fields.One2many('stock.picking', compute='_get_stock_picking_ids_cancel')
 
     account_ids = fields.One2many('account.pos.machines', 'partner_id', domain=[('status', '!=', 'return_machine')])
 
@@ -175,3 +185,13 @@ class ResPartner(models.Model):
                 'force_detailed_view': True
             }
         }
+    
+    # is_approved_user_id = fields.Boolean(default=False, compute='_get_current_user_details')    
+    # def _get_current_user_details(self):
+    #     current_user = self.env['res.users'].search([('id','=',self.env.user.id)]) 
+    #     _company_id = current_user.company_id.id
+    #     if _company_id == 2:
+    #         self.is_approved_user_id = True
+    #     else:
+    #         self.is_approved_user_id = True
+        
