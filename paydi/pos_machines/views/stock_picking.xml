@@ -32,23 +32,25 @@
                         attrs="{'invisible': [ '|', ('show_booking','=', False), ('out_picking_id', '!=', False)]}"
                         type="object"/>
                 <button
-                        type="object"
-                        class="oe_highlight bg-success-light ml-2"
-                        attrs="{'invisible': ['|', '|', ('show_booking','=', False), ('state', '!=', 'done'), ('out_picking_id', '!=',False)]}"
-                        name="act_stock_booking_picking_config"
-                        confirm="Bạn chắc chắn muốn tạo phiếu xuất kho"
-                        string="Xuất máy"
-                        groups="base.group_user"
+                    type="action"
+                    class="oe_highlight bg-success-light ml-2"
+                    attrs="{'invisible': ['|', '|', ('show_booking','=', False), ('state', '!=', 'done'), ('out_picking_id', '!=',False)]}"
+                    name="%(act_stock_booking_picking)d"
+                    confirm="Bạn chắc chắn muốn tạo phiếu xuất kho"
+                    string="Xuất máy"
+                    groups="base.group_user"
                 />
-                <!-- <button
-                        type="object"
-                        class="oe_highlight bg-danger-light ml-2"
-                        invisible="1" 
-                        name="act_return_stock_booking_picking"
-                        confirm="Bạn chắc chắn muốn tạo phiếu hoàn trả"
-                        string="Hoàn trả"
-                        groups="base.group_user"
-                /> -->
+
+                <button
+                    type="object"
+                    class="oe_highlight bg-danger-light ml-2"
+                    attrs="{'invisible': ['|', '|',('return_picking_id', '!=',False), ('out_picking_id', '=', False), '|' ,( 'out_picking_id_state', '!=', 'done'), ('show_booking','=', False)]}"
+                    name="make_return"
+                    confirm="Bạn chắc chắn muốn tạo phiếu hoàn trả"
+                    string="Hoàn trả"
+                    groups="base.group_user"
+                />
+            
             </xpath>
 
             <xpath expr="//field[@name='partner_id']" position="attributes">
