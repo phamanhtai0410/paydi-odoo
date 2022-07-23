@@ -24,7 +24,7 @@
                 <page string="Báo Cáo"
                       
                     name="export_excel">
-                    <form role="form" action="/exportfee" class="s_website_form form-horizontal container-fluid mt32" >    
+                    <form role="form" action="/exportfee" class="s_website_form form-horizontal container-fluid mt32 " >    
                         <div class="form-group form-field o_website_form_required_custom" style="display: grid;grid-template-columns: 3fr 3fr 1fr;column-gap: 10px;">    
                             <div style="  display: grid;grid-template-columns: 1fr 4fr;align-items: center;">    
                                 <label class="control-label" for="name" string="Từ Ngày"></label>          
@@ -34,10 +34,10 @@
                                 <label  class="control-label" for="name" string="Đến Ngày"></label>                            
                                 <input type="date"  options="{'format': 'DD/MM/YYYY'}" class="form-control o_website_form_input" id="todate" name="todate" required=""/>   
                             </div>
-                                <input type="submit" role="button" id='submit' class="btn btn-primary btn-md o_website_form_send" value="Xuất báo cáo"/>
+                                <button type="submit" name="button" id='submit_fee' class="btn btn-primary btn-md o_website_form_send a_report" string="Xuất báo cáo"/>
                                 <span id="o_website_form_result"></span> 
                         </div> 
-                        <script language="text/javascript" src="report_fee/static/js/report_fee.js"></script>
+                        <!-- <script language="text/javascript" src="report_fee/static/js/report_fee.js"></script> -->
                     </form>
                 </page>
             </xpath>

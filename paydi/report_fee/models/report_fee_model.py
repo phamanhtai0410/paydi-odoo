@@ -28,10 +28,16 @@ class ResPartner(models.Model):
         records = self.env["res.partner.fee"].search_read([("partner_id","=",ids)])
         if len(records) < 1:
             fees = []
-            return
+            return {
+                'url' : False
+            }
         else :
             fees = []   
             for record in records:
+                if record.get('card_type') == False or record.get('bank') == False or record.get('fee') == False or record.get('from_date') == False or record.get('to_date') == False:
+                    return {
+                        'url' : 'not_value'
+                    } 
                 record_obj = {
                     'odoo_contact_id' : record.get('partner_id')[0],
                     'merchant_name':record.get('partner_id')[1],
@@ -42,6 +48,7 @@ class ResPartner(models.Model):
                     'to_date': time.mktime(record.get('to_date').timetuple())
                 }
                 fees.append(record_obj)
+
         fee_obj = {
             "fromdate_res" : fromdate_res,
             "todate_res" : todate_res,
