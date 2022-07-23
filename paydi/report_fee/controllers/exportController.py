@@ -22,12 +22,22 @@ class exportController(http.Controller):
     @http.route('/exportfee', type='json',website=False, auth='public', methods=['POST'], csrf=False)
     def some_url(self, **arg):
         prod_obj = http.request.env['res.partner'].export_action_withdate(arg)
-        return {
-            'name': 'TO MODEL C',
-            'res_model': 'ir.actions.act_url',
-            'type': 'ir.actions.act_url',
-            'target': 'self',
-            'url': prod_obj.get('url'),
-        }
+        if prod_obj.get('url'):
+            if prod_obj.get('url') == 'not_value':
+                return {
+                    'url': prod_obj.get('url')
+                }
+            else:
+                return {
+                    'name': 'TO MODEL C',
+                    'res_model': 'ir.actions.act_url',
+                    'type': 'ir.actions.act_url',
+                    'target': 'self',
+                    'url': prod_obj.get('url'),
+                }
+        else:
+            return {
+                'url': False
+            }
 
 
