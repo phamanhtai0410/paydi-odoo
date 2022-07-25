@@ -54,7 +54,7 @@
 
             <xpath expr="//field[@name='vat']" position="before">
                 <field name="registration_number"
-                       attrs="{'invisible': [('is_company','=', False)], 'required': [('obj_type','=', 'merchant')]}"/>
+                       attrs="{'invisible': [('is_company','=', False)], 'required': [('is_company','=', True)]}"/>
             </xpath>
 
             <xpath expr="//field[@name='country_id']" position="attributes">
