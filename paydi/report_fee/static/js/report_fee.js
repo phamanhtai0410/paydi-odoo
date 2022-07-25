@@ -1,16 +1,24 @@
 
-odoo.define('exportfee.script', function (require) {
+// odoo.define('exportfee.script',['web.ajax','web.FormController'], function (require) {
 
-    "use strict";
 
-    var ajax = require('web.ajax');
-    $(document).ready(function () {
-        $('.s_website_form').on('click', '#submit', function () {
+    odoo.define('exportfee.script',['web.ajax','web.FormController'], function (require) {
 
+        "use strict";
+    
+        var ajax = require('web.ajax');
+        console.log('hello, let begin')
+    
+        var FormController = require('web.FormController');
+    
+        function myfunction(){
             var from = $('#fromdate').val();
             var to = $('#todate').val();
-            var crr_url = window.location.href ;
-    
+            if(!from && !to){
+                alert(' nhap time')
+            }else {
+                var crr_url = window.location.href ;
+
             const indexOfFirst = crr_url.search('&id=');
             const indexOfEnd = crr_url.search('&menu_id');
             const ids = crr_url.slice(indexOfFirst+4, indexOfEnd)
@@ -22,12 +30,37 @@ odoo.define('exportfee.script', function (require) {
 
             }).then(function (result) {
                 const path = result.url
-                window.open(path, '_blank');
-                location.reload(true);
+                console.log('path--------------', path)
+                if (path !== false) {
+                    if(path == 'not_value') {
+                        alert("Vui lòng nhập đủ thông tin phí máy");
+                    }
+                    else {
+                        window.open(path, '_blank');
+                        location.reload(true);
+                    }
+                }
+                else {
+                    alert("Vui lòng nhập phí máy");
+                }
             });
-            return;
-        })
-    })
-});
-
+                return;
+            }
+        }
+    
+        var reportController = FormController.include({
+            
+            _onButtonClicked: function (event) {
+                console.log(event)
+                console.log(event.data.attrs.id )
+                
+                if(event.data.attrs.id === "submit_fee"){
+                    // your code
+                    myfunction()
+                }
+                this._super(event);
+            },
+        });
+        return reportController
+    });
 
