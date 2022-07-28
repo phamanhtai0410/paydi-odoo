@@ -2,6 +2,7 @@ from datetime import datetime
 from importlib.resources import path
 import json
 import time
+import os
 import requests
 from odoo import api, models, modules, fields, _
 from odoo.http import request
@@ -55,7 +56,9 @@ class ResPartner(models.Model):
             "fees_by_time" : fees
         }
 
-        result = requests.post("https://paydi-staging.rinznetwork.com/v1/data-odoo/transactions_statistic/report_transactions_by_time", json=fee_obj)
+        back_end_url = os.getenv('URL_PREFIX')
+        url = f'{back_end_url}/v1/data-odoo/transactions_statistic/report_transactions_by_time'
+        result = requests.post(url, json=fee_obj)
         path = result.json().get('data').get('path')
         return {
             'name': 'TO MODEL C',
@@ -89,8 +92,10 @@ class ResPartner(models.Model):
             "fees": fees
         }
         
-        result = requests.post("https://paydi-staging.rinznetwork.com/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj)
-        # result = requests.post("http://localhost:5000/v1/data-odoo/transactions_statistic/report_transactions", json=fee_obj);
+        back_end_url = os.getenv('URL_PREFIX')
+        url_report = f'{back_end_url}/v1/data-odoo/transactions_statistic/report_transactions'
+        result = requests.post(url_report, json=fee_obj)
+
         path = result.json().get('data').get('path')
         return {
             'name': 'TO MODEL B',
