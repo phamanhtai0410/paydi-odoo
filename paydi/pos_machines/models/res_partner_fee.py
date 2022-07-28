@@ -14,16 +14,17 @@ class ResPartnerFee(models.Model):
         ('UPI', 'UPI'),
         ('AMEX', 'AMEX'),
         ('DINERS/DISCOVER', 'DINERS/DISCOVER'),
-    ], string='Lọai thẻ')
-    bank = fields.Many2one('res.bank')
-    fee = fields.Float(string='Mức phí')
-    from_date = fields.Datetime(string='Bắt đầu từ')
-    to_date = fields.Datetime(string='Ngày kết thúc')
-    active = fields.Boolean(string='Hiệu lực', default=False)
+    ], string='Lọai thẻ', required='1')
+    bank = fields.Many2one('res.bank', required='1')
+    fee = fields.Float(string='Mức phí', required='1')
+    from_date = fields.Datetime(string='Bắt đầu từ', required='1')
+    to_date = fields.Datetime(string='Ngày kết thúc', required='1')
+    active = fields.Boolean(string='Hiệu lực', default=True)
     industry_id = fields.Many2one('res.partner.industry',
                                 #   related='partner_id.industry_id',
-                                  string='Ngành hàng')
+                                  string='Ngành hàng', required='1')
     
+
 # selection=[
 #         ("970425", "ABBANK"),
 #         ("970416", "ACB"),
