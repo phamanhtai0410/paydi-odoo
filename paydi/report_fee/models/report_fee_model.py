@@ -56,7 +56,7 @@ class ResPartner(models.Model):
             "fees_by_time" : fees
         }
 
-        back_end_url = os.getenv('URL_ODOO_SV')
+        back_end_url = os.getenv('URL_PREFIX')
         url = f'{back_end_url}/v1/data-odoo/transactions_statistic/report_transactions_by_time'
         result = requests.post(url, json=fee_obj)
         path = result.json().get('data').get('path')
@@ -92,7 +92,7 @@ class ResPartner(models.Model):
             "fees": fees
         }
         
-        back_end_url = os.getenv('URL_ODOO_SV')
+        back_end_url = os.getenv('URL_PREFIX')
         url_report = f'{back_end_url}/v1/data-odoo/transactions_statistic/report_transactions'
         result = requests.post(url_report, json=fee_obj)
 
