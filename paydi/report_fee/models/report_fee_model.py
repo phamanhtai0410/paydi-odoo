@@ -27,22 +27,43 @@ class ResPartner(models.Model):
         ids = int(parse_qs(qs).get('id', None)[0])
 
         records = self.env["res.partner.fee"].search_read([("partner_id","=",ids)])
+        print('--------------------records-------------------------', records)
+
+
         if len(records) < 1:
             fees = []
             return {
                 'url' : False
             }
         else :
-            fees = []   
+            fees = []
+            # {
+                #     "odoo_contact_id": 9, 
+                #     "merchant_name": "Công ty Cổ Phần Thương Mại Dịch Vụ Trà Cà Phê VN - The Coffee House", 
+                #     "card_type": 3, 
+                #     "bank": "EIB", 
+                #     "fee": 1.6, 
+                #     "from_date": 1603245266.0, 
+                #     "to_date": 1651894469.0
+                #     }
+                # types = {
+                #     '1': 'VISA/JCB',
+                #     '2': 'NAPAS',
+                #     '3': 'MasterCard'
+                # }   
             for record in records:
                 if record.get('card_type') == False or record.get('bank') == False or record.get('fee') == False or record.get('from_date') == False or record.get('to_date') == False:
                     return {
                         'url' : 'not_value'
                     } 
+                if record.get('card_type') == 'VISA/JCB': _card_type = 1
+                elif record.get('card_type') == 'NAPAS': _card_type = 2
+                else : _card_type = 3
+
                 record_obj = {
                     'odoo_contact_id' : record.get('partner_id')[0],
                     'merchant_name':record.get('partner_id')[1],
-                    'card_type' : record.get('card_type'),
+                    'card_type' : _card_type,
                     'bank': record.get('bank')[1],
                     'fee': record.get('fee'),
                     'from_date': time.mktime(record.get('from_date').timetuple()),
