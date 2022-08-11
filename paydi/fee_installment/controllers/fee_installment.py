@@ -9,9 +9,7 @@ class FeeInstallmentController(http.Controller):
         # print('============flag=======', flag)
         result = http.request.env['res.partner'].get_fee_installment(arg)
         if result:    
-            data = {
-                'fee_installment' : result
-            }
-            return data
+            data = { 'fee_installment' : result }
         else:
-            return 'fee_installment_not_found'
+            data = {'fee_installment' : None }
+        return data
