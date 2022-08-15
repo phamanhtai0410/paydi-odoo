@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="beanus_res_partner_bank" model="ir.ui.view">
+        <field name="name">beanus.res.partner.bank.form</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='acc_type']" pposition="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='acc_holder_name']" position="after">
+                <field name="static_qr"   />
+            </xpath>
+        </field>
+    </record>
+</odoo>

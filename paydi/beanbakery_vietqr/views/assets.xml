@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <template id="assets_end" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/beanbakery_vietqr/static/src/js/qr_widget/qrwidget.js"></script>
+        </xpath>
+    </template>     -->
+     <!-- <template id="vietqr.qrwidget_xml" inherit_id="web.assets_qweb"> 
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/beanbakery_vietqr/static/src/js/qr_widget/qrwidget.xml"></script>
+        </xpath>
+    </template>    -->
+</odoo>
