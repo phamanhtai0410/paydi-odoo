@@ -8,5 +8,18 @@ class ResPartner(models.Model):
 
     def get_fee_installment(self, arg):
         _merchant_id = int(arg.get('odoo_contact_id'))
-        fee_by_merchant = self.env["fee.installment"].search_read([("merchant_id","=",_merchant_id)])
-        return fee_by_merchant
+        fee_by_merchant = self.env["fee.installment"].sudo().search([("merchant_id","=",_merchant_id)])
+        result = []
+      
+        for rec in fee_by_merchant:
+            result.append({
+                
+                "name": rec['bank']['name'],
+                "bank_code":rec['bank']['code'],
+                "period" : rec['period'],
+                "fee_installment" : rec['fee_installment'],
+                "from_date" : rec['from_date'],
+                "to_date" : rec['to_date']
+            })
+        
+        return result
