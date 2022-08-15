@@ -1,0 +1,7 @@
+<templates id="template" xml:space="preserve">
+    <t t-name="QrWidget">
+        <div>
+            <div class="qrcode_holder"/>
+        </div>
+    </t>
+</templates>
