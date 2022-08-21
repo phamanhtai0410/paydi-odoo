@@ -29,7 +29,34 @@
                                     </div>
                                 </page>
                                 <page name="tab2" string="Báo Cáo">
+                                    <div class="card-body">
+                                    
+                                        <field name="id_by_transaction" widget="one2many" nolabel="1">
+                                            <tree string="Report Fee Mapping" limit="10" create="1" delete="1" editable="top">
+                                                <field name="date_display" />
+                                                <field name="bank" />
+                                                <field name="card_organization"/>
+                                                <field name="name_card" />
+                                                <field name="card_number" />
 
+                                                <field name="total_amount"/>
+                                                <field name="period" />
+                                                <field name="identity_card"/>
+                                                <field name="approve_code"/>
+                                                <field name="phone"/>
+
+                                            </tree>
+                                        </field>
+                                        <button name="get_transaction_installment" type="object" string="Reload"/>
+                                    </div>
+                                    
+                                    <style>
+
+                                        button {                        
+                                            float: right;       
+                                        }
+                                  
+                                    </style>
                                 </page>
                                 
                             </notebook>

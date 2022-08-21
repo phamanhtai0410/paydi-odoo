@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="mpl_tree_search" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/mpl_tree_search/static/src/js/search_list.js"/>
+            <link rel="stylesheet" type="text/css" href="/mpl_tree_search/static/src/css/search_list.css"/>
+        </xpath>
+    </template>
+</odoo>
