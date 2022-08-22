@@ -31,6 +31,7 @@ class ResPartner(models.Model):
     def get_transaction_installment(self):
         _id = self.id
         transaction_late = self.env["transaction.installment"].search_read([("contact_id","=",_id)])
+        _created_time = 0
 
         if len(transaction_late) > 1 :
             time_filter = transaction_late[0].get('date_display')
