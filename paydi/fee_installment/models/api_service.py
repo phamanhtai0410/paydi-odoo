@@ -34,11 +34,11 @@ class ResPartner(models.Model):
 
         if len(transaction_late) > 1 :
             time_filter = transaction_late[0].get('date_display')
-            _approve_code = transaction_late[0].get('approve_code')
+            _created_time = transaction_late[0].get('created_time')
         else:
             time_filter = ''
 
-        back_end_url = os.getenv('URL_LOCAL')
+        back_end_url = os.getenv('URL_PREFIX')
         url = f'{back_end_url}/v1/transaction/trans-installment/report'
         payload={
             "odoo_contact_id": str(_id),
@@ -51,9 +51,9 @@ class ResPartner(models.Model):
         if _data is not None:
             _list_transaction = _data.get('transactions')
             for trans in _list_transaction:
-                if _approve_code != trans.get('approve_code'):
-
+                if _created_time != trans.get('created_time'):
                     time_string = datetime.datetime.fromtimestamp(trans.get('created_time')).strftime('%d/%m/%YT%H:%M:%S%z')
+
                     self.env['transaction.installment'].create({
                         'date_trans': trans.get('created_time'),
                         'bank' : trans.get('installment_bank'),
