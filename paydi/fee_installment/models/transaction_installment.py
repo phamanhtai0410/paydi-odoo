@@ -16,4 +16,4 @@ class TransactionInstallment(models.Model):
     approve_code = fields.Char(string="Approval code")
     phone = fields.Char(string="Số điện thoại")
     date_display = fields.Char('Ngày bắt đầu')
-    contact_id = fields.Many2one(comodel_name="res.partner", string="contact id", required='1')
+    contact_id = fields.Many2one(comodel_name="res.partner", string="Tên Merchant", required='1')
