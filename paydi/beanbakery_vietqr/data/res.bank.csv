@@ -53,4 +53,5 @@ id,name,code,bic,short_name,logo_url,transfer_supported,lookup_supported,short_n
 "res_bank_54","Ngân hàng Công nghiệp Hàn Quốc - Chi nhánh Hà Nội","IBK - HN","970455","IBKHN","https://api.vietqr.io/img/IBK.png","0","0","IBKHN","","TRUE","VN"
 "res_bank_55","Ngân hàng Công nghiệp Hàn Quốc - Chi nhánh TP. Hồ Chí Minh","IBK - HCM","970456","IBKHCM","https://api.vietqr.io/img/IBK.png","0","0","IBKHCM","","TRUE","VN"
 "res_bank_56","Ngân hàng Nonghyup - Chi nhánh Hà Nội","NHB HN","801011","Nonghyup","https://api.vietqr.io/img/NHB.png","0","0","Nonghyup","","TRUE","VN"
-"res_bank_57","Ngân hàng TNHH MTV Public Việt Nam","PBVN","970439","PublicBank","https://api.vietqr.io/img/PBVN.png","0","1","PublicBank","VIDPVNVX","TRUE","VN
+"res_bank_57","Ngân hàng TNHH MTV Public Việt Nam","PBVN","970439","PublicBank","https://api.vietqr.io/img/PBVN.png","0","1","PublicBank","VIDPVNVX","TRUE","VN"
+"res_bank_58","Lotte Finance","LF","9704","Lotte Finance","https://static.thecuatui.net/thecuatui/images/banks/33.jpg","0","1","LotteFinance","LF","TRUE","VN"
