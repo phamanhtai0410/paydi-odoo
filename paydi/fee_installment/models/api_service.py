@@ -28,50 +28,49 @@ class ResPartner(models.Model):
             })
         return result
 
-    # def get_transaction_installment(self):
-    #     _id = self.id
-    #     transaction_late = self.env["transaction.installment"].search_read_custom([("contact_id","=",_id)])
-    #     print('---------------transaction late --------', transaction_late)
-    #     _created_time = 0
+    def get_transaction_installment(self):
+        _id = self.id
+        transaction_late = self.env["transaction.installment"].search_read([("contact_id","=",_id)], limit=1)
+        _created_time = 0
 
-    #     if len(transaction_late) > 1 :
-    #         time_filter = transaction_late[0].get('date_display')
-    #         _created_time = transaction_late[0].get('created_time')
-    #     else:
-    #         time_filter = ''
+        if len(transaction_late) > 1 :
+            time_filter = transaction_late[0].get('date_display')
+            _created_time = transaction_late[0].get('date_trans')
+        else:
+            time_filter = ''
 
-    #     back_end_url = os.getenv('URL_PREFIX')
-    #     url = f'{back_end_url}/v1/transaction/trans-installment/report'
-    #     payload={
-    #         "odoo_contact_id": str(_id),
-    #         "time_filter" : time_filter
-    #     }
+        back_end_url = os.getenv('URL_PREFIX')
+        url = f'{back_end_url}/v1/transaction/trans-installment/report'
+        payload={
+            "odoo_contact_id": str(_id),
+            "time_filter" : time_filter
+        }
 
-    #     # headers = {}
-    #     response = requests.post(url, json=payload)
-    #     _data = response.json().get('data')
-    #     if _data is not None:
-    #         _list_transaction = _data.get('transactions')
-    #         for trans in _list_transaction:
-    #             if _created_time != trans.get('created_time'):
-    #                 time_string = datetime.datetime.fromtimestamp(trans.get('created_time')).strftime('%d/%m/%YT%H:%M:%S%z')
+        # headers = {}
+        response = requests.post(url, json=payload)
+        _data = response.json().get('data')
+        if _data is not None:
+            _list_transaction = _data.get('transactions')
+            for trans in _list_transaction:
+                if _created_time != trans.get('created_time'):
+                    time_string = datetime.datetime.fromtimestamp(trans.get('created_time')).strftime('%d/%m/%YT%H:%M:%S%z')
 
-    #                 self.env['transaction.installment'].create({
-    #                     'date_trans': trans.get('created_time'),
-    #                     'bank' : trans.get('installment_bank'),
-    #                     'date_display' : time_string,
-    #                     'card_organization': trans.get('card_organization'),
-    #                     'name_card': trans.get('name'),
-    #                     'card_number': trans.get('card_number'),
-    #                     'total_amount': trans.get('total_amount'),
-    #                     'period': trans.get('period'),
-    #                     'identity_card': trans.get('identity_card'),
-    #                     'approve_code': trans.get('approve_code'),
-    #                     'phone': trans.get('phone'),
-    #                     'contact_id': _id
-    #                 })
-    #     else:
-    #         return
+                    self.env['transaction.installment'].create({
+                        'date_trans': trans.get('created_time'),
+                        'bank' : trans.get('installment_bank'),
+                        'date_display' : time_string,
+                        'card_organization': trans.get('card_organization'),
+                        'name_card': trans.get('name'),
+                        'card_number': trans.get('card_number'),
+                        'total_amount': trans.get('total_amount'),
+                        'period': trans.get('period'),
+                        'identity_card': trans.get('identity_card'),
+                        'approve_code': trans.get('approve_code'),
+                        'phone': trans.get('phone'),
+                        'contact_id': _id
+                    })
+        else:
+            return
 
 
     def show_detail_trans(self):
