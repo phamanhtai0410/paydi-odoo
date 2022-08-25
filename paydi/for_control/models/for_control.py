@@ -218,7 +218,7 @@ class ForControl(models.Model):
 
     def get_all_trans_installment(self):
 
-        form_view_id = self.env.ref("fee_installment.transaction_installment_list").id
+        form_view_id = self.env.ref("fee_installment.transaction_installment_forcontrol").id
         return {
             'type': 'ir.actions.act_window',
             'name': 'Installment Report All',
