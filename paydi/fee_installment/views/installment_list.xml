@@ -10,7 +10,7 @@
                 <!-- <separator/>
                 <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/> -->
                 <field name="name_card" filter_domain="[('name_card','ilike',self)]" string="Name"/>
-
+                <field name="contact_id" filter_domain="[('contact_id','ilike',self)]" string="Merchant"/>
             </search>
         </field>
     </record>
