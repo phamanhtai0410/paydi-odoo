@@ -7,6 +7,7 @@
     'data': [
         'views/fee_installment_view.xml',
         'views/res_bank.xml',
+        'views/installment_list.xml',
         'security/ir.model.access.csv'
     ],
     'demo': [],

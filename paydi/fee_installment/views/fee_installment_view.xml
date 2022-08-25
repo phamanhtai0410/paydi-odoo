@@ -47,7 +47,9 @@
 
                                             </tree>
                                         </field>
-                                        <button name="get_transaction_installment" type="object" string="Reload"/>
+                                        
+                                        <!-- <button name="get_transaction_installment" type="object" string="Reload"/> -->
+                                        <button name="show_detail_trans" type="object" string="Show detail" />
                                     </div>
                                     
                                     <style>
