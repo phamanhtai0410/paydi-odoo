@@ -89,13 +89,18 @@
                             </page>
                             <page name="tab3" string="Báo cáo ngân hàng">
                             </page>
+                            <page name="tab4" string="Báo cáo trả góp" >
+                                <div class="text-center">
+                                    <button name="get_all_trans_installment" type="object" string="Show All Transaction Installment" />
+                                </div>
+                                
+                            </page>
                         </notebook>
                     </sheet>
                 </form>
                
             </field>
         </record>
-
 
         <!-- <record id="my_pet_tree_view" model="ir.ui.view">
             <field name="name">for.control.tree.view</field>
@@ -113,7 +118,6 @@
                 </tree>
             </field>
         </record> -->
-
 
         <record id="for_control_act_window" model="ir.actions.act_window">
             <field name="name">Đối Soát Chuyển Tiền</field>
