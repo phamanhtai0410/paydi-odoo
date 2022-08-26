@@ -1,0 +1,455 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* beanbakery_vietqr
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-07 07:52+0000\n"
+"PO-Revision-Date: 2022-05-07 07:52+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: beanbakery_vietqr
+#: model:ir.actions.act_window,name:beanbakery_vietqr.bank_menu_act_acc_list
+msgid " Partner Bank Accounts"
+msgstr "Tài khoản Ngân hàng"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "Disc: "
+msgstr G.giá: "
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "- Giảm giá:"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "- NV:"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "<b>Bạn có thể thanh toán bằng COD/ Quét QR:</b>"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "<b>Product</b>"
+msgstr "Sản phẩm"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "<b>Qty</b>"
+msgstr "S.lg"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "<b>Subtotal</b>"
+msgstr "<b>T.tiền</b>"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "<b>You can pay by COD/scan below QR:</b>"
+msgstr "<b>Thanh toán bằng COD/ Quét QR:</b>"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "<span class=\"col-2\" style=\"padding:0 \">ĐT: </span>"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.pos_config_inherit_form_view
+msgid "<span class=\"o_form_label\">Bank Account: </span>"
+msgstr "<span class=\"o_form_label\">Tài khoản Ngân hàng: </span>"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid ""
+"<span groups=\"account.group_show_line_subtotals_tax_excluded\">Amount</span>\n"
+"                                    <span groups=\"account.group_show_line_subtotals_tax_included\">Total Price</span>"
+msgstr ""
+"<span groups=\"account.group_show_line_subtotals_tax_excluded\">T.Tiền</span>\n"
+"                                    <span groups=\"account.group_show_line_subtotals_tax_included\">T.Cộng</span>"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "<span>Description</span>"
+msgstr "<span>Diễn giải</span>"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "<span>PHIẾU BÁN HÀNG</span>"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "<span>Quantity</span>"
+msgstr "<span>S.lg</span>"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.report_invoice_document_inherit_sale
+msgid "<span>Scan to pay:</span>"
+msgstr "Quét và Thanh toán"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "<strong>Amount Due</strong>"
+msgstr "<strong>Cần thanh toán</strong>"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "<strong>Customer Code:</strong>"
+msgstr "<strong>Mã KH:</strong>"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "<strong>Invoice Date:</strong>"
+msgstr "<strong>Ngày HĐ:</strong>"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "<strong>Reference:</strong>"
+msgstr "<strong>Tham chiếu:</strong>"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "<strong>Source:</strong>"
+msgstr "<strong>Nguồn:</strong>"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.document_tax_totals
+msgid "<strong>Total</strong>"
+msgstr "<strong>T.Cộng</strong>"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/pos_new_receipt.xml:0
+#, python-format
+msgid "Acc: 129005718 - Bank: VPBANK"
+msgstr "TK: 129005718 - NH: VPBANK"
+
+#. module: beanbakery_vietqr
+#: model:ir.ui.menu,name:beanbakery_vietqr.bank_base_menu_1
+msgid "Account List"
+msgstr "Danh sách tài khoản"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_line.xml:0
+#, python-format
+msgid "Address"
+msgstr "Địa chỉ"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/pos_new_receipt.xml:0
+#, python-format
+msgid "Address:"
+msgstr "Đ/c:"
+
+#. module: beanbakery_vietqr
+#: model:ir.model.fields,field_description:beanbakery_vietqr.field_pos_config__bank_acc
+msgid "Bank Account"
+msgstr "Tài khoảng ngân hàng"
+
+#. module: beanbakery_vietqr
+#: model:ir.model,name:beanbakery_vietqr.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Tài khoản ngân hàng"
+
+#. module: beanbakery_vietqr
+#: model:ir.ui.menu,name:beanbakery_vietqr.bank_base_menu_2
+msgid "Bank List"
+msgstr "Danh sách mã ngân hàng"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.actions.act_window,help:beanbakery_vietqr.bank_menu_act_bank_list
+msgid "Bank views"
+msgstr "Màn hình của Ngân hàng"
+
+#. module: beanbakery_vietqr
+#: model:ir.actions.act_window,name:beanbakery_vietqr.bank_menu_act_bank_list
+#: model:ir.ui.menu,name:beanbakery_vietqr.bank_base_menu
+msgid "Banks"
+msgstr "Ngân hàng"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "Cancelled Invoice"
+msgstr "Hóa đơn - Hủy"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_screen.xml:0
+#, python-format
+msgid "Choose a City"
+msgstr "Chọn thành phố"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/js/widget/qrwidget.js:0
+#, python-format
+msgid "Could not display the selected image."
+msgstr "Không thể hiện ảnh được chọn"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "Credit Note"
+msgstr "Tín phiếu"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_screen.xml:0
+#, python-format
+msgid "District"
+msgstr "Quận"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "Draft Invoice"
+msgstr "Hóa đơn - Tạm"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_line.xml:0
+#, python-format
+msgid "EDIT"
+msgstr "Sửa"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_line.xml:0
+#, python-format
+msgid "Email"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "Giá sp:"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/js/widget/qrwidget.js:0
+#, python-format
+msgid "Image"
+msgstr "Hình ảnh"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "Invoice"
+msgstr "Hóa đơn"
+
+#. module: beanbakery_vietqr
+#: model:ir.actions.report,name:beanbakery_vietqr.invoice_receipt
+msgid "Invoice receipt"
+msgstr "Phiếu thanh toán"
+
+#. module: beanbakery_vietqr
+#: model:ir.model,name:beanbakery_vietqr.model_account_move
+msgid "Journal Entry"
+msgstr "Bút toán sổ nhật ký"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/pos_new_receipt.xml:0
+#, python-format
+msgid "Logo"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model:ir.model.fields,field_description:beanbakery_vietqr.field_sale_order__mobile
+msgid "Mobile"
+msgstr "Di động"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_line.xml:0
+#, python-format
+msgid "Name"
+msgstr "Tên"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/pos_new_receipt.xml:0
+#, python-format
+msgid "Name:"
+msgstr "KH:"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/pos_new_receipt.xml:0
+#, python-format
+msgid "Nguyễn Phạm Thùy Lan"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_screen.xml:0
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_screen.xml:0
+#, python-format
+msgid "None"
+msgstr "Trống"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "Paid on"
+msgstr "Đã thanh toán ngày"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.actions.act_window,help:beanbakery_vietqr.bank_menu_act_acc_list
+msgid "Partner Bank Account views"
+msgstr "Màn hình Tài khoản ngân hàng của Khách hàng"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_line.xml:0
+#: model:ir.model.fields,field_description:beanbakery_vietqr.field_sale_order__phone
+#, python-format
+msgid "Phone"
+msgstr "ĐT"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/pos_new_receipt.xml:0
+#, python-format
+msgid "Phone:"
+msgstr "ĐT:"
+
+#. module: beanbakery_vietqr
+#: model:ir.model,name:beanbakery_vietqr.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Cấu hình POS"
+
+#. module: beanbakery_vietqr
+#: model:ir.model.fields,field_description:beanbakery_vietqr.field_account_bank_statement_line__qr_code_url
+#: model:ir.model.fields,field_description:beanbakery_vietqr.field_account_move__qr_code_url
+#: model:ir.model.fields,field_description:beanbakery_vietqr.field_account_payment__qr_code_url
+msgid "QR code"
+msgstr "mã QR"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/mainscreen/branding.xml:0
+#, python-format
+msgid "Red dot"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model:ir.actions.report,name:beanbakery_vietqr.sale_receipt
+msgid "Delivery receipt"
+msgstr "Phiếu giao hàng"
+
+#. module: beanbakery_vietqr
+#: model:ir.model,name:beanbakery_vietqr.model_sale_order
+msgid "Sales Order"
+msgstr "Đơn bán hàng"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/pos_new_receipt.xml:0
+#, python-format
+msgid "Served by"
+msgstr "NV"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_screen.xml:0
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_screen.xml:0
+#, python-format
+msgid "Street2"
+msgstr "Phường/Quận"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid ""
+"Số tài khoản:\n"
+"                                                <br/>"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid ""
+"Số tài khoản:\n"
+"                                    <br/>"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "Tax ID"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/pos_new_receipt.xml:0
+#, python-format
+msgid "Tel:"
+msgstr "ĐT:"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "Tên KH:"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "Tổng bill (sau thuế):"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "Tổng bill (trước thuế):"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "Unit price:"
+msgstr "Đơn giá:"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/pos_new_receipt.xml:0
+#, python-format
+msgid "Use your bank app to Scan and pay"
+msgstr "Dùng app bank để Quét và Thanh toán"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "Vendor Bill"
+msgstr "Hóa đơn mua"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+msgid "Vendor Credit Note"
+msgstr "Phải trả Người bán"
+
+#. module: beanbakery_vietqr
+#. openerp-web
+#: code:addons/beanbakery_vietqr/static/src/xml/pos/clientscreen/client_screen.xml:0
+#, python-format
+msgid "Ward"
+msgstr "Phường"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.tax_groups_totals
+msgid "on"
+msgstr "trên"
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "Đơn hàng số:"
+msgstr ""
+
+#. module: beanbakery_vietqr
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.receipt_document
+#: model_terms:ir.ui.view,arch_db:beanbakery_vietqr.sale_receipt_template
+msgid "Địa chỉ:"
+msgstr ""

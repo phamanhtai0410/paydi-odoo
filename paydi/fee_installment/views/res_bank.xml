@@ -1,0 +1,101 @@
+<odoo>
+
+  <!-- Views -->
+
+  <record model="ir.ui.view" id="fee_installment.list">
+    <field name="name">bank_list list</field>
+    <field name="model">res.bank</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name" />
+        <field name="bic" />
+        <field name="active" />
+        <field name="is_installment"/>
+      </tree>
+    </field>
+  </record>
+
+    <record model="ir.ui.view" id="fee_installment.form">
+    <field name="name">bank_list form</field>
+    <field name="model">res.bank</field>
+    <field name="arch" type="xml">
+      <form string="Bank">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group name="bank_details" col="4">
+                            <field name="name"/>
+                            <field name="bic"/>
+                        </group>
+                        <group>
+                            <group name="address_details">
+                                <label for="street" string="Bank Address"/>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="state" class="o_address_state" placeholder="State" options="{&quot;no_open&quot;: True}"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="country" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                </div>
+                            </group>
+                            <group name="communication_details">
+                                <field name="phone" class="o_force_ltr"/>
+                                <field name="email" widget="email"/>
+                                <field name="active" invisible="1"/>
+                                <field name="is_installment" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="account_list">
+    <field name="name">Bank list</field>
+    <field name="model">res.partner.bank</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="acc_number" />
+        <field name="acc_holder_name" />
+        <field name="active" />
+      </tree>
+    </field>
+  </record>
+
+  <!-- Actions -->
+  <record id="bank_menu_act_acc_list" model="ir.actions.act_window">
+    <field name="name"> Partner Bank Accounts</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">res.partner.bank</field>
+    <field name="view_mode">kanban,tree,form</field>
+    <field name="view_id" ref="account_list" />
+    <!-- <field name="search_view_id" ref="product.product_template_search_view" /> -->
+    <!-- <field name="context">{"search_default_filter_to_sell":1, "sale_multi_pricelist_product_template": 1}</field> -->
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        Partner Bank Account views
+      </p>
+    </field>
+  </record>
+  <record id="bank_menu_act_bank_list" model="ir.actions.act_window">
+    <field name="name">Banks</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">res.bank</field>
+    <field name="view_mode">kanban,tree,form</field>
+    <!-- <field name="view_id" ref="fee_installment.list" /> -->
+    <!-- <field name="search_view_id" ref="product.product_template_search_view" /> -->
+    <!-- <field name="context">{"search_default_filter_to_sell":1, "sale_multi_pricelist_product_template": 1}</field> -->
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+                Bank views
+            </p>
+    </field>
+  </record>
+
+
+  <!-- Menu -->
+  <menuitem id="bank_base_menu" name="Banks" action="bank_menu_act_acc_list" sequence="6" web_icon="beanbakery_vietqr,static/icons/bank.png" />
+  <menuitem name="Account List" id="bank_base_menu_1" parent="bank_base_menu" action="bank_menu_act_acc_list" />
+  <menuitem name="Bank List" id="bank_base_menu_2" parent="bank_base_menu" action="bank_menu_act_bank_list" />
+
+</odoo>

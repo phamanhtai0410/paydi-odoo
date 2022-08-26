@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_partner_fee_form" model="ir.ui.view">
+        <field name="name">view.res.partner.fee.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Trả Góp" name="fee_installment">
+
+                    <form create="true" edit="true" save="true" >
+                    <!-- create="false" edit="false" save="false" -->
+                        <sheet>
+                            <notebook>
+                                <page name="tab1" string="Phí">
+                                    <div class="card-body">
+                                        <!-- <field name="data_tree_file"/> -->
+                                        <field name="odoo_contact_id" widget="one2many" nolabel="1">
+                                            <tree string="Fee Installment Mapping" default_order="period" limit="10" create="1" delete="1" editable="top">
+                                                <!--  create="0" delete="0" -->
+                                                <field name="bank" string="Ngân hàng"/>
+                                                <field name="period" string="Kỳ hạn(tháng)" />
+                                                <field name="fee_installment" string="Phí trả góp(%)" />
+                                                <field name="from_date" string="Ngày bắt đầu" />
+                                                <field name="to_date" string="Ngày kết thúc" />
+                                                
+                                            </tree>
+                                        </field>
+                                    </div>
+                                </page>
+                                <page name="tab2" string="Báo Cáo">
+                                    <div class="card-body">
+                                    
+                                        <field name="id_by_transaction" widget="one2many" nolabel="1">
+                                            <tree string="Report Fee Mapping" limit="10" create="1" delete="1" editable="top">
+                                                <field name="date_display" />
+                                                <field name="bank" />
+                                                <field name="card_organization"/>
+                                                <field name="name_card" />
+                                                <field name="card_number" />
+
+                                                <field name="total_amount"/>
+                                                <field name="period" />
+                                                <field name="identity_card"/>
+                                                <field name="approve_code"/>
+                                                <field name="phone"/>
+
+                                            </tree>
+                                        </field>
+                                        
+                                        <!-- <button name="get_transaction_installment" type="object" string="Reload"/> -->
+                                        <button name="show_detail_trans" type="object" string="Show detail" />
+                                    </div>
+                                    
+                                    <style>
+
+                                        button {                        
+                                            float: right;       
+                                        }
+                                  
+                                    </style>
+                                </page>
+                                
+                            </notebook>
+                        </sheet>
+                    </form>
+
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

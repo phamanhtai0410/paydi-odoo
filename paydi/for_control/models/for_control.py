@@ -212,8 +212,20 @@ class ForControl(models.Model):
                 'res_id': message_id.id,
                 'target': 'new'
             }
-        
     
     def your_test_method(self):
         print('button test ok ')
+
+    def get_all_trans_installment(self):
+
+        form_view_id = self.env.ref("fee_installment.transaction_installment_forcontrol").id
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Installment Report All',
+            'res_model': 'transaction.installment',
+            'views': [(form_view_id, 'tree')],
+            'target': 'current',
+            # 'domain': [('contact_id.id','=',self.id)],
+            'flags': {'search_view': True, 'action_buttons': True},
+        }
     

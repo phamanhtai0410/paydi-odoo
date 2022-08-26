@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fee_installment,access_fee_installment,model_fee_installment,,1,1,1,1
+access_transaction_installment,access_transaction_installment,model_transaction_installment,,1,1,1,1
