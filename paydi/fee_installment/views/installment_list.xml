@@ -19,7 +19,7 @@
         <field name="name">Transaction list</field>
         <field name="model">transaction.installment</field>
         <field name="arch" type="xml">
-            <tree limit="25" create="0" delete="0">
+            <tree limit="15" create="0" delete="0">
             
                 <field name="date_display" />
                 <field name="bank" />
@@ -42,7 +42,7 @@
         <field name="name">Transaction list</field>
         <field name="model">transaction.installment</field>
         <field name="arch" type="xml">
-            <tree limit="25" create="0" delete="0">
+            <tree limit="15" create="0" delete="0">
 
                 <field name="contact_id" />
                 <field name="date_display" />
