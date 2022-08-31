@@ -80,7 +80,12 @@ class ResPartner(models.Model):
         _created_time = 0
 
         if len(transaction_late) > 0 :
-            time_filter = transaction_late[0].get('date_display')
+            _time_filter = transaction_late[0].get("date_display")
+            if "T" not in _time_filter:
+                time_filter = self.env["transaction.installment"].convert_asia_to_uct(_time_filter)
+            else:
+                time_filter = _time_filter
+
             _created_time = transaction_late[0].get('date_trans')
         else:
             time_filter = ''
@@ -100,10 +105,12 @@ class ResPartner(models.Model):
             for trans in _list_transaction:
                 if _created_time != trans.get('created_time'):
                     time_string = datetime.datetime.fromtimestamp(trans.get('created_time')).strftime('%d/%m/%YT%H:%M:%S%z')
+                    convert_time_asia = self.env["transaction.installment"].convert_uct_to_asia(time_string)
+
                     self.env['transaction.installment'].create({
                         'date_trans': trans.get('created_time'),
                         'bank' : trans.get('installment_bank'),
-                        'date_display' : time_string,
+                        'date_display' : convert_time_asia,
                         'card_organization': trans.get('card_organization'),
                         'name_card': trans.get('name'),
                         'card_number': trans.get('card_number'),
