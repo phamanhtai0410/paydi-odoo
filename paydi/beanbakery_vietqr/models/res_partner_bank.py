@@ -14,7 +14,7 @@ class ResPartnerBank(models.Model):
     
     static_qr = fields.Char ("Static QR", compute="_make_static_qr",store=True)
     acc_holder_name = fields.Char(string='Account Holder Name', help="Account holder name, in case it is different than the name of the Account Holder",
-                                  compute="_add_partner_name",store=True)
+                                    store=True)
     currency_id = fields.Many2one('res.currency', string='Currency', default=lambda self: self.env.company.currency_id)
     
     def name_get(self):
