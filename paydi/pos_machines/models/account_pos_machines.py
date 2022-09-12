@@ -40,7 +40,8 @@ class AccountPosMachines(models.Model):
     disable_functions = fields.One2many('pos.functions', 'pos_account_id')
     stock_out_picking_id = fields.Many2one('stock.picking')
     status = fields.Char(default='active')
-
+    # connect = fields.One2many('pre.auth', 'vals')
+    
     @api.model
     def get_states_options(self):
         options = self.env['master.data'].search_read(
@@ -191,7 +192,20 @@ class AccountPosMachines(models.Model):
     def create(self, vals):
         pos_account = super().create(vals)
         return pos_account
+    
+    def create_func(self,row):
+        features = ['pre_auth', 'tip', 'moto', 'installment', 'PNPL']
+        for feature in features:
+                    self.env['pos.functions'].create({
+                'feature': feature,
+                'disable': True,
+                'pos_account_id': row.id,
+                'partner_id': row.partner_id.id,
+            })
 
     @api.model_create_multi
     def create(self, vals_list):
-        return super(AccountPosMachines, self).create(vals_list=vals_list)
+        accounts = super(AccountPosMachines, self).create(vals_list=vals_list)
+        for account in accounts:
+            self.create_func(account)
+        return account

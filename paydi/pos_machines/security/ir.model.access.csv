@@ -6,3 +6,4 @@ access_stock_booking_picking_line,access_stock_booking_picking_line,model_stock_
 access_stock_booking_picking,access_stock_booking_picking,model_stock_booking_picking,base.group_user,1,1,1,0
 access_stock_book_line,access_stock_book_line,model_stock_book_line,base.group_user,1,1,1,0
 access_ref_code,access_ref_code,model_ref_code,base.group_user,1,1,1,0
+access_pre_auth,access_pre_auth,model_pre_auth,base.group_user,1,1,1,1
