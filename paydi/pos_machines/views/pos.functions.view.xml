@@ -2,30 +2,71 @@
 <odoo>
     <data>
 
-        <record id="pos_functions_form_view" model="ir.ui.view">
-            <field name="name">pos_functions.form</field>
+        <!-- <record id="pos_functions_form_view" model="ir.ui.view">
+            <field name="name">pos_functions.tree</field>
             <field name="model">pos.functions</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <group>
-                            <field name="bank_id"/>
-                            <field name="name"/>
-                            <field name="disable"/>
+                            <field name="feature"/>
+                            <field name="disable"/>                    
                         </group>
                     </sheet>
                 </form>
             </field>
-        </record>
+        </record> -->
 
-        <record id="pos_functions_tree_view" model="ir.ui.view">
+        <!-- <record id="pos_functions_tree_view" model="ir.ui.view">
             <field name="name">pos_functions.tree</field>
             <field name="model">pos.functions</field>
             <field name="arch" type="xml">
-                <tree>
-                    <field name="bank_id"/>
-                    <field name="name"/>
+                <tree create="0">
+                    <field name="feature"/>
                     <field name="disable"/>
+                    <button class="oe_highlight"
+                        name="detail_bank"
+                        string="Details"
+                        type="object"
+                        attrs="{'invisible': [ '|', '|', ('feature','=', 'PNPL'), ('feature','=', 'tip'), ('feature', '=', 'installment')]}"
+                    />
+                </tree>
+            </field>
+        </record> -->
+
+        <!-- <record model="ir.ui.view" id="pre_auth_tree_view">
+            <field name="name">pre auth</field>
+            <field name="model">pos.functions</field>
+            <field name="arch" type="xml">
+                <tree limit="15" delete="0">
+                
+                    <field name="name"/>
+                        <field name="disable"/>
+                </tree>
+            </field>
+        </record> -->
+
+        <record id="popup_pos_functions_tree_view" model="ir.ui.view">
+            <field name="name">pos_functions.tree</field>
+            <field name="model">pos.functions</field>
+            <field name="arch" type="xml">
+                <tree limit="10" editable="top">
+                    <field name="feature"/>            
+                    <field name="disable"/>
+                </tree>  
+           </field>
+        </record>
+
+        <record id="pre_auth_form_view" model="ir.ui.view">
+            <field name="name">pre_auth_form</field>
+            <field name="model">pre.auth</field>
+            <field name="arch" type="xml">
+                <tree limit='10' editable='top' create='1' delete='1'>
+                    <field name="is_blocked"/>
+                    <field name="pos_account_id" invisible="1"/>
+                    <field name="bank_id"/>
+                    <!-- <field name="code"/>  -->
+                    <field name="feature" invisible="1"/>                   
                 </tree>
             </field>
         </record>

@@ -19,4 +19,5 @@ from . import res_partner_fee
 from . import stock_book_line
 from . import ref_code
 from . import popup_notification
+from . import pre_auth
 
