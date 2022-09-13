@@ -2,6 +2,8 @@ import os
 from odoo import fields, models, api
 import requests
 import datetime
+import time
+
 # from paydi.fee_installment.models.transaction_installment import TransactionInstallment
 
 class ResPartner(models.Model):
@@ -15,17 +17,25 @@ class ResPartner(models.Model):
         _merchant_id = int(arg.get('odoo_contact_id'))
         fee_by_merchant = self.env["fee.installment"].sudo().search([("merchant_id","=",_merchant_id)])
         result = []
-      
+
+        _today = datetime.datetime.today().strftime('%Y-%m-%d')
+        _today_float = time.mktime(datetime.datetime.strptime(_today, "%Y-%m-%d").timetuple())
+        
+
         for rec in fee_by_merchant:
-            result.append({
-                
-                "name": rec['bank']['name'],
-                "bank_code":rec['bank']['code'] if rec['bank']['code'] else '',
-                "period" : rec['period'],
-                "fee_installment" : rec['fee_installment'],
-                "from_date" : rec['from_date'],
-                "to_date" : rec['to_date']
-            })
+            _date_string = str(rec['to_date'])
+            _time = time.mktime(datetime.datetime.strptime(_date_string, "%Y-%m-%d").timetuple())
+
+            if _time > _today_float:
+                result.append({
+                    
+                    "name": rec['bank']['name'],
+                    "bank_code":rec['bank']['code'] if rec['bank']['code'] else '',
+                    "period" : rec['period'],
+                    "fee_installment" : rec['fee_installment'],
+                    "from_date" : rec['from_date'],
+                    "to_date" : rec['to_date']
+                })
         return result
 
     def get_transaction_installment(self):
