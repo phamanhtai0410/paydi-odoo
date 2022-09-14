@@ -23,10 +23,12 @@ class ResPartner(models.Model):
         
 
         for rec in fee_by_merchant:
-            _date_string = str(rec['to_date'])
-            _time = time.mktime(datetime.datetime.strptime(_date_string, "%Y-%m-%d").timetuple())
-
-            if _time > _today_float:
+            _from_date_str = str(rec['from_date'])
+            _from_time = time.mktime(datetime.datetime.strptime(_from_date_str, "%Y-%m-%d").timetuple())
+            _to_date_str = str(rec['to_date'])
+            _to_time = time.mktime(datetime.datetime.strptime(_to_date_str, "%Y-%m-%d").timetuple())
+            
+            if _from_time <= _today_float < _to_time:
                 result.append({
                     
                     "name": rec['bank']['name'],
@@ -143,4 +145,3 @@ class ResPartner(models.Model):
             'domain': [('contact_id.id','=',self.id)],
             'flags': {'search_view': True, 'action_buttons': True},
         }
-    
