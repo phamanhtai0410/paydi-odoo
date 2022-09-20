@@ -1,51 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
-        <!-- <record id="pos_functions_form_view" model="ir.ui.view">
-            <field name="name">pos_functions.tree</field>
-            <field name="model">pos.functions</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <group>
-                            <field name="feature"/>
-                            <field name="disable"/>                    
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record> -->
-
-        <!-- <record id="pos_functions_tree_view" model="ir.ui.view">
-            <field name="name">pos_functions.tree</field>
-            <field name="model">pos.functions</field>
-            <field name="arch" type="xml">
-                <tree create="0">
-                    <field name="feature"/>
-                    <field name="disable"/>
-                    <button class="oe_highlight"
-                        name="detail_bank"
-                        string="Details"
-                        type="object"
-                        attrs="{'invisible': [ '|', '|', ('feature','=', 'PNPL'), ('feature','=', 'tip'), ('feature', '=', 'installment')]}"
-                    />
-                </tree>
-            </field>
-        </record> -->
-
-        <!-- <record model="ir.ui.view" id="pre_auth_tree_view">
-            <field name="name">pre auth</field>
-            <field name="model">pos.functions</field>
-            <field name="arch" type="xml">
-                <tree limit="15" delete="0">
-                
-                    <field name="name"/>
-                        <field name="disable"/>
-                </tree>
-            </field>
-        </record> -->
-
         <record id="popup_pos_functions_tree_view" model="ir.ui.view">
             <field name="name">pos_functions.tree</field>
             <field name="model">pos.functions</field>
@@ -58,14 +13,14 @@
         </record>
 
         <record id="pre_auth_form_view" model="ir.ui.view">
-            <field name="name">pre_auth_form</field>
+            <field name="name">pre_auth_form.tree</field>
             <field name="model">pre.auth</field>
             <field name="arch" type="xml">
-                <tree limit='10' editable='top' create='1' delete='1'>
+                <tree limit='10' editable='top' create='1' delete='1' edit='1'>
                     <field name="is_blocked"/>
-                    <field name="pos_account_id" invisible="1"/>
+                    <field name="pos_func" invisible="1"/>
                     <field name="bank_id"/>
-                    <!-- <field name="code"/>  -->
+                    <field name="pos_id" invisible="1"/> 
                     <field name="feature" invisible="1"/>                   
                 </tree>
             </field>
