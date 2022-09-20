@@ -73,7 +73,7 @@ class AccountPosMachines(models.Model):
         value = {
             "serial_number": self.lot_id.name,
             "ref_codes": [x.ref_no for x in self.ref_codes],
-            "disable_functions": [x.name for x in self.disable_functions],
+            "disable_functions": [x.feature for x in self.disable_functions],
             "odoo_contact_id": str(self.partner_id.id),
             "username": self.username,
             'password': '000000',
