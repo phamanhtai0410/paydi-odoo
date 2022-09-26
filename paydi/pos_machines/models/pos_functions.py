@@ -94,6 +94,13 @@ class PosFunctions(models.Model):
         # URL_LOCAL = os.getenv('URL_LOCAL')
         # API_KEY = os.getenv('API_KEY')
         
+        url_get_disable_func = f"{api_domain}/v1/auth/pos/disable_func"
+        send_to_auth={
+            "serial_number": str(self.pos_account_id.lot_id.name),
+            "disable_func" : data
+        }
+        response = requests.request("POST", url_get_disable_func, json=send_to_auth)
+        
         supporter_id = self.partner_id.supporter_id
         contact_seller = {
             'phone': '',
@@ -109,7 +116,6 @@ class PosFunctions(models.Model):
             contact_seller['name'] = supporter_id.name or ''
             contact_seller['mms_user_id'] = supporter_id.id
         company_code = self.partner_id.parent_id.company_id.company_code if self.partner_id.parent_id else self.partner_id.company_id.company_code
-        
         value = {
             "serial_number": str(self.pos_account_id.lot_id.name),
             "ref_codes": [x.ref_no for x in self.pos_account_id.ref_codes],
@@ -148,7 +154,6 @@ class PosFunctions(models.Model):
             **value,
             "code": hash_string,
         })
-        print('``````` payload', payload)
         response = requests.request("POST", url, headers=headers, data=payload)
         print(response.text)
 
