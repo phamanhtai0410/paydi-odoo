@@ -48,6 +48,37 @@ class StockMoveLine(models.Model):
             self.account = None
 
     def setting_account(self):
+        
+        self.env.cr.execute(""" SELECT pos_functions.feature
+                                FROM pos_functions
+                                WHERE pos_functions.pos_account_id = %d"""%(self.account.id))                 
+        features = self.env.cr.dictfetchall()
+        print('features==========', features)
+        arr = ['pre_auth', 'tip', 'moto', 'installment', 'PNPL']
+        if not features:
+            for feature in arr:
+                self.env['pos.functions'].create({
+                    'feature': feature,
+                    'disable': True,
+                    'pos_account_id': self.account.id,
+                    'partner_id': self.account.partner_id.id,
+                })
+        else:
+            lis = []
+            res = []
+            for x in features:
+                lis.append(x['feature'])
+            for x in arr:
+                if(x not in lis):
+                    res.append(x)
+            for feature in res:
+                self.env['pos.functions'].create({
+                    'feature': feature,
+                    'disable': True,
+                    'pos_account_id': self.account.id,
+                    'partner_id': self.account.partner_id.id,
+                })
+        
         account = self.account
         if not account:
             partner_id = self.picking_id.partner_id

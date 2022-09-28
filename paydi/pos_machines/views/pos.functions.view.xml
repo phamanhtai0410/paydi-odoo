@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
-        <record id="pos_functions_form_view" model="ir.ui.view">
-            <field name="name">pos_functions.form</field>
-            <field name="model">pos.functions</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <group>
-                            <field name="bank_id"/>
-                            <field name="name"/>
-                            <field name="disable"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="pos_functions_tree_view" model="ir.ui.view">
+        <record id="popup_pos_functions_tree_view" model="ir.ui.view">
             <field name="name">pos_functions.tree</field>
             <field name="model">pos.functions</field>
             <field name="arch" type="xml">
-                <tree>
-                    <field name="bank_id"/>
-                    <field name="name"/>
+                <tree limit="10" editable="top">
+                    <field name="feature"/>            
                     <field name="disable"/>
+                </tree>  
+           </field>
+        </record>
+
+        <record id="pre_auth_form_view" model="ir.ui.view">
+            <field name="name">pre_auth_form.tree</field>
+            <field name="model">pre.auth</field>
+            <field name="arch" type="xml">
+                <tree limit='10' editable='top' create='1' delete='1' edit='1'>
+                    <field name="is_blocked"/>
+                    <field name="pos_func" invisible="1"/>
+                    <field name="bank_id"/>
+                    <field name="pos_id" invisible="1"/> 
+                    <field name="feature" invisible="1"/>                   
                 </tree>
             </field>
         </record>

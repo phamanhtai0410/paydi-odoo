@@ -31,7 +31,7 @@
                                 <page name="tab2" string="Báo Cáo">
                                     <div class="card-body">
                                     
-                                        <field name="id_by_transaction" widget="one2many" nolabel="1">
+                                        <!-- <field name="id_by_transaction" widget="one2many" nolabel="1">
                                             <tree string="Report Fee Mapping" limit="10" create="1" delete="1" editable="top">
                                                 <field name="date_display" />
                                                 <field name="bank" />
@@ -44,21 +44,15 @@
                                                 <field name="identity_card"/>
                                                 <field name="approve_code"/>
                                                 <field name="phone"/>
-
                                             </tree>
-                                        </field>
+                                        </field> -->
                                         
                                         <!-- <button name="get_transaction_installment" type="object" string="Reload"/> -->
-                                        <button name="show_detail_trans" type="object" string="Show detail" />
+                                        <div class="text-center">
+                                            <button name="show_detail_trans" type="object" string="Show detail" />
+                                        </div>
                                     </div>
                                     
-                                    <style>
-
-                                        button {                        
-                                            float: right;       
-                                        }
-                                  
-                                    </style>
                                 </page>
                                 
                             </notebook>

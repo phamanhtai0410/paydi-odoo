@@ -2,6 +2,8 @@ import os
 from odoo import fields, models, api
 import requests
 import datetime
+import time
+
 # from paydi.fee_installment.models.transaction_installment import TransactionInstallment
 
 class ResPartner(models.Model):
@@ -15,17 +17,27 @@ class ResPartner(models.Model):
         _merchant_id = int(arg.get('odoo_contact_id'))
         fee_by_merchant = self.env["fee.installment"].sudo().search([("merchant_id","=",_merchant_id)])
         result = []
-      
+
+        _today = datetime.datetime.today().strftime('%Y-%m-%d')
+        _today_float = time.mktime(datetime.datetime.strptime(_today, "%Y-%m-%d").timetuple())
+        
+
         for rec in fee_by_merchant:
-            result.append({
-                
-                "name": rec['bank']['name'],
-                "bank_code":rec['bank']['code'] if rec['bank']['code'] else '',
-                "period" : rec['period'],
-                "fee_installment" : rec['fee_installment'],
-                "from_date" : rec['from_date'],
-                "to_date" : rec['to_date']
-            })
+            _from_date_str = str(rec['from_date'])
+            _from_time = time.mktime(datetime.datetime.strptime(_from_date_str, "%Y-%m-%d").timetuple())
+            _to_date_str = str(rec['to_date'])
+            _to_time = time.mktime(datetime.datetime.strptime(_to_date_str, "%Y-%m-%d").timetuple())
+            
+            if _from_time <= _today_float < _to_time:
+                result.append({
+                    
+                    "name": rec['bank']['name'],
+                    "bank_code":rec['bank']['code'] if rec['bank']['code'] else '',
+                    "period" : rec['period'],
+                    "fee_installment" : rec['fee_installment'],
+                    "from_date" : rec['from_date'],
+                    "to_date" : rec['to_date']
+                })
         return result
 
     def get_transaction_installment(self):
@@ -80,7 +92,12 @@ class ResPartner(models.Model):
         _created_time = 0
 
         if len(transaction_late) > 0 :
-            time_filter = transaction_late[0].get('date_display')
+            _time_filter = transaction_late[0].get("date_display")
+            if "T" not in _time_filter:
+                time_filter = self.env["transaction.installment"].convert_asia_to_uct(_time_filter)
+            else:
+                time_filter = _time_filter
+
             _created_time = transaction_late[0].get('date_trans')
         else:
             time_filter = ''
@@ -100,10 +117,12 @@ class ResPartner(models.Model):
             for trans in _list_transaction:
                 if _created_time != trans.get('created_time'):
                     time_string = datetime.datetime.fromtimestamp(trans.get('created_time')).strftime('%d/%m/%YT%H:%M:%S%z')
+                    convert_time_asia = self.env["transaction.installment"].convert_uct_to_asia(time_string)
+
                     self.env['transaction.installment'].create({
                         'date_trans': trans.get('created_time'),
                         'bank' : trans.get('installment_bank'),
-                        'date_display' : time_string,
+                        'date_display' : convert_time_asia,
                         'card_organization': trans.get('card_organization'),
                         'name_card': trans.get('name'),
                         'card_number': trans.get('card_number'),
@@ -126,4 +145,3 @@ class ResPartner(models.Model):
             'domain': [('contact_id.id','=',self.id)],
             'flags': {'search_view': True, 'action_buttons': True},
         }
-    

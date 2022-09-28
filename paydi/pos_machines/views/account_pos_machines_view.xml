@@ -17,15 +17,32 @@
                                 <field name="ref_codes" nolabel="1"/>
                             </group>
                             <group string="Chức năng bị khóa">
-                                <field
+                                <field name="disable_functions" widget="one2many" nolabel="1">
+                                    <tree limit="10" create="0" delete="0" editable="top">
+                                        <field name="feature" />
+                                        <field name="disable" />
+                                        <button class="oe_highlight"
+                                            name="detail_bank"
+                                            string="Details"
+                                            type="object"
+                                            attrs="{'invisible': [ '|', '|', ('feature','=', 'PNPL'), ('feature','=', 'tip'), ('feature', '=', 'installment')]}"/>
+
+                                    </tree>
+                                </field>
+                                <!-- <field
                                         name="disable_functions"
                                         context="{
                                                 'default_pos_account_id': id,
                                                 'default_disable': True
                                         }"
                                         nolabel="1"/>
+                                <button class="oe_highlight"
+                                    name="detail_bank"
+                                    string="Details"
+                                    type="object"/> -->
                             </group>
                             <field name="note"/>
+
                         </group>
                     </sheet>
                     <div class="oe_chatter">

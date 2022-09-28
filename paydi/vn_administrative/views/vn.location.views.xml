@@ -62,6 +62,7 @@
                 name="Đơn vị hành chính"
                 id="vn_location_menu"
                 groups="base.group_system"
+                web_icon="vn_administrative,static/images/odoo_vn.png"
                 action="vn_location_act_window"/>
 
     </data>
