@@ -40,7 +40,7 @@ class AccountPosMachines(models.Model):
     disable_functions = fields.One2many('pos.functions', 'pos_account_id')
     stock_out_picking_id = fields.Many2one('stock.picking')
     status = fields.Char(default='active')
-    # connect = fields.One2many('pre.auth', 'vals')
+    # connect = fields.One2many('connect.features.pos', 'pos_account_id')
     
     @api.model
     def get_states_options(self):
@@ -73,7 +73,8 @@ class AccountPosMachines(models.Model):
         value = {
             "serial_number": self.lot_id.name,
             "ref_codes": [x.ref_no for x in self.ref_codes],
-            "disable_functions": [x.feature for x in self.disable_functions],
+            # "disable_functions": [x.feature for x in self.disable_functions],
+            "disable_functions":[],
             "odoo_contact_id": str(self.partner_id.id),
             "username": self.username,
             'password': '000000',
