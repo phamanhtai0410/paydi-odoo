@@ -73,7 +73,6 @@ class AccountPosMachines(models.Model):
         value = {
             "serial_number": self.lot_id.name,
             "ref_codes": [x.ref_no for x in self.ref_codes],
-            # "disable_functions": [x.feature for x in self.disable_functions],
             "disable_functions":[],
             "odoo_contact_id": str(self.partner_id.id),
             "username": self.username,
@@ -96,7 +95,6 @@ class AccountPosMachines(models.Model):
             },
             'contact_seller': contact_seller
         }
-        # print('send_backend', value)
 
         gen_data = sorted(value.items())
         string_data = json.dumps(gen_data)
@@ -130,7 +128,6 @@ class AccountPosMachines(models.Model):
             "username": self.username,
             "status": "blocked"
         }
-        # print('send_backend', value)
         gen_data = sorted(value.items())
         string_data = json.dumps(gen_data)
         hash_string = sha512(string_data, secret_key)
