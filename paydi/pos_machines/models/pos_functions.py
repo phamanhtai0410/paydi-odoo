@@ -94,13 +94,6 @@ class PosFunctions(models.Model):
         # URL_LOCAL = os.getenv('URL_LOCAL')
         # API_KEY = os.getenv('API_KEY')
         
-        url_get_disable_func = f"{api_domain}/v1/auth/pos/disable_func"
-        send_to_auth={
-            "serial_number": str(self.pos_account_id.lot_id.name),
-            "disable_func" : data
-        }
-        response = requests.request("POST", url_get_disable_func, json=send_to_auth)
-        
         supporter_id = self.partner_id.supporter_id
         contact_seller = {
             'phone': '',
